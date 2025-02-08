@@ -144,7 +144,7 @@ class Freebox_OS extends eqLogic
 					try {
 						$cron = new Cron\CronExpression($autorefresh_eqLogic, new Cron\FieldFactory);
 						if ($cron->isDue()) {
-							log::add('Freebox_OS', 'debug', ':fg-info: CRON ' . (__('ACTUALISATION AJOUT NOUVELLE COMMANDE pour l\'équipement', __FILE__)) . ' : ' . $eqLogic->getName() . ':/fg:');
+							log::add('Freebox_OS', 'debug', ':fg-info: CRON ' . (__('Cron Actualisation pour l\'Ajout nouvelle commande non valide pour l\'équipement', __FILE__)) . ' : ' . $eqLogic->getName() . ':/fg:');
 							if ($_crondailyEq != null) {
 								Free_CreateEq::createEq($_crondailyEq, false);
 							}
@@ -154,14 +154,14 @@ class Freebox_OS extends eqLogic
 							//log::add('Freebox_OS', 'debug', '[  OK  ] - FIN CRON ACTUALISATION AJOUT NOUVELLE COMMANDE pour l\'équipement  : ' . $eqLogic->getName());
 						}
 					} catch (Exception $e) {
-						log::add('Freebox_OS', 'error', __('Expression Cron Actualisation Ajout nouvelle commande  non valide pour ', __FILE__) . $eqLogic->getHumanName() . ' : ' . $autorefresh_eqLogic);
+						log::add('Freebox_OS', 'error', __('Expression Cron Actualisation pour l\'Ajout nouvelle commande non valide pour l\'équipement', __FILE__) . $eqLogic->getHumanName() . ' : ' . $autorefresh_eqLogic);
 					}
 				}
 				$_crondailyEq = null;
 				$_crondailyTil = null;
 			}
 		} catch (Exception $exc) {
-			log::add('Freebox_OS', 'error', __('Erreur Cron Actualisation Ajout nouvelle commande ', __FILE__) . $eqLogic->getHumanName());
+			log::add('Freebox_OS', 'error', __('Erreur Cron Actualisation Ajout nouvelle commande', __FILE__) . ' : ' . $eqLogic->getHumanName());
 		}
 	}
 
