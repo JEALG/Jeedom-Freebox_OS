@@ -106,7 +106,7 @@ class Freebox_OS extends eqLogic
 						log::add('Freebox_OS', 'debug', '[WARNING] - ' . (__('PAS DE CRON pour d\'actualisation', __FILE__)) . ' ' . $eqLogic->getName() . ' ' . (__('à cause du Démon', __FILE__)) . ' : ' . $deamon_info['state']);
 					}
 				} catch (Exception $exc) {
-					//log::add('Freebox_OS', 'error', __('Expression cron non valide pour ', __FILE__) . $eqLogic->getHumanName() . ' : ' . $autorefresh . ' Ou problème dans le CRON');
+					log::add('Freebox_OS', 'debug', '[WARNING] - ' . __('L\'expression cron est non valide pour ', __FILE__) . $eqLogic->getHumanName() . ' : ' . $autorefresh . ' (' . (__('Il est conseillé d\'utiliser l\'assistant cron en cliquant sur "?"', __FILE__)) . ') ' . 'ou il y a problème dans le CRON');
 				}
 				if ($eqLogic->getLogicalId() == 'network' || $eqLogic->getLogicalId() == 'networkwifiguest' || $eqLogic->getLogicalId() == 'disk' || $eqLogic->getLogicalId() == 'homeadapters') {
 					if ($eqLogic->getIsEnable()) {
@@ -153,7 +153,7 @@ class Freebox_OS extends eqLogic
 							}
 						}
 					} catch (Exception $e) {
-						log::add('Freebox_OS', 'error', '[WARNING] - ' . __('Expression Cron Actualisation pour l\'Ajout nouvelle commande non valide pour l\'équipement', __FILE__) . ' ' . $eqLogic->getHumanName() . ' : ' . $autorefresh_eqLogic . ', ' . (__('Il est conseillé d\'utiliser l\'assistant cron en cliquant sur "?"', __FILE__)));
+						log::add('Freebox_OS', 'error', '[WARNING] - ' . __('L\'expression Cron pour l\'"Ajout nouvelle commande" est non valide pour l\'équipement', __FILE__) . ' ' . $eqLogic->getHumanName() . ' : ' . $autorefresh_eqLogic . ', ' . (__('Il est conseillé d\'utiliser l\'assistant cron en cliquant sur "?"', __FILE__)));
 					}
 				}
 				$_crondailyEq = null;
