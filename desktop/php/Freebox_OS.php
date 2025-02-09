@@ -325,7 +325,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							</div>
 							<div class="form-group ADD_EQLOGIC">
 								<label class="col-sm-4 control-label">{{Ajout des nouvelles commandes}}
-									<sup><i class="fas fa-question-circle" title="{{Permet d'ajouter les nouvelles commandes, champs vide = pas d'actualisation}}"></i></sup>
+									<sup><i class="fas fa-question-circle" title="{{Permet d'ajouter les nouvelles commandes, champs vide = pas d'ajout des nouvelles commandes}}"></i></sup>
 								</label>
 								<div class="col-sm-6">
 									<div class="input-group">
