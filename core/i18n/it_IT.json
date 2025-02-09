@@ -781,7 +781,7 @@
         "Options": "Opzioni",
         "Paramètres généraux": "Parametri generali",
         "Paramètres spécifiques": "Parametri specifici",
-        "Permet d'ajouter les nouvelles commandes, champs vide = pas d'actualisation": "Consente di aggiungere nuovi comandi, campo vuoto = nessun aggiornamento",
+        "Permet d'ajouter les nouvelles commandes, champs vide = pas d'ajout des nouvelles commandes": "Consente di aggiungere nuovi comandi, campo vuoto = nessun nuovo comando aggiunto",
         "Recherche des commandes": "Ricerca dei comandi",
         "Recherche les commandes supplémentaire de l'équipement": "Ricerca di comandi per apparecchiature aggiuntive",
         "Rechercher": "Ricercare",
