@@ -371,7 +371,6 @@
         "Connexion FTTH": "FTTH connection",
         "Coordinateur": "Coordinator",
         "ETAT Option \"Afficher uniquement les connectés\"": "STATUS \"Show only connected\" option",
-        "ETAT PLAYER DISPONIBLE": "PLAYER STATUS AVAILABLE",
         "Economie Energie": "Energy saving",
         "Erreur freeplug : Pas de plug avec cet identifiant": "Freeplug error: No plug with this identifier",
         "Etat": "State",
@@ -379,6 +378,7 @@
         "Horizontal": "Horizontal",
         "Il n\\'est pas possible de récupérer le status du Player": "It is not possible to retrieve the Player status",
         "Italien": "Italian",
+        "LE STATUT DU PLAYER EST-IL DISPONIBLE": "IS THE PLAYER STATUS AVAILABLE?",
         "La box n\\'est plus comptatible avec cette application": "The box is no longer compatible with this application",
         "Le disque est désactivé": "Disk is disabled",
         "Le disque est en cours d\\'initialisation": "Disk is initializing",
@@ -388,6 +388,7 @@
         "Le micrologiciel est en cours de mise à jour": "Firmware is being updated",
         "Le micrologiciel est à jour": "Firmware is up to date",
         "Le processus de mise à jour est en cours d\\'initialisation": "The update process is being initialized",
+        "Le status du Player n\\'est pas disponible car le Player n\\'est pas joignable": "Player status is not available because the Player cannot be reached",
         "Les équipements avec statut 0 ne seront pas affichés": "Equipment with status 0 will not be displayed",
         "Les équipements avec statut 0 seront affichés": "Equipment with status 0 will be displayed",
         "Liste Noire \/ Blanche": "Black \/ White list",
@@ -421,7 +422,6 @@
         "avec les valeurs": "with the values",
         "de l\\'Etat": "state",
         "de la configuration": "configuration",
-        "l\\'etat n\\'est pas disponible car le Player n\\'est pas joignable": "l'etat n\\'est pas disponible car le Player n\\'est pas joignable",
         "langue": "language"
     },
     "plugins\/Freebox_OS\/core\/class\/Free_Update.class.php": {

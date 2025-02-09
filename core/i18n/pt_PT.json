@@ -371,7 +371,6 @@
         "Connexion FTTH": "Ligação FTTH",
         "Coordinateur": "Coordenador",
         "ETAT Option \"Afficher uniquement les connectés\"": "STATUS Opção \"Mostrar apenas os utilizadores ligados\"",
-        "ETAT PLAYER DISPONIBLE": "ESTADO DO LEITOR DISPONÍVEL",
         "Economie Energie": "Poupança de energia",
         "Erreur freeplug : Pas de plug avec cet identifiant": "Erro de ficha livre: Não existe nenhuma ficha com este identificador",
         "Etat": "Estado",
@@ -379,6 +378,7 @@
         "Horizontal": "Horizontal",
         "Il n\\'est pas possible de récupérer le status du Player": "Não é possível recuperar o estado do leitor",
         "Italien": "Italiano",
+        "LE STATUT DU PLAYER EST-IL DISPONIBLE": "O ESTADO DO LEITOR ESTÁ DISPONÍVEL?",
         "La box n\\'est plus comptatible avec cette application": "A caixa já não é compatível com esta aplicação",
         "Le disque est désactivé": "O disco está desativado",
         "Le disque est en cours d\\'initialisation": "O disco está a ser inicializado",
@@ -388,6 +388,7 @@
         "Le micrologiciel est en cours de mise à jour": "O firmware está a ser atualizado",
         "Le micrologiciel est à jour": "O firmware está atualizado",
         "Le processus de mise à jour est en cours d\\'initialisation": "O processo de atualização está a ser inicializado",
+        "Le status du Player n\\'est pas disponible car le Player n\\'est pas joignable": "O estado do leitor não está disponível porque o leitor não pode ser contactado",
         "Les équipements avec statut 0 ne seront pas affichés": "Os equipamentos com o estado 0 não serão visualizados",
         "Les équipements avec statut 0 seront affichés": "São apresentados os equipamentos com o estado 0",
         "Liste Noire \/ Blanche": "Lista a preto e branco",
@@ -421,7 +422,6 @@
         "avec les valeurs": "com os valores",
         "de l\\'Etat": "do Estado",
         "de la configuration": "configuração",
-        "l\\'etat n\\'est pas disponible car le Player n\\'est pas joignable": "o Estado não está disponível porque o Jogador não é digno de confiança",
         "langue": "língua"
     },
     "plugins\/Freebox_OS\/core\/class\/Free_Update.class.php": {
