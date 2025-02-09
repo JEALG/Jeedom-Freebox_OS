@@ -781,7 +781,7 @@
         "Options": "Optionen",
         "Paramètres généraux": "Allgemeine Einstellungen",
         "Paramètres spécifiques": "Spezifische Einstellungen",
-        "Permet d'ajouter les nouvelles commandes, champs vide = pas d'actualisation": "Ermöglicht das Hinzufügen neuer Befehle, leere Felder = keine Aktualisierung",
+        "Permet d'ajouter les nouvelles commandes, champs vide = pas d'ajout des nouvelles commandes": "Ermöglicht das Hinzufügen neuer Befehle, leere Felder = kein Hinzufügen neuer Befehle",
         "Recherche des commandes": "Suche nach Befehlen",
         "Recherche les commandes supplémentaire de l'équipement": "Sucht nach zusätzlichen Gerätebefehlen",
         "Rechercher": "Suchen nach",
