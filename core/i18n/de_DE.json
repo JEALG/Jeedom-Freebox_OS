@@ -371,7 +371,6 @@
         "Connexion FTTH": "FTTH-Anschluss",
         "Coordinateur": "Koordinator",
         "ETAT Option \"Afficher uniquement les connectés\"": "STATUS Option \"Nur die Verbundenen anzeigen\"",
-        "ETAT PLAYER DISPONIBLE": "ETAT PLAYER VERFÜGBAR",
         "Economie Energie": "Energieeinsparung",
         "Erreur freeplug : Pas de plug avec cet identifiant": "Freeplug-Fehler: Kein Plug mit dieser ID",
         "Etat": "Zustand",
@@ -379,6 +378,7 @@
         "Horizontal": "Horizontal",
         "Il n\\'est pas possible de récupérer le status du Player": "Es ist nicht möglich, den Status des Players abzurufen",
         "Italien": "Italienisch",
+        "LE STATUT DU PLAYER EST-IL DISPONIBLE": "IST DER STATUS DES PLAYERS VERFÜGBAR",
         "La box n\\'est plus comptatible avec cette application": "Die Box ist nicht mehr mit dieser Anwendung kompatibel",
         "Le disque est désactivé": "Das Laufwerk ist deaktiviert",
         "Le disque est en cours d\\'initialisation": "Das Laufwerk wird initialisiert",
@@ -388,6 +388,7 @@
         "Le micrologiciel est en cours de mise à jour": "Die Firmware wird aktualisiert",
         "Le micrologiciel est à jour": "Die Firmware ist auf dem neuesten Stand",
         "Le processus de mise à jour est en cours d\\'initialisation": "Der Aktualisierungsprozess wird initialisiert",
+        "Le status du Player n\\'est pas disponible car le Player n\\'est pas joignable": "Der Status von Player n ist nicht verfügbar, da Player n nicht erreichbar ist",
         "Les équipements avec statut 0 ne seront pas affichés": "Geräte mit Status 0 werden nicht angezeigt",
         "Les équipements avec statut 0 seront affichés": "Geräte mit Status 0 werden angezeigt",
         "Liste Noire \/ Blanche": "Schwarze \/ Weiße Liste",
@@ -421,7 +422,6 @@
         "avec les valeurs": "mit den Werten",
         "de l\\'Etat": "des Staates",
         "de la configuration": "der Konfiguration",
-        "l\\'etat n\\'est pas disponible car le Player n\\'est pas joignable": "der Staat ist nicht erreichbar, da der Player nicht erreichbar ist",
         "langue": "sprache"
     },
     "plugins\/Freebox_OS\/core\/class\/Free_Update.class.php": {
