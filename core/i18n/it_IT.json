@@ -371,7 +371,6 @@
         "Connexion FTTH": "Connessione FTTH",
         "Coordinateur": "Coordinatore",
         "ETAT Option \"Afficher uniquement les connectés\"": "STATUS Opzione \"Mostra solo gli utenti connessi\"",
-        "ETAT PLAYER DISPONIBLE": "STATO DEL LETTORE DISPONIBILE",
         "Economie Energie": "Risparmio energetico",
         "Erreur freeplug : Pas de plug avec cet identifiant": "Errore Freeplug: nessuna spina con questo identificatore",
         "Etat": "Stato",
@@ -379,6 +378,7 @@
         "Horizontal": "Orizzontale",
         "Il n\\'est pas possible de récupérer le status du Player": "Non è possibile recuperare lo stato del lettore",
         "Italien": "Italiano",
+        "LE STATUT DU PLAYER EST-IL DISPONIBLE": "È DISPONIBILE LO STATO DEL LETTORE?",
         "La box n\\'est plus comptatible avec cette application": "Il box non è più compatibile con questa applicazione",
         "Le disque est désactivé": "Il disco è disabilitato",
         "Le disque est en cours d\\'initialisation": "Il disco è in fase di inizializzazione",
@@ -388,6 +388,7 @@
         "Le micrologiciel est en cours de mise à jour": "Il firmware è in fase di aggiornamento",
         "Le micrologiciel est à jour": "Il firmware è aggiornato",
         "Le processus de mise à jour est en cours d\\'initialisation": "Il processo di aggiornamento è in fase di inizializzazione",
+        "Le status du Player n\\'est pas disponible car le Player n\\'est pas joignable": "Lo stato del lettore non è disponibile perché il lettore non è raggiungibile",
         "Les équipements avec statut 0 ne seront pas affichés": "Le apparecchiature con stato 0 non vengono visualizzate",
         "Les équipements avec statut 0 seront affichés": "Verranno visualizzate le apparecchiature con stato 0",
         "Liste Noire \/ Blanche": "Elenco nero\/bianco",
@@ -421,7 +422,6 @@
         "avec les valeurs": "con i valori",
         "de l\\'Etat": "dello Stato",
         "de la configuration": "configurazione",
-        "l\\'etat n\\'est pas disponible car le Player n\\'est pas joignable": "lo Stato non è disponibile, perché il Giocatore non è unito",
         "langue": "lingua"
     },
     "plugins\/Freebox_OS\/core\/class\/Free_Update.class.php": {

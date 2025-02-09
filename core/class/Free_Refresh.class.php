@@ -963,14 +963,14 @@ class Free_Refresh
     }
     private static function refresh_player($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null)
     {
-        log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('ETAT PLAYER DISPONIBLE', __FILE__)) . ' ? : [  ' . $EqLogics->getConfiguration('player') . '  ]');
+        log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('LE STATUT DU PLAYER EST-IL DISPONIBLE', __FILE__)) . ' ? : [  ' . $EqLogics->getConfiguration('player') . '  ]');
         if ($EqLogics->getConfiguration('player') == 'OK' && $EqLogics->getConfiguration('player_MAC') != 'MAC') {
             $results_playerID = $Free_API->universal_get('universalAPI', null, null, 'player/' . $EqLogics->getConfiguration('action') . '/api/v6/status', false, true, false);
             if (!isset($results_playerID['power_state'])) {
-                log::add('Freebox_OS', 'debug', ':fg-info:' . (__('l\'etat n\'est pas disponible car le Player n\'est pas joignable', __FILE__)) . ':/fg:');
+                log::add('Freebox_OS', 'debug', ':fg-info:' . (__('Le status du Player n\'est pas disponible car le Player n\'est pas joignable', __FILE__)) . ':/fg:');
                 $player_power_state = 'standby';
             } else {
-                log::add('Freebox_OS', 'debug', '───▶︎ l\'etat est disponible');
+                log::add('Freebox_OS', 'debug', '───▶︎ Le status du Player est disponible');
                 $player_power_state = $results_playerID['power_state'];
             }
         } else {
