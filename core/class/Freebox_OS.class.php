@@ -154,7 +154,7 @@ class Freebox_OS extends eqLogic
 							//log::add('Freebox_OS', 'debug', '[  OK  ] - FIN CRON ACTUALISATION AJOUT NOUVELLE COMMANDE pour l\'équipement  : ' . $eqLogic->getName());
 						}
 					} catch (Exception $e) {
-						log::add('Freebox_OS', 'error', __('Expression Cron Actualisation pour l\'Ajout nouvelle commande non valide pour l\'équipement', __FILE__) . $eqLogic->getHumanName() . ' : ' . $autorefresh_eqLogic);
+						log::add('Freebox_OS', 'error', __('Expression Cron Actualisation pour l\'Ajout nouvelle commande non valide pour l\'équipement', __FILE__) . $eqLogic->getHumanName() . ' : ' . $autorefresh_eqLogic . (__('Il est conseillé d\'utiliser l\'assistant cron en cliquant sur ?', __FILE__)));
 					}
 				}
 				$_crondailyEq = null;
