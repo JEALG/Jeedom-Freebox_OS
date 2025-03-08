@@ -966,18 +966,32 @@ class Free_Refresh
         log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('LE STATUT DU PLAYER EST-IL DISPONIBLE', __FILE__)) . ' ? : [  ' . $EqLogics->getConfiguration('player') . '  ]');
         if ($EqLogics->getConfiguration('player') == 'OK' && $EqLogics->getConfiguration('player_MAC') != 'MAC') {
             $results_playerID = $Free_API->universal_get('universalAPI', null, null, 'player/' . $EqLogics->getConfiguration('action') . '/api/v6/status', false, true, false);
-            if (!isset($results_playerID['power_state'])) {
+            if (isset($results_playerID['power_state'])) {
+                log::add('Freebox_OS', 'debug', '───▶︎ :fg-info:' . (__('Le status du Player est disponible', __FILE__)) . ':/fg:');
+                $list = 'power_state';
+                $para_resultTV = NULL;
+                $result = $results_playerID;
+                Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
+                if (isset($results_playerID['foreground_app']['context']['channel'])) {
+                    $list = 'channelNumber,channelName';
+                    $para_resultTV = NULL;
+                    $resultTV = $results_playerID['foreground_app']['context']['channel'];
+                    Free_Refresh::refresh_VALUE($EqLogics, $resultTV, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
+                }
+                if (isset($results_playerID['player']['state'])) {
+                    $list = 'playback_state';
+                    $para_resultTV = NULL;
+                    $resultTV = $results_playerID['player']['state'];
+                    Free_Refresh::refresh_VALUE($EqLogics, $resultTV, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
+                }
+            } else {
                 log::add('Freebox_OS', 'debug', ':fg-info:' . (__('Le status du Player n\'est pas disponible car le Player n\'est pas joignable', __FILE__)) . ':/fg:');
                 $player_power_state = 'standby';
-            } else {
-                log::add('Freebox_OS', 'debug', '───▶︎ Le status du Player est disponible');
-                $player_power_state = $results_playerID['power_state'];
             }
         } else {
             $player_power_state = 'KO';
             log::add('Freebox_OS', 'debug', ':fg-info:' . (__('Il n\'est pas possible de récupérer le status du Player', __FILE__)) . ':/fg:');
         }
-
         $results_players = $Free_API->universal_get('universalAPI', null, null, 'player/', true, true, true);
         $results_players = $results_players['result'];
         foreach ($results_players as $results_player) {
@@ -990,29 +1004,9 @@ class Free_Refresh
                 continue;
             } else {
                 log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . (__('PLAYER TROUVE', __FILE__)) . ':/fg:');
-                foreach ($EqLogics->getCmd('info') as $Cmd) {
-                    if (is_object($Cmd)) {
-                        switch ($Cmd->getLogicalId()) {
-                            case "power_state":
-                                if ($player_power_state != 'KO') {
-                                    log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . (__('Etat', __FILE__)) . ' ::/fg: ' . $player_power_state);
-                                    $EqLogics->checkAndUpdateCmd($Cmd->getLogicalId(), $player_power_state);
-                                }
-                                break;
-                            default:
-                                if (isset($results_player[$Cmd->getLogicalId()])) {
-                                    $EqLogics->checkAndUpdateCmd($Cmd->getLogicalId(), $results_player[$Cmd->getLogicalId()]);
-                                    log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . $Cmd->getName() . ' ::/fg: ' . $results_player[$Cmd->getLogicalId()]);
-                                }
-                                break;
-                                break;
-                                log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . (__('API Disponible', __FILE__)) . ' ::/fg:    ' . $results_player['api_available']);
-                                $EqLogics->checkAndUpdateCmd($Cmd->getLogicalId(), $results_player['api_available']);
-                                break;
-                        }
-                    }
-                }
-                break;
+                $list = 'mac,stb_type,device_model,api_version,api_available,reachable ';
+                $para_resultTV = NULL;
+                Free_Refresh::refresh_VALUE($EqLogics, $results_player, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
             }
         }
     }

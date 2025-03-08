@@ -649,7 +649,7 @@ class Free_Update
             case "channel":
                 log::add('Freebox_OS', 'debug', '│ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Choix de la Chaine', __FILE__)) . ' : ' . $_options['slider']);
                 $option = array(
-                    "url" =>  'tv:?channel=' . $_options['slider'],
+                    "url" =>  'tv:?channelNumber=' . $_options['slider'],
                 );
                 $playerURL = '/api/v6/control/open/';
                 log::add('Freebox_OS', 'debug', '──────────▶︎ ' . (__('REQUETE', __FILE__)));
