@@ -39,7 +39,7 @@ class Free_CreateTV
         log::add('Freebox_OS', 'debug', '┌── :fg-success:' . (__('Début de création des commandes pour', __FILE__)) . ' ::/fg: ' . $logicalinfo['playerName'] . ' ──');
         $Free_API = new Free_API();
         $TemplatePlayer = 'Freebox_OS::Player';
-
+        $order = 0;
         $result = $Free_API->universal_get('universalAPI', null, null, 'player', false, true, true);
         $nb_player = 1;
         if (isset($result['result'])) {
@@ -77,14 +77,24 @@ class Free_CreateTV
                             }
                             $EqLogic = Freebox_OS::AddEqLogic($_devicename, 'player_' . $player_ID, 'multimedia', true, 'player', null, $player_ID, '*/5 * * * *', null, $player_STATE, 'system', true, $player_MAC);
                             log::add('Freebox_OS', 'debug', '| ───▶︎ ' . __('Nom', __FILE__) . ' : ' . $_devicename . ' -- id / mac : player_' . $Equipement['id'] . ' / ' . $Equipement['mac'] . ' -- FREE-ID : ' . $Equipement['id'] . ' -- TYPE-ID : ' . $player_MAC);
-                            $EqLogic->AddCommand(__('Mac', __FILE__), 'mac', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', 1, '0', false, false);
-                            $EqLogic->AddCommand(__('Type', __FILE__), 'stb_type', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', 2, '0', false, false);
-                            $EqLogic->AddCommand(__('Modèle', __FILE__), 'device_model', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', 3, '0', false, false);
-                            $EqLogic->AddCommand(__('Version', __FILE__), 'api_version', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', 4, '0', false, false);
-                            $EqLogic->AddCommand(__('API Disponible', __FILE__), 'api_available', 'info', 'binary', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', 5, '0', false, false);
-                            $EqLogic->AddCommand(__('Disponible sur le réseau', __FILE__), 'reachable', 'info', 'binary', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', 6, '0', false, false);
+                            $EqLogic->AddCommand(__('Mac', __FILE__), 'mac', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
+                            $EqLogic->AddCommand(__('Type', __FILE__), 'stb_type', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
+                            $EqLogic->AddCommand(__('Modèle', __FILE__), 'device_model', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
+                            $EqLogic->AddCommand(__('Version', __FILE__), 'api_version', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
+                            $EqLogic->AddCommand(__('API Disponible', __FILE__), 'api_available', 'info', 'binary', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
+                            $EqLogic->AddCommand(__('Disponible sur le réseau', __FILE__), 'reachable', 'info', 'binary', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
                             if ($player_STATE == 'OK') {
-                                $EqLogic->AddCommand('Etat', 'power_state', 'info', 'string', $TemplatePlayer, null, null, 1, 'default', 'default', 0, null, 0, 'default', 'default', 7, '0', false, false);
+                                $iconvolume = 'fas fa-volume-down icon_green';
+                                $iconmediactrl = 'fas fa-tv icon_green';
+                                $iconmute = 'fas fa-volume-mute icon_red';
+                                $EqLogic->AddCommand(__('Etat', __FILE__), 'power_state', 'info', 'string', $TemplatePlayer, null, null, 1, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
+                                //$EqLogic->AddCommand(__('Numéro de chaîne', __FILE__), 'channel', 'action', 'slider', null, null, null, 0, 'default', 'default', 0, null, 0, '0', 3500, $order++, '0', false, false);
+                                $listValue = "play_pause|" . __('Play - Pause', __FILE__) . ";stop|" . __('Stop', __FILE__) . ";prev|" . __('Précédent', __FILE__) . ";next|" . __('Suivant', __FILE__) . ";select_stream|" . __('Sélectionner la qualité du flux', __FILE__) . ";select_audio_track|" . __('Sélectionner la piste audio', __FILE__) . ";select_srt_track|" . __('Sélectionner les sous-titres', __FILE__);
+                                $EqLogic->AddCommand(__('Contrôle player', __FILE__), 'mediactrl', 'action', 'select', null, null, null, 1, 'defaut', 'default', 0,  $iconmediactrl, 0, 'default', 'default', $order++, '0', 'default', false, null, true, null, null, null, null, null, null, null, null, $listValue);
+                                $EqLogic->AddCommand(__('Volume', __FILE__), 'volume', 'action', 'slider', null, null, null, 0, 'default', 'default', 0,  $iconvolume, 0, '0', 100, $order++, '0', false, false);
+                                //$Mute = $EqLogic->AddCommand(__('Mute', __FILE__), 'mute', 'info', 'binary', null, null, 'SWITCH_STATE', 0, null, null, 0, $iconmute, 0, null, null, $order++, 1, true, 'never', null, true, null, null, null, null, null, null, null, null);
+                                $EqLogic->AddCommand(__('Mute On', __FILE__), 'muteOn', 'action', 'other', 'core::toggleLine', null, 'SWITCH_ON', 1, 'default', 'mute', 0, $iconmute, 0, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
+                                $EqLogic->AddCommand(__('Mute Off', __FILE__), 'muteOff', 'action', 'other', 'core::toggleLine', null, 'SWITCH_OFF', 1, 'default', 'mute', 0, $iconmute, 0, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
                             }
                         }
                     } else {

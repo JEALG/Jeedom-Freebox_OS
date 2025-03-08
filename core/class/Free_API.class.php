@@ -586,7 +586,7 @@ class Free_API
                     $config = 'api/' . $API_version . '/' . $_options  . $id;
                     $fonction = $_status_cmd;
                 } else {
-                    log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('Type de requête', __FILE__)) . ' : ' . $_options);
+                    log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('Requête', __FILE__)) . ' : ' . $_options);
                     $config = 'api/' . $API_version . '/' . $_options;
                     $fonction = "POST";
                 }

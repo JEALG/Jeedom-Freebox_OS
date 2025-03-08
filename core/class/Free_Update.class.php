@@ -239,22 +239,28 @@ class Free_Update
                 $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('brightness' => $_options['slider']));
                 break;
             case 'orientation_forcedOn':
-                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('orientation_forced' => true));
-                break;
             case 'orientation_forcedOff':
-                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('orientation_forced' => false));
+                $orientation_forced = true;
+                if ($logicalId == 'orientation_forcedOff') {
+                    $orientation_forced = false;
+                }
+                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('orientation_forced' => $orientation_forced));
                 break;
             case 'hide_wifi_keyOn':
-                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('hide_wifi_key' => true));
-                break;
             case 'hide_wifi_keyOff':
-                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('hide_wifi_key' => false));
+                $hide_wifi_key = true;
+                if ($logicalId == 'hide_wifi_keyOff') {
+                    $hide_wifi_key = false;
+                }
+                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('hide_wifi_key' => $hide_wifi_key));
                 break;
             case 'led_strip_enabledOn':
-                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('led_strip_enabled' => true));
-                break;
             case 'led_strip_enabledOff':
-                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('led_strip_enabled' => false));
+                $led_strip_enable = true;
+                if ($logicalId == 'led_strip_enabledOff') {
+                    $led_strip_enable = false;
+                }
+                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('led_strip_enabled' => $led_strip_enable));
                 break;
             case 'led_strip_animation_action':
                 if ($_options['select'] != null) {
@@ -637,33 +643,47 @@ class Free_Update
     }
     private static function update_player($logicalId, $logicalId_type, $logicalId_eq, $Free_API, $_options, $_cmd, $update)
     {
-
+        $ID_Player = $logicalId_eq->getlogicalId();
+        $ID_Player = str_replace('player_', '', $ID_Player);
         switch ($logicalId) {
             case "channel":
-                log::add('Freebox_OS', 'debug', '│ Chaine : '  . $_options['message']);
-                foreach ($logicalId_eq->getCmd('info') as $Cmd) {
-                    if ($Cmd->getLogicalId() === 'channel_info') {
-                        log::add('Freebox_OS', 'debug', '│ ' . (__('Choix Chaine', __FILE__)) . ' : '  . $_options['message']);
-                        if ($logicalId == 'channel') {
-                            $logicalId_eq->checkAndUpdateCmd($Cmd->getLogicalId(), $_options['message']);
-                        }
-                        $ID_Player = $logicalId_eq->getlogicalId();
-                        $ID_Player = str_replace('player_', '', $ID_Player);
-                        log::add('Freebox_OS', 'debug', '│ ' . (__('Player', __FILE__)) . ' ' . $logicalId_eq->getlogicalId() . ' -  ' . (__('avec ID', __FILE__)) . ' : ' . $ID_Player);
-                        $channel_value = $_cmd->execCmd();
-                        $channel_value = 'tv:?channel=' . $channel_value;
-                        log::add('Freebox_OS', 'debug', '│ ' . (__('Chaine', __FILE__)) . ' : ' . $channel_value . ' / ' . $_options['message']);
-                        //Option par défaut
-                        $option = array(
-                            "url" =>  $channel_value,
-                        );
-                        $playerURL = '/api/v6/control/open';
-                        log::add('Freebox_OS', 'debug', '──────────▶︎ ' . (__('REQUETE', __FILE__)));
-                        $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, null, $option);
-                        log::add('Freebox_OS', 'debug', '──────────▶︎ ' . (__('FIN REQUETE', __FILE__)));
-                        break;
-                    }
+                log::add('Freebox_OS', 'debug', '│ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Choix de la Chaine', __FILE__)) . ' : ' . $_options['slider']);
+                $option = array(
+                    "url" =>  'tv:?channel=' . $_options['slider'],
+                );
+                $playerURL = '/api/v6/control/open/';
+                log::add('Freebox_OS', 'debug', '──────────▶︎ ' . (__('REQUETE', __FILE__)));
+                $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'POST', $option);
+                log::add('Freebox_OS', 'debug', '──────────▶︎ ' . (__('FIN REQUETE', __FILE__)));
+                break;
+            case "mediactrl":
+                log::add('Freebox_OS', 'debug', '│ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Choix du contrôle', __FILE__)) . ' : ' . $_options['select']);
+                $option = array(
+                    "cmd" =>  $_options['select'],
+                );
+                $playerURL = '/api/v6/control/mediactrl/';
+                $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'POST', $option);
+                break;
+            case "volume":
+                log::add('Freebox_OS', 'debug', '│ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Volume', __FILE__)) . ' : ' . $_options['slider']);
+                $option = array(
+                    "volume" => $_options['slider']
+                );
+                $playerURL = '/api/v6/control/volume/';
+                $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'PUT', $option);
+                break;
+            case 'muteOn':
+            case 'muteOff':
+                $mute = true;
+                if ($logicalId == 'muteOff') {
+                    $mute = false;
                 }
+                log::add('Freebox_OS', 'debug', '│ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Mute', __FILE__)) . ' : ' . $mute);
+                $option = array(
+                    "mute" => $mute
+                );
+                $playerURL = '/api/v6/control/volume/';
+                $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'PUT', $option);
                 break;
             default:
                 $Free_API->universal_put($logicalId, 'player_ID_ctrl', $logicalId_eq->getConfiguration('action'), null, $_options);
