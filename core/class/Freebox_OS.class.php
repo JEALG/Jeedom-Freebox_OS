@@ -448,7 +448,6 @@ class Freebox_OS extends eqLogic
 			}
 		}
 		if ($Player != null) {
-			log::add('Freebox_OS', 'debug', ':fg-info:' . (__('TEST 1', __FILE__)) . ':/fg: ' . $Player);
 			$EqLogic->setConfiguration('player', $Player);
 			if ($Player_MAC != null) {
 				$EqLogic->setConfiguration('player_MAC', $Player_MAC);
@@ -458,7 +457,6 @@ class Freebox_OS extends eqLogic
 					$EqLogic->setConfiguration('action', $eq_action);
 				}
 			}
-			log::add('Freebox_OS', 'debug', ':fg-info:' . (__('TEST 2', __FILE__)) . ':/fg: ' . $eq_action);
 		}
 		if ($type_save == false) {
 			$EqLogic->save();
