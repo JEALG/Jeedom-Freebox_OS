@@ -538,8 +538,6 @@
         "SAUVEGARDE : Mise à jour des paramètrages spécifiques pour Homebridge": "BACKUP: Aggiornamento di impostazioni specifiche per Homebridge",
         "SUPPRESSION CRON GLOBAL TITLES": "ELIMINARE I TITOLI GLOBALI DI CRON",
         "Système": "Sistema",
-        "TEST 1": "TEST 1",
-        "TEST 2": "TEST 2",
         "Tache cron FreeboxGET introuvable": "FreeboxGET cron job non trovato",
         "Tache cron FreeboxPUT introuvable": "FreeboxPUT cron job non trovato",
         "Tache cron RefreshToken introuvable": "Cron job RefreshToken non trovato",
