@@ -62,13 +62,13 @@ class Free_CreateTV
                                 $results_playerID = $Free_API->universal_get('universalAPI', null, null, 'player/' . $Equipement['id'] . '/api/v6/status', false, true, false);
                                 $player_ID = $Equipement['id'];
                                 if (isset($results_playerID['power_state'])) {
-                                    log::add('Freebox_OS', 'debug', '| ───▶︎ ' . __('ETAT PLAYER', __FILE__) . ' : ' . $results_playerID['power_state']);
+                                    log::add('Freebox_OS', 'debug', '| ───▶︎ :fg-info:' . __('ETAT PLAYER', __FILE__) . ' ::/fg: ' . $results_playerID['power_state']);
                                     if ($results_playerID['power_state'] == 'running' || $results_playerID['power_state'] == 'standby') {
                                         $player_STATE = 'OK';
                                         $player_log = ' -- ' . (__('Il est possible de récupérer le status du Player', __FILE__));
                                     }
                                     $player_MAC = 'ID';
-                                    log::add('Freebox_OS', 'debug', '| ───▶︎ ' . __('PLAYER', __FILE__) . ' : ' . $_devicename . ' -- Id : ' . $Equipement['id'] . $player_log);
+                                    log::add('Freebox_OS', 'debug', '| ───▶︎ :fg-info:' . __('PLAYER', __FILE__) . ' ::/fg:  ' . $_devicename . ' -- Id : ' . $Equipement['id'] . $player_log);
                                 } else {
                                     log::add('Freebox_OS', 'debug', '|:fg-warning: ───▶︎ ' . __('PLAYER', __FILE__) . ' : ' . $_devicename . ' -- Id : ' . $Equipement['id'] . $player_log . ':/fg:');
                                 }
