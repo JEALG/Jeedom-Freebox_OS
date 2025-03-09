@@ -61,7 +61,7 @@ class Free_CreateTV
                             if ($Equipement['id'] != null) {
                                 $results_playerID = $Free_API->universal_get('universalAPI', null, null, 'player/' . $Equipement['id'] . '/api/v6/status', true, true, false);
                                 if (isset($results_playerID['power_state'])) {
-                                    log::add('Freebox_OS', 'debug', '| ───▶︎  ' . __('ETAT PLAYER', __FILE__) . ' : ' . $results_playerID['power_state']);
+                                    log::add('Freebox_OS', 'debug', '| ───▶︎ ' . __('ETAT PLAYER', __FILE__) . ' : ' . $results_playerID['power_state']);
                                     if ($results_playerID['power_state'] == 'running' || $results_playerID['power_state'] == 'standby') {
                                         $player_STATE = 'OK';
                                         $player_log = ' -- ' . (__('Il est possible de récupérer le status du Player', __FILE__));
@@ -86,18 +86,22 @@ class Free_CreateTV
                             if ($player_STATE == 'OK') {
                                 $iconvolume = 'fas fa-volume-down icon_green';
                                 $iconmediactrl = 'fas fa-tv icon_green';
-                                $iconmute = 'fas fa-volume-mute icon_red';
+                                $iconmute = 'fas fa-volume-mute';
+                                $iconmuteoff = 'fas fa-volume-mute icon_green';
+                                $iconmuteon = 'fas fa-volume-mute icon_red';
                                 $EqLogic->AddCommand(__('Etat', __FILE__), 'power_state', 'info', 'string', $TemplatePlayer, null, null, 1, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
+
                                 $EqLogic->AddCommand(__('Nom de la chaîne', __FILE__), 'channelName', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'dafault', $order++, '0', false, false);
-                                $channelNumber = $EqLogic->AddCommand(__('Numéro de chaîne', __FILE__), 'channelNumber', 'info', 'numeric', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'dafault', $order++, '0', false, false);
-                                //$EqLogic->AddCommand(__('Numéro de chaîne', __FILE__), 'channel', 'action', 'slider', null, null, null, 0, 'default', 'default', 0, null, 0, '0', 3500, $order++, '0', false, false);
+                                $channelNumber = $EqLogic->AddCommand(__('Numéro de chaîne', __FILE__), 'channelNumber', 'info', 'numeric', null, null, null, 0, 'default', 'default', 0, null, 1, 'default', 'dafault', $order++, '0', false, false);
+                                //$EqLogic->AddCommand(__('Choix de la chaîne', __FILE__), 'channel', 'action', 'slider', null, null, null, 0, $channelNumber, 'channelNumber', 0, null, 1, '0', 3500, $order++, '0', false, false);
                                 $listValue = "play_pause|" . __('Play - Pause', __FILE__) . ";stop|" . __('Stop', __FILE__) . ";prev|" . __('Précédent', __FILE__) . ";next|" . __('Suivant', __FILE__) . ";select_stream|" . __('Sélectionner la qualité du flux', __FILE__) . ";select_audio_track|" . __('Sélectionner la piste audio', __FILE__) . ";select_srt_track|" . __('Sélectionner les sous-titres', __FILE__);
-                                $EqLogic->AddCommand(__('Etat du player', __FILE__), 'playback_state', 'info', 'string', null, null, null, 1, 'defaut', 'default', 0,  $iconmediactrl, 0, 'default', 'default', $order++, '0', 'default', false, null, true, null, null, null, null, null, null, null, null, null);
-                                $EqLogic->AddCommand(__('Contrôle player', __FILE__), 'mediactrl', 'action', 'select', null, null, null, 1, 'defaut', 'default', 0,  $iconmediactrl, 0, 'default', 'default', $order++, '0', 'default', false, null, true, null, null, null, null, null, null, null, null, $listValue);
-                                $EqLogic->AddCommand(__('Volume', __FILE__), 'volume', 'action', 'slider', null, null, null, 0, 'default', 'default', 0,  $iconvolume, 0, '0', 100, $order++, '0', false, false);
-                                //$Mute = $EqLogic->AddCommand(__('Mute', __FILE__), 'mute', 'info', 'binary', null, null, 'SWITCH_STATE', 0, null, null, 0, $iconmute, 0, null, null, $order++, 1, true, 'never', null, true, null, null, null, null, null, null, null, null);
-                                $EqLogic->AddCommand(__('Mute On', __FILE__), 'muteOn', 'action', 'other', 'core::toggleLine', null, 'SWITCH_ON', 1, 'default', 'mute', 0, $iconmute, 0, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
-                                $EqLogic->AddCommand(__('Mute Off', __FILE__), 'muteOff', 'action', 'other', 'core::toggleLine', null, 'SWITCH_OFF', 1, 'default', 'mute', 0, $iconmute, 0, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
+                                $playback_state = $EqLogic->AddCommand(__('Etat du player', __FILE__), 'playback_state', 'info', 'string', null, null, null, 1, 'defaut', 'default', 0,  $iconmediactrl, 1, 'default', 'default', $order++, '0', 'default', false, null, true, null, null, null, null, null, null, null, null, null);
+                                $EqLogic->AddCommand(__('Contrôle player', __FILE__), 'mediactrl', 'action', 'select', null, null, null, 1, $playback_state, 'playback_state', 0,  $iconmediactrl, 1, 'default', 'default', $order++, '0', 'default', false, null, true, null, null, null, null, null, null, null, null, $listValue);
+                                $Volume = $EqLogic->AddCommand(__('Volume', __FILE__), 'volume', 'info', 'numeric', null, null, 'SWITCH_STATE', 0, null, null, 0, $iconvolume, 1, null, null, $order++, 1, true, 'never', null, true, null, null, null, null, null, null, null, null);
+                                $EqLogic->AddCommand(__('Choix du Volume', __FILE__), 'volume', 'action', 'slider', null, null, null, 1, $Volume, 'volume', 0,  $iconvolume, 1, '0', 100, $order++, '0', false, false);
+                                $Mute = $EqLogic->AddCommand(__('Mute', __FILE__), 'mute', 'info', 'binary', null, null, 'SWITCH_STATE', 0, null, null, 0, $iconmute, 1, null, null, $order++, 1, true, 'never', null, true, null, null, null, null, null, null, null, null);
+                                $EqLogic->AddCommand(__('Mute On', __FILE__), 'muteOn', 'action', 'other', 'core::toggleLine', null, 'SWITCH_ON', 1,  $Mute, 'mute', 0, $iconmuteon, 1, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
+                                $EqLogic->AddCommand(__('Mute Off', __FILE__), 'muteOff', 'action', 'other', 'core::toggleLine', null, 'SWITCH_OFF', 1,  $Mute, 'mute', 0, $iconmuteoff, 1, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
                             }
                         }
                     } else {

@@ -647,17 +647,16 @@ class Free_Update
         $ID_Player = str_replace('player_', '', $ID_Player);
         switch ($logicalId) {
             case "channel":
-                log::add('Freebox_OS', 'debug', '│ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Choix de la Chaine', __FILE__)) . ' : ' . $_options['slider']);
+                log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Choix de la Chaîne', __FILE__)) . ' : ' . $_options['slider']);
+                $chanel = 'tv:?channel=' . $_options['slider'];
                 $option = array(
-                    "url" =>  'tv:?channelNumber=' . $_options['slider'],
+                    "url" => $chanel,
                 );
                 $playerURL = '/api/v6/control/open/';
-                log::add('Freebox_OS', 'debug', '──────────▶︎ ' . (__('REQUETE', __FILE__)));
                 $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'POST', $option);
-                log::add('Freebox_OS', 'debug', '──────────▶︎ ' . (__('FIN REQUETE', __FILE__)));
                 break;
             case "mediactrl":
-                log::add('Freebox_OS', 'debug', '│ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Choix du contrôle', __FILE__)) . ' : ' . $_options['select']);
+                log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Choix du contrôle', __FILE__)) . ' : ' . $_options['select']);
                 $option = array(
                     "cmd" =>  $_options['select'],
                 );
@@ -665,7 +664,7 @@ class Free_Update
                 $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'POST', $option);
                 break;
             case "volume":
-                log::add('Freebox_OS', 'debug', '│ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Volume', __FILE__)) . ' : ' . $_options['slider']);
+                log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Volume', __FILE__)) . ' : ' . $_options['slider']);
                 $option = array(
                     "volume" => $_options['slider']
                 );
@@ -678,7 +677,7 @@ class Free_Update
                 if ($logicalId == 'muteOff') {
                     $mute = false;
                 }
-                log::add('Freebox_OS', 'debug', '│ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Mute', __FILE__)) . ' : ' . $mute);
+                log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Mute', __FILE__)) . ' : ' . $mute);
                 $option = array(
                     "mute" => $mute
                 );
