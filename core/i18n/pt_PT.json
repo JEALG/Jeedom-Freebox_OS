@@ -330,6 +330,8 @@
         "API Disponible": "API disponível",
         "AUCUNE INFO supplémentaire disponible pour le player ou absence d\\'ID": "NÃO existe INFO adicional disponível para o leitor ou não existe ID",
         "CONFIGURATION PLAYER": "LEITOR DE CONFIGURAÇÃO",
+        "Choix de la chaîne": "Escolha do canal",
+        "Choix du Volume": "Escolha do volume",
         "Contrôle player": "Leitor de controlo",
         "Disponible sur le réseau": "Disponível na rede",
         "Début de création des commandes pour": "Comece a criar comandos para",
@@ -442,10 +444,9 @@
     },
     "plugins\/Freebox_OS\/core\/class\/Free_Update.class.php": {
         "Adresse IP vide": "Endereço IP vazio",
-        "Choix de la Chaine": "Escolha do canal",
+        "Choix de la Chaîne": "Escolha do canal",
         "Choix du contrôle": "Escolha do controlo",
         "Equipement avec déjà un paramètrage IP": "Equipamento com definições de IP existentes",
-        "FIN REQUETE": "PEDIDO FINAL",
         "Gestion réseau : Adresse mac vide => Impossible de continuer": "Gestão de rede: Endereço Mac vazio => Impossível continuar",
         "Gestion réseau : IP  ou adresse mac vide": "Gestão da rede: IP ou endereço MAC vazio",
         "Gestion réseau : IP  ou adresse mac vide => Impossible de continuer": "Gestão da rede: Endereço IP ou mac vazio => Impossível continuar",
@@ -459,7 +460,6 @@
         "Média": "Media",
         "Média type": "Tipo de suporte",
         "Player": "Jogador",
-        "REQUETE": "PEDIDO",
         "Volume": "Volume"
     },
     "plugins\/Freebox_OS\/core\/class\/Freebox_OS.class.php": {
