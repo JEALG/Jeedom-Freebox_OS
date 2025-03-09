@@ -1,4 +1,4 @@
-<img align="right" src="plugin_info/freebox_os_icon.png" width="150">
+<img align="right" src="plugin_info/Freebox_OS_icon.png" width="150">
 
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/JEALG/Jeedom-Freebox_OS/graphs/commit-activity)
 [![GitHub contributors](https://img.shields.io/github/contributors/jeedom/core.svg)](https://github.com/JEALG/Jeedom-Freebox_OS/graphs/contributors/)
