@@ -366,7 +366,6 @@ class Freebox_OS extends eqLogic
 	{
 		$EqLogic = self::byLogicalId($_logicalId, 'Freebox_OS');
 		log::add('Freebox_OS', 'debug', ':fg-info:| ' . (__('Création Équipement', __FILE__)) . ' : :/fg:' . $Name . ' ── LogicalID : ' . $_logicalId . ' ── ' . (__('Catégorie', __FILE__)) . ' : ' . $category . ' ── ' . (__('Équipement Type', __FILE__)) . ' : ' . $eq_type . ' ── Logical ID Equip : ' . $logicalID_equip . ' ── Cron : ' . $_autorefresh . ' ── ' . (__('Objet', __FILE__)) . ' : ' . $_Room . ' ── ' . (__('Regroupement', __FILE__)) . ' : ' . $eq_group);
-
 		if (!is_object($EqLogic)) {
 			$EqLogic = new Freebox_OS();
 			$EqLogic->setLogicalId($_logicalId);
@@ -449,10 +448,17 @@ class Freebox_OS extends eqLogic
 			}
 		}
 		if ($Player != null) {
+			log::add('Freebox_OS', 'debug', ':fg-info:' . (__('TEST 1', __FILE__)) . ':/fg: ' . $Player);
 			$EqLogic->setConfiguration('player', $Player);
 			if ($Player_MAC != null) {
 				$EqLogic->setConfiguration('player_MAC', $Player_MAC);
 			}
+			if ($Player_MAC !=  $eq_action) {
+				if ($eq_action != null) {
+					$EqLogic->setConfiguration('action', $eq_action);
+				}
+			}
+			log::add('Freebox_OS', 'debug', ':fg-info:' . (__('TEST 2', __FILE__)) . ':/fg: ' . $eq_action);
 		}
 		if ($type_save == false) {
 			$EqLogic->save();

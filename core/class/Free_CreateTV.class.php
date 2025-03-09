@@ -59,14 +59,14 @@ class Free_CreateTV
                         $player_MAC = 'MAC';
                         if ($Equipement['id']) {
                             if ($Equipement['id'] != null) {
-                                $results_playerID = $Free_API->universal_get('universalAPI', null, null, 'player/' . $Equipement['id'] . '/api/v6/status', true, true, false);
+                                $results_playerID = $Free_API->universal_get('universalAPI', null, null, 'player/' . $Equipement['id'] . '/api/v6/status', false, true, false);
+                                $player_ID = $Equipement['id'];
                                 if (isset($results_playerID['power_state'])) {
                                     log::add('Freebox_OS', 'debug', '| ───▶︎ ' . __('ETAT PLAYER', __FILE__) . ' : ' . $results_playerID['power_state']);
                                     if ($results_playerID['power_state'] == 'running' || $results_playerID['power_state'] == 'standby') {
                                         $player_STATE = 'OK';
                                         $player_log = ' -- ' . (__('Il est possible de récupérer le status du Player', __FILE__));
                                     }
-                                    $player_ID = $Equipement['id'];
                                     $player_MAC = 'ID';
                                     log::add('Freebox_OS', 'debug', '| ───▶︎ ' . __('PLAYER', __FILE__) . ' : ' . $_devicename . ' -- Id : ' . $Equipement['id'] . $player_log);
                                 } else {
@@ -75,7 +75,7 @@ class Free_CreateTV
                             } else {
                                 log::add('Freebox_OS', 'debug', '|:fg-warning: ───▶︎ ' . __('PLAYER', __FILE__) . ' : ' . $_devicename . ' -- Mac : ' . $Equipement['mac'] . ' -- ' . __('L\'ID est vide', __FILE__) . ' ───▶︎ ' . $player_log . ':/fg:');
                             }
-                            $EqLogic = Freebox_OS::AddEqLogic($_devicename, 'player_' . $player_ID, 'multimedia', true, 'player', null, $player_ID, '*/5 * * * *', null, $player_STATE, 'system', true, $player_MAC);
+                            $EqLogic = Freebox_OS::AddEqLogic($_devicename, 'player_' . $player_ID, 'multimedia', true, 'player', $player_ID, $player_ID, '*/5 * * * *', null, $player_STATE, 'system', true, $player_MAC);
                             log::add('Freebox_OS', 'debug', '| ───▶︎ ' . __('Nom', __FILE__) . ' : ' . $_devicename . ' -- id / mac : player_' . $Equipement['id'] . ' / ' . $Equipement['mac'] . ' -- FREE-ID : ' . $Equipement['id'] . ' -- TYPE-ID : ' . $player_MAC);
                             $EqLogic->AddCommand(__('Mac', __FILE__), 'mac', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
                             $EqLogic->AddCommand(__('Type', __FILE__), 'stb_type', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
