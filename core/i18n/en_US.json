@@ -330,6 +330,8 @@
         "API Disponible": "API Available",
         "AUCUNE INFO supplémentaire disponible pour le player ou absence d\\'ID": "NO additional INFO available for the player or lack of ID",
         "CONFIGURATION PLAYER": "CONFIGURATION PLAYER",
+        "Choix de la chaîne": "Channel selection",
+        "Choix du Volume": "Volume selection",
         "Contrôle player": "Control player",
         "Disponible sur le réseau": "Available on the network",
         "Début de création des commandes pour": "Start creating commands for",
@@ -442,10 +444,9 @@
     },
     "plugins\/Freebox_OS\/core\/class\/Free_Update.class.php": {
         "Adresse IP vide": "IP address empty",
-        "Choix de la Chaine": "Chain selection",
+        "Choix de la Chaîne": "Channel selection",
         "Choix du contrôle": "Control selection",
         "Equipement avec déjà un paramètrage IP": "Equipment with existing IP settings",
-        "FIN REQUETE": "END REQUEST",
         "Gestion réseau : Adresse mac vide => Impossible de continuer": "Network management: Mac address empty => Cannot continue",
         "Gestion réseau : IP  ou adresse mac vide": "Network management: IP or empty mac address",
         "Gestion réseau : IP  ou adresse mac vide => Impossible de continuer": "Network management: IP or mac address empty => Cannot continue",
@@ -459,7 +460,6 @@
         "Média": "Media",
         "Média type": "Media type",
         "Player": "Player",
-        "REQUETE": "REQUEST",
         "Volume": "Volume"
     },
     "plugins\/Freebox_OS\/core\/class\/Freebox_OS.class.php": {
