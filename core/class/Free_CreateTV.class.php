@@ -83,6 +83,7 @@ class Free_CreateTV
                             $EqLogic->AddCommand(__('Version', __FILE__), 'api_version', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
                             $EqLogic->AddCommand(__('API Disponible', __FILE__), 'api_available', 'info', 'binary', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
                             $EqLogic->AddCommand(__('Disponible sur le réseau', __FILE__), 'reachable', 'info', 'binary', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
+                            $EqLogic->AddCommand(__('Disponible depuis le', __FILE__), 'last_time_reachable', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
                             if ($player_STATE == 'OK') {
                                 $iconvolume = 'fas fa-volume-down icon_green';
                                 $iconmediactrl = 'fas fa-tv icon_green';
