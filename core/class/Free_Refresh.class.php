@@ -1003,6 +1003,7 @@ class Free_Refresh
             if ($EqLogics->getConfiguration('player_MAC') == 'MAC') {
                 $list = 'mac,stb_type,device_model,api_version,api_available,reachable,last_time_reachable,uid';
                 $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
+                $para_Value_calcul  = array('last_time_reachable' => '_TRANSLATE_DATE_');
                 Free_Refresh::refresh_VALUE($EqLogics, $results_player, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
                 $results_player_ID = $results_player['mac'];
             } else {
@@ -1013,6 +1014,7 @@ class Free_Refresh
             } else {
                 log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . (__('PLAYER TROUVE', __FILE__)) . ':/fg:');
                 $list = 'mac,stb_type,device_model,api_version,api_available,reachable,last_time_reachable,uid';
+                $para_Value_calcul  = array('last_time_reachable' => '_TRANSLATE_DATE_');
                 $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
                 Free_Refresh::refresh_VALUE($EqLogics, $results_player, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
             }
@@ -1181,6 +1183,12 @@ class Free_Refresh
                                         $_uptime = str_replace(' seconde', 's', $_uptime);
                                         $value = $_uptime;
                                         //log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ Calcul Temps' . ' ::/fg: ' . $value);
+                                    }
+                                    if ($para_Value_calcul[$fieldname] === '_TRANSLATE_DATE_') {
+                                        $_jour = date('d.m.y', $value);
+                                        $_time = date('H:i', $value);
+                                        $value = $_jour . ' ' . $_time;
+                                        //log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ Calcul Translate Date' . ' ::/fg: ' . $_jour);
                                     }
                                     if ($para_Value_calcul[$fieldname] === '_bcdiv_') {
                                         if (function_exists('bcdiv')) {
