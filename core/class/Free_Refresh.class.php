@@ -1001,7 +1001,7 @@ class Free_Refresh
         $results_players = $results_players['result'];
         foreach ($results_players as $results_player) {
             if ($EqLogics->getConfiguration('player_MAC') == 'MAC') {
-                $list = 'mac,stb_type,device_model,api_version,api_available,reachable';
+                $list = 'mac,stb_type,device_model,api_version,api_available,reachable,last_time_reachable,uid';
                 $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
                 Free_Refresh::refresh_VALUE($EqLogics, $results_player, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
                 $results_player_ID = $results_player['mac'];
@@ -1012,7 +1012,7 @@ class Free_Refresh
                 continue;
             } else {
                 log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . (__('PLAYER TROUVE', __FILE__)) . ':/fg:');
-                $list = 'mac,stb_type,device_model,api_version,api_available,reachable';
+                $list = 'mac,stb_type,device_model,api_version,api_available,reachable,last_time_reachable,uid';
                 $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
                 Free_Refresh::refresh_VALUE($EqLogics, $results_player, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
             }
