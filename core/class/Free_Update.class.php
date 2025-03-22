@@ -646,6 +646,14 @@ class Free_Update
         $ID_Player = $logicalId_eq->getlogicalId();
         $ID_Player = str_replace('player_', '', $ID_Player);
         switch ($logicalId) {
+            case "uuid":
+                $channeluuid = 'app:fr.freebox.tv?' . $_options['select'];
+                $option = array(
+                    "url" =>  $channeluuid,
+                );
+                $playerURL = '/api/v14/control/open';
+                $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'POST', $option);
+                break;
             case "app":
                 $option = array(
                     "url" =>  $_options['select'],

@@ -93,6 +93,8 @@ class Free_CreateTV
                                 $EqLogic->AddCommand(__('Etat', __FILE__), 'power_state', 'info', 'string', $TemplatePlayer, null, null, 1, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
 
                                 $EqLogic->AddCommand(__('Nom de la chaîne', __FILE__), 'channelName', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'dafault', $order++, '0', false, false);
+                                $listchanel = Free_CreateTV::listTV_player($logicalinfo, $templatecore_V4);
+                                //$EqLogic->AddCommand(__('Liste des chaînes', __FILE__), 'uuid', 'action', 'select', null, null, null, 1, 'default', 'default', 0,  $iconmediactrl, 1, 'default', 'default', $order++, '0', 'default', false, null, true, null, null, null, null, null, null, null, null, $listchanel);
                                 $channelNumber = $EqLogic->AddCommand(__('Numéro de chaîne', __FILE__), 'channelNumber', 'info', 'numeric', null, null, null, 0, 'default', 'default', 0, null, 1, 'default', 'dafault', $order++, '0', false, false);
                                 //$EqLogic->AddCommand(__('Choix de la chaîne', __FILE__), 'channel', 'action', 'slider', null, null, null, 0, $channelNumber, 'channelNumber', 0, null, 1, '0', 3500, $order++, '0', false, false);
                                 $listAPP = "app:fr.freebox.tv|" . __('Allumer la TV avec la dernière chaine ', __FILE__) . ";app:fr.freebox.radio|" . __('Radio', __FILE__) . ";https://www.netflix.com|Netfix" . ";https://www.primevideo.com|Prime vidéo" . ";https://www.youtube.com|Youtube" .  ";pvr://|" . __('Mes enregistrements', __FILE__) . ";vodservice://replay|Replay";
@@ -118,6 +120,26 @@ class Free_CreateTV
                 log::add('Freebox_OS', 'debug', '|:fg-warning: ───▶︎ ' . (__('PAS DE', __FILE__)) . ' ' . $logicalinfo['playerName'] . ' ' . (__('SUR VOTRE BOX', __FILE__)) . ':/fg:');
             }
         }
+        log::add('Freebox_OS', 'debug', '└────────────────────');
+    }
+    private static function listTV_player($logicalinfo, $templatecore_V4)
+    {
+        log::add('Freebox_OS', 'debug', '┌── :fg-success:' . (__('Début de création de la liste des chaines TV', __FILE__)) . ' ::/fg: ' . ' ──');
+        $Free_API = new Free_API();
+        $result = $Free_API->universal_get('universalAPI', null, null, 'tv/channels/', true, true, true);
+        $list = null;
+        if (isset($result['result'])) {
+            $resultlist = $result['result'];
+            foreach ($resultlist  as $listUUID) {
+                $UUID = $listUUID['uuid'];
+                if ($list == null) {
+                    $list = $listUUID['uuid'] . '|' . $listUUID['name'];
+                } else {
+                    $list .= ';' . $listUUID['uuid'] . '|' . $listUUID['name'];
+                }
+            }
+        }
+        return $list;
         log::add('Freebox_OS', 'debug', '└────────────────────');
     }
 }
