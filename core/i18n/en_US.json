@@ -329,6 +329,7 @@
     "plugins\/Freebox_OS\/core\/class\/Free_CreateTV.class.php": {
         "API Disponible": "API Available",
         "AUCUNE INFO supplémentaire disponible pour le player ou absence d\\'ID": "NO additional INFO available for the player or lack of ID",
+        "Allumer la TV avec la dernière chaine ": "Switch on TV with last channel",
         "CONFIGURATION PLAYER": "CONFIGURATION PLAYER",
         "Choix de la chaîne": "Channel selection",
         "Choix du Volume": "Volume selection",
@@ -343,6 +344,7 @@
         "Il est possible de récupérer le status du Player": "It is possible to retrieve the Player status",
         "Il n\\'est pas possible de récupérer le status du Player donc pas de création de la commande d\\'état": "It is not possible to retrieve the status of the Player, so the status command cannot be created",
         "L\\'ID est vide": "ID is empty",
+        "Lancer l\\'application": "Launch the application",
         "Mac": "Mac",
         "Mes enregistrements": "My recordings",
         "Modèle": "Model",
@@ -357,7 +359,6 @@
         "Play - Pause": "Play - Pause",
         "Précédent": "Previous",
         "Radio": "Radio",
-        "Rallumer le player avec la dernière chaine": "Restart the player with the last channel",
         "SUR VOTRE BOX": "ON YOUR BOX",
         "Stop": "Stop",
         "Suivant": "Next",
