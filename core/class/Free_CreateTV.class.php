@@ -95,6 +95,16 @@ class Free_CreateTV
                                 $EqLogic->AddCommand(__('Nom de la chaîne', __FILE__), 'channelName', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'dafault', $order++, '0', false, false);
                                 $channelNumber = $EqLogic->AddCommand(__('Numéro de chaîne', __FILE__), 'channelNumber', 'info', 'numeric', null, null, null, 0, 'default', 'default', 0, null, 1, 'default', 'dafault', $order++, '0', false, false);
                                 //$EqLogic->AddCommand(__('Choix de la chaîne', __FILE__), 'channel', 'action', 'slider', null, null, null, 0, $channelNumber, 'channelNumber', 0, null, 1, '0', 3500, $order++, '0', false, false);
+                                $EqLogic->AddCommand(__('Rallumer le player avec la dernière chaine', __FILE__), 'channel_last', 'action', 'other', null, null, null, 0, $channelNumber, 'channelNumber', 0, null, 1, 'default', 'default', $order++, '0', false, false);
+                                $EqLogic->AddCommand('Replay', 'replay', 'action', 'other', null, null, null, 0, 'default', 'default', 0, null, 1, 'default', 'default', $order++, '0', false, false);
+                                $EqLogic->AddCommand(__('Radio', __FILE__), 'radio', 'action', 'other', null, null, null, 0, 'default', 'default', 0, null, 1, 'default', 'default', $order++, '0', false, false);
+                                $EqLogic->AddCommand('Netfix', 'netfix', 'action', 'other', null, null, null, 0, 'default', 'default', 0, null, 1, 'default', 'default', $order++, '0', false, false);
+                                $EqLogic->AddCommand('Prime vidéo', 'primevideo', 'action', 'other', null, null, null, 0, 'default', 'default', 0, null, 1, 'default', 'default', $order++, '0', false, false);
+                                $EqLogic->AddCommand('Youtube', 'youtube', 'action', 'other', null, null, null, 0, 'default', 'default', 0, null, 1, 'default', 'default', $order++, '0', false, false);
+                                $EqLogic->AddCommand(__('Mes enregistrements', __FILE__), 'recordings', 'action', 'other', null, null, null, 0, 'default', 'default', 0, null, 1, 'default', 'default', $order++, '0', false, false);
+
+
+
                                 $listValue = "play_pause|" . __('Play - Pause', __FILE__) . ";stop|" . __('Stop', __FILE__) . ";prev|" . __('Précédent', __FILE__) . ";next|" . __('Suivant', __FILE__) . ";select_stream|" . __('Sélectionner la qualité du flux', __FILE__) . ";select_audio_track|" . __('Sélectionner la piste audio', __FILE__) . ";select_srt_track|" . __('Sélectionner les sous-titres', __FILE__);
                                 $playback_state = $EqLogic->AddCommand(__('Etat du player', __FILE__), 'playback_state', 'info', 'string', null, null, null, 1, 'defaut', 'default', 0,  $iconmediactrl, 1, 'default', 'default', $order++, '0', 'default', false, null, true, null, null, null, null, null, null, null, null, null);
                                 $EqLogic->AddCommand(__('Contrôle player', __FILE__), 'mediactrl', 'action', 'select', null, null, null, 1, $playback_state, 'playback_state', 0,  $iconmediactrl, 1, 'default', 'default', $order++, '0', 'default', false, null, true, null, null, null, null, null, null, null, null, $listValue);

@@ -647,12 +647,51 @@ class Free_Update
         $ID_Player = str_replace('player_', '', $ID_Player);
         switch ($logicalId) {
             case "channel":
+            case "channel_last":
+            case "replay":
+            case "radio":
+            case "netfix":
+            case "youtube":
+            case "primevideo":
+            case "recordings":
+            case "URL":
                 log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Choix de la Chaîne', __FILE__)) . ' : ' . $_options['slider']);
-                $chanel = 'tv:?channel=' . $_options['slider'];
+                switch ($logicalId) {
+                    case "channel":
+                        $chanel = 'app:fr.freebox.tv';
+                        break;
+                    case "channel_last":
+                        $chanel = 'app:fr.freebox.tv';
+                        break;
+                    case "radio":
+                        $chanel = 'app:fr.freebox.radio';
+                        break;
+                    case "netfix":
+                        $chanel = 'https://www.netflix.com';
+                        break;
+                    case "primevideo":
+                        $chanel = 'https://www.primevideo.com';
+                        break;
+                    case "youtube":
+                        $chanel = 'https://www.youtube.com';
+                        break;
+                    case "recordings":
+                        $chanel = 'pvr://';
+                        break;
+                    case "URL":
+                        $chanel = 'pvr://';
+                        break;
+                    case "replay":
+                        $chanel = 'vodservice://replay';
+                        break;
+                    case "channel":
+                        $chanel = 'tv:?channel=' . $_options['slider'];
+                        break;
+                }
                 $option = array(
                     "url" => $chanel,
                 );
-                $playerURL = '/api/v6/control/open/';
+                $playerURL = '/api/v6/control/open';
                 $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'POST', $option);
                 break;
             case "mediactrl":
