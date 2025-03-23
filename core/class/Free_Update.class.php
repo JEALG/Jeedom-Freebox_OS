@@ -664,7 +664,7 @@ class Free_Update
                 break;
             case "channel":
                 log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Choix de la Chaîne', __FILE__)) . ' : ' . $_options['slider']);
-                $chanel = 'tv:?channel=' . $_options['slider'];
+                $chanel = 'app:fr.freebox.tv?channel=' . $_options['slider'];
                 $option = array(
                     "url" => $chanel,
                 );
