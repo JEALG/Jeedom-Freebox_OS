@@ -232,10 +232,10 @@ function updateConfig()
 	$FREEBOX_API = 'v13';
 	config::save('FREEBOX_API', $FREEBOX_API, 'Freebox_OS');
 	config::save('FREEBOX_API_DEFAUT', $FREEBOX_API, 'Freebox_OS');
-	if (!isset(config::byKey('FREEBOX_SERVER_IP', 'Freebox_OS'))) {
+	/*if (!isset(config::byKey('FREEBOX_SERVER_IP', 'Freebox_OS'))) {
 		config::byKey('FREEBOX_SERVER_IP', 'Freebox_OS', "mafreebox.freebox.fr");
 		log::add('Freebox_OS', 'debug', '│ Etape 4/4 : ' . 'DEBUG');
-	}
+	}*/
 	config::save('FREEBOX_SERVER_IP', config::byKey('FREEBOX_SERVER_IP', 'Freebox_OS', "mafreebox.freebox.fr"), 'Freebox_OS');
 	//config::save('FREEBOX_SERVER_APP_VERSION', config::byKey('FREEBOX_SERVER_APP_VERSION', 'Freebox_OS', "v5.0.0"), 'Freebox_OS');
 	config::save('FREEBOX_SERVER_APP_NAME', config::byKey('FREEBOX_SERVER_APP_NAME', 'Freebox_OS', "Plugin Freebox OS"), 'Freebox_OS');
