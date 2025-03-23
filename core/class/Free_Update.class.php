@@ -645,29 +645,30 @@ class Free_Update
     {
         $ID_Player = $logicalId_eq->getlogicalId();
         $ID_Player = str_replace('player_', '', $ID_Player);
+        $player_API_VERSION = $logicalId_eq->getConfiguration('player_API_VERSION');
         switch ($logicalId) {
             case "uuid":
                 $channeluuid = 'app:fr.freebox.tv?' . $_options['select'];
                 $option = array(
                     "url" =>  $channeluuid,
                 );
-                $playerURL = '/api/v14/control/open';
+                $playerURL = '/api/' . $player_API_VERSION . '/control/open';
                 $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'POST', $option);
                 break;
             case "app":
                 $option = array(
                     "url" =>  $_options['select'],
                 );
-                $playerURL = '/api/v14/control/open';
+                $playerURL = '/api/' . $player_API_VERSION . '/control/open';
                 $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'POST', $option);
                 break;
             case "channel":
                 log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Choix de la Chaîne', __FILE__)) . ' : ' . $_options['slider']);
-                $chanel = 'app:fr.freebox.tv?channel=' . $_options['slider'];
+                $chanel = 'tv:?channel=' . $_options['slider'];
                 $option = array(
                     "url" => $chanel,
                 );
-                $playerURL = '/api/v13/control/open/';
+                $playerURL = '/api/' . $player_API_VERSION . '/control/open/';
                 $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'POST', $option);
                 break;
             case "mediactrl":
@@ -675,7 +676,7 @@ class Free_Update
                 $option = array(
                     "cmd" =>  $_options['select'],
                 );
-                $playerURL = '/api/v6/control/mediactrl/';
+                $playerURL = '/api/' . $player_API_VERSION . '/control/mediactrl/';
                 $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'POST', $option);
                 break;
             case "volume":
@@ -683,7 +684,7 @@ class Free_Update
                 $option = array(
                     "volume" => $_options['slider']
                 );
-                $playerURL = '/api/v6/control/volume/';
+                $playerURL = '/api/' . $player_API_VERSION . '/control/volume/';
                 $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'PUT', $option);
                 break;
             case 'muteOn':
@@ -696,7 +697,7 @@ class Free_Update
                 $option = array(
                     "mute" => $mute
                 );
-                $playerURL = '/api/v6/control/volume/';
+                $playerURL = '/api/' . $player_API_VERSION . '/control/volume/';
                 $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'PUT', $option);
                 break;
             default:

@@ -362,7 +362,7 @@ class Freebox_OS extends eqLogic
 			}
 		}
 	}
-	public static function AddEqLogic($Name, $_logicalId, $category = null, $tiles = false, $eq_type = null, $eq_action = null, $logicalID_equip = null, $_autorefresh = null, $_Room = null, $Player = null, $eq_group = 'system', $type_save = false, $Player_MAC = null)
+	public static function AddEqLogic($Name, $_logicalId, $category = null, $tiles = false, $eq_type = null, $eq_action = null, $logicalID_equip = null, $_autorefresh = null, $_Room = null, $Player = null, $eq_group = 'system', $type_save = false, $Player_CONFIG = null)
 	{
 		$EqLogic = self::byLogicalId($_logicalId, 'Freebox_OS');
 		log::add('Freebox_OS', 'debug', ':fg-info:| ' . (__('Création Équipement', __FILE__)) . ' : :/fg:' . $Name . ' ── LogicalID : ' . $_logicalId . ' ── ' . (__('Catégorie', __FILE__)) . ' : ' . $category . ' ── ' . (__('Équipement Type', __FILE__)) . ' : ' . $eq_type . ' ── Logical ID Equip : ' . $logicalID_equip . ' ── Cron : ' . $_autorefresh . ' ── ' . (__('Objet', __FILE__)) . ' : ' . $_Room . ' ── ' . (__('Regroupement', __FILE__)) . ' : ' . $eq_group);
@@ -449,13 +449,19 @@ class Freebox_OS extends eqLogic
 		}
 		if ($Player != null) {
 			$EqLogic->setConfiguration('player', $Player);
-			if ($Player_MAC != null) {
-				$EqLogic->setConfiguration('player_MAC', $Player_MAC);
-			}
-			if ($Player_MAC !=  $eq_action) {
-				if ($eq_action != null) {
-					$EqLogic->setConfiguration('action', $eq_action);
+			if ($Player_CONFIG != null) {
+				if ($Player_CONFIG['player_ID_MAC'] != null) {
+					$EqLogic->setConfiguration('player_MAC', $Player_CONFIG['player_ID_MAC']);
 				}
+				if ($Player_CONFIG['player_API_VERSION'] != null) {
+					$EqLogic->setConfiguration('player_API_VERSION', $Player_CONFIG['player_API_VERSION']);
+				}
+				if ($Player_CONFIG['player_ID_MAC'] !=  $eq_action) {
+					if ($eq_action != null) {
+						$EqLogic->setConfiguration('action', $eq_action);
+					}
+				}
+				log::add('Freebox_OS', 'debug', ':fg-info:| ───▶︎ ' . (__('Configuration spécifique pour les players', __FILE__)) .  ' : :/fg:' . $Player_CONFIG['player_ID_MAC'] . ' / ' . $Player_CONFIG['player_API_VERSION']);
 			}
 		}
 		if ($type_save == false) {

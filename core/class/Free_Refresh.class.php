@@ -964,8 +964,9 @@ class Free_Refresh
     private static function refresh_player($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null)
     {
         log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . (__('Le statut du Player est-il disponible', __FILE__)) . ' ? :/fg:: [  ' . $EqLogics->getConfiguration('player') . '  ]');
+        $player_API_VERSION = $EqLogics->getConfiguration('player_API_VERSION');
         if ($EqLogics->getConfiguration('player') == 'OK' && $EqLogics->getConfiguration('player_MAC') != 'MAC') {
-            $results_playerID = $Free_API->universal_get('universalAPI', null, null, 'player/' . $EqLogics->getConfiguration('action') . '/api/v6/status', false, true, false);
+            $results_playerID = $Free_API->universal_get('universalAPI', null, null, 'player/' . $EqLogics->getConfiguration('action') . '/api/' . $player_API_VERSION . '/status', true, true, false);
             if (isset($results_playerID['power_state'])) {
                 log::add('Freebox_OS', 'debug', ':fg-success:───▶︎ ' . (__('Le status du Player est disponible', __FILE__)) . ':/fg:');
                 $list = 'power_state';
@@ -984,13 +985,11 @@ class Free_Refresh
                     $resultTV = $results_playerID['player']['state'];
                     Free_Refresh::refresh_VALUE($EqLogics, $resultTV, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
                 }
-                $results_player_info = $Free_API->universal_get('universalAPI', null, null, 'player/' . $EqLogics->getConfiguration('action') . '/api/v6/control/volume', true, true, false);
+                $results_player_info = $Free_API->universal_get('universalAPI', null, null, 'player/' . $EqLogics->getConfiguration('action') . '/api/' . $player_API_VERSION . '/control/volume', true, true, false);
                 $list = 'volume,mute';
                 $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
                 $result = $results_player_info;
                 Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
-                // Récupération des chaines
-                $results_playerchanel = $Free_API->universal_get('universalAPI', null, null, 'tv/channels/', true, true, false);
             } else {
                 log::add('Freebox_OS', 'debug', ':fg-info:' . (__('Le status du Player n\'est pas disponible car le Player n\'est pas joignable', __FILE__)) . ':/fg:');
                 $player_power_state = 'standby';

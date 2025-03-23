@@ -56,7 +56,8 @@ class Free_CreateTV
                         $player_STATE = 'KO';
                         $player_log = ' -- ' . (__('Il n\'est pas possible de récupérer le status du Player donc pas de création de la commande d\'état', __FILE__));
                         $player_ID = $Equipement['mac'];
-                        $player_MAC = 'MAC';
+                        $player_API_VERSION = 'v'  . '6';
+                        $player_ID_MAC = 'MAC';
                         if ($Equipement['id']) {
                             if ($Equipement['id'] != null) {
                                 $results_playerID = $Free_API->universal_get('universalAPI', null, null, 'player/' . $Equipement['id'] . '/api/v6/status', false, true, false);
@@ -67,7 +68,7 @@ class Free_CreateTV
                                         $player_STATE = 'OK';
                                         $player_log = ' -- ' . (__('Il est possible de récupérer le status du Player', __FILE__));
                                     }
-                                    $player_MAC = 'ID';
+                                    $player_ID_MAC = 'ID';
                                     log::add('Freebox_OS', 'debug', '| ───▶︎ :fg-info:' . __('PLAYER', __FILE__) . ' ::/fg:  ' . $_devicename . ' -- Id : ' . $Equipement['id'] . $player_log);
                                 } else {
                                     log::add('Freebox_OS', 'debug', '|:fg-warning: ───▶︎ ' . __('PLAYER', __FILE__) . ' : ' . $_devicename . ' -- Id : ' . $Equipement['id'] . $player_log . ':/fg:');
@@ -75,8 +76,15 @@ class Free_CreateTV
                             } else {
                                 log::add('Freebox_OS', 'debug', '|:fg-warning: ───▶︎ ' . __('PLAYER', __FILE__) . ' : ' . $_devicename . ' -- Mac : ' . $Equipement['mac'] . ' -- ' . __('L\'ID est vide', __FILE__) . ' ───▶︎ ' . $player_log . ':/fg:');
                             }
-                            $EqLogic = Freebox_OS::AddEqLogic($_devicename, 'player_' . $player_ID, 'multimedia', true, 'player', $player_ID, $player_ID, '*/5 * * * *', null, $player_STATE, 'system', true, $player_MAC);
-                            log::add('Freebox_OS', 'debug', '| ───▶︎ ' . __('Nom', __FILE__) . ' : ' . $_devicename . ' -- id / mac : player_' . $Equipement['id'] . ' / ' . $Equipement['mac'] . ' -- FREE-ID : ' . $Equipement['id'] . ' -- TYPE-ID : ' . $player_MAC);
+                            if (isset($Equipement['api_version'])) {
+                                $player_API_VERSION = 'v'  . $Equipement['api_version'];
+                                $player_API_VERSION = strstr($player_API_VERSION, '.', true);
+                            }
+                            $Player_config = array(
+                                "player_ID_MAC" =>  $player_ID_MAC,
+                                "player_API_VERSION" => $player_API_VERSION
+                            );
+                            $EqLogic = Freebox_OS::AddEqLogic($_devicename, 'player_' . $player_ID, 'multimedia', true, 'player', $player_ID, $player_ID, '*/5 * * * *', null, $player_STATE, 'system', true, $Player_config);
                             $EqLogic->AddCommand(__('Mac', __FILE__), 'mac', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
                             $EqLogic->AddCommand(__('Type', __FILE__), 'stb_type', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
                             $EqLogic->AddCommand(__('Modèle', __FILE__), 'device_model', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
@@ -100,7 +108,7 @@ class Free_CreateTV
                                 $listAPP = "app:fr.freebox.tv|" . __('Allumer la TV avec la dernière chaine ', __FILE__) . ";app:fr.freebox.radio|" . __('Radio', __FILE__) . ";https://www.netflix.com|Netfix" . ";https://www.primevideo.com|Prime vidéo" . ";https://www.youtube.com|Youtube" .  ";pvr://|" . __('Mes enregistrements', __FILE__) . ";vodservice://replay|Replay";
                                 $EqLogic->AddCommand(__('Lancer l\'application', __FILE__), 'app', 'action', 'select', null, null, null, 1, 'default', 'default', 0,  $iconmediactrl, 1, 'default', 'default', $order++, '0', 'default', false, null, true, null, null, null, null, null, null, null, null, $listAPP);
 
-                                $listValue = "play_pause|" . __('Play - Pause', __FILE__) . ";stop|" . __('Stop', __FILE__) . ";prev|" . __('Précédent', __FILE__) . ";next|" . __('Suivant', __FILE__) . ";select_stream|" . __('Sélectionner la qualité du flux', __FILE__) . ";select_audio_track|" . __('Sélectionner la piste audio', __FILE__) . ";select_srt_track|" . __('Sélectionner les sous-titres', __FILE__);
+                                $listValue = "play|" . __('Play', __FILE__) . ";pause|" . __('Pause', __FILE__) . ";play_pause|" . __('Play - Pause', __FILE__) . ";stop|" . __('Stop', __FILE__) . ";prev|" . __('Précédent', __FILE__) . ";next|" . __('Suivant', __FILE__) . ";select_stream|" . __('Sélectionner la qualité du flux', __FILE__) . ";select_audio_track|" . __('Sélectionner la piste audio', __FILE__) . ";select_srt_track|" . __('Sélectionner les sous-titres', __FILE__) . ";record|" . __('Enregistrement', __FILE__) . ";record_stop  |" . __('Enregistrement Stop', __FILE__);
                                 $playback_state = $EqLogic->AddCommand(__('Etat du player', __FILE__), 'playback_state', 'info', 'string', null, null, null, 1, 'defaut', 'default', 0,  $iconmediactrl, 1, 'default', 'default', $order++, '0', 'default', false, null, true, null, null, null, null, null, null, null, null, null);
                                 $EqLogic->AddCommand(__('Contrôle player', __FILE__), 'mediactrl', 'action', 'select', null, null, null, 1, $playback_state, 'playback_state', 0,  $iconmediactrl, 1, 'default', 'default', $order++, '0', 'default', false, null, true, null, null, null, null, null, null, null, null, $listValue);
                                 $Volume = $EqLogic->AddCommand(__('Volume', __FILE__), 'volume', 'info', 'numeric', null, null, 'SWITCH_STATE', 0, null, null, 0, $iconvolume, 1, null, null, $order++, 1, true, 'never', null, true, null, null, null, null, null, null, null, null);
@@ -139,7 +147,7 @@ class Free_CreateTV
                 }
             }
         }
-        return $list;
         log::add('Freebox_OS', 'debug', '└────────────────────');
+        return $list;
     }
 }
