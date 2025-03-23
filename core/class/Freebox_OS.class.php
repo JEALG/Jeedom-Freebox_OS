@@ -326,7 +326,8 @@ class Freebox_OS extends eqLogic
 		config::save('FREEBOX_SERVER_APP_NAME', "Plugin Freebox OS", 'Freebox_OS');
 		config::save('FREEBOX_SERVER_APP_ID', "plugin.freebox.jeedom", 'Freebox_OS');
 		config::save('FREEBOX_SERVER_DEVICE_NAME', config::byKey("name"), 'Freebox_OS');
-		config::save('FREEBOX_API', "v13", 'Freebox_OS');
+		$API_version = config::byKey('FREEBOX_API_DEFAUT', 'Freebox_OS');
+		config::save('FREEBOX_API', $API_version, 'Freebox_OS');
 		log::add('Freebox_OS', 'debug', 'RESET [  OK  ]');
 		config::save('FREEBOX_REBOOT_DEAMON', FALSE, 'Freebox_OS');
 		log::add('Freebox_OS', 'debug', ':fg-info: ───▶︎ ' . (__('RESET DU TYPE DE BOX', __FILE__)) . ':/fg:');
