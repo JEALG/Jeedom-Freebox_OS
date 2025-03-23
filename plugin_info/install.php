@@ -230,21 +230,36 @@ function removeLogicId($cmdDel)
 function updateConfig()
 {
 	$FREEBOX_API = 'v13';
-	config::save('FREEBOX_API', $FREEBOX_API, 'Freebox_OS');
+	//config::save('FREEBOX_API', $FREEBOX_API, 'Freebox_OS');
 	config::save('FREEBOX_API_DEFAUT', $FREEBOX_API, 'Freebox_OS');
-
-	$Config_KEY = config::byKey('FREEBOX_SERVER_IP', 'Freebox_OS');
-	if (empty($Config_KEY)) {
-		config::byKey('FREEBOX_SERVER_IP', 'Freebox_OS', "mafreebox.freebox.fr");
-		log::add('Freebox_OS', 'debug', '│ Etape 4/4 : ' . 'DEBUG - no');
-	} else {
-		log::add('Freebox_OS', 'debug', '│ Etape 4/4 : ' . 'DEBUG');
+	$boucle_num = 1;
+	while ($boucle_num <= 4) {
+		if ($boucle_num == 1) {
+			$Config_KEY = 'FREEBOX_SERVER_IP';
+			$Config_value = 'mafreebox.freebox.fr';
+			//config::save('FREEBOX_SERVER_IP', config::byKey('FREEBOX_SERVER_IP', 'Freebox_OS', "mafreebox.freebox.fr"), 'Freebox_OS');
+		} else if ($boucle_num == 2) {
+			$Config_KEY = 'FREEBOX_SERVER_APP_NAME';
+			$Config_value = 'Plugin Freebox OS';
+			//config::save('FREEBOX_SERVER_APP_NAME', config::byKey('FREEBOX_SERVER_APP_NAME', 'Freebox_OS', "Plugin Freebox OS"), 'Freebox_OS');
+		} else if ($boucle_num == 3) {
+			$Config_KEY = 'FREEBOX_SERVER_APP_ID';
+			$Config_value = 'plugin.freebox.jeedom';
+			//config::save('FREEBOX_SERVER_APP_ID', config::byKey('FREEBOX_SERVER_APP_ID', 'Freebox_OS', "plugin.freebox.jeedom"), 'Freebox_OS');
+		} else if ($boucle_num == 4) {
+			$Config_KEY = 'FREEBOX_API';
+			$Config_value = '$FREEBOX_API';
+			//config::save('FREEBOX_SERVER_APP_ID', config::byKey('FREEBOX_SERVER_APP_ID', 'Freebox_OS', "plugin.freebox.jeedom"), 'Freebox_OS');
+		}
+		$Config = config::byKey($Config_KEY, 'Freebox_OS');
+		if (empty($Config)) {
+			config::byKey($Config, 'Freebox_OS', $Config_value);
+		}
 	}
 
-	config::save('FREEBOX_SERVER_IP', config::byKey('FREEBOX_SERVER_IP', 'Freebox_OS', "mafreebox.freebox.fr"), 'Freebox_OS');
+
+
 	//config::save('FREEBOX_SERVER_APP_VERSION', config::byKey('FREEBOX_SERVER_APP_VERSION', 'Freebox_OS', "v5.0.0"), 'Freebox_OS');
-	config::save('FREEBOX_SERVER_APP_NAME', config::byKey('FREEBOX_SERVER_APP_NAME', 'Freebox_OS', "Plugin Freebox OS"), 'Freebox_OS');
-	config::save('FREEBOX_SERVER_APP_ID', config::byKey('FREEBOX_SERVER_APP_ID', 'Freebox_OS', "plugin.freebox.jeedom"), 'Freebox_OS');
 	config::save('FREEBOX_SERVER_DEVICE_NAME', config::byKey('FREEBOX_SERVER_DEVICE_NAME', 'Freebox_OS', config::byKey("name")), 'Freebox_OS');
 	config::save('FREEBOX_REBOOT_DEAMON', config::byKey('FREEBOX_REBOOT_DEAMON', 'Freebox_OS', FALSE), 'Freebox_OS');
 
