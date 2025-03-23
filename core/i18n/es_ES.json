@@ -841,7 +841,7 @@
     "plugins\/Freebox_OS\/plugin_info\/install.php": {
         "Cette mise nécessite de lancer les divers Scans afin de bénéficier des nouveautés et surtout des correctifs": "Esta actualización requiere que ejecute los distintos análisis para beneficiarse de las nuevas funciones y, sobre todo, de los parches",
         "Changement de nom de certains équipements": "Cambio de nombre de determinados equipos",
-        "Création API": "Creación de API",
+        "Création ou mise à jour des variables nécessaire pour le plugin": "Creación o actualización de las variables necesarias para el plugin",
         "DEBUT DE NETTOYAGE LORS MIGRATION DE BOX": "INICIO DE LA LIMPIEZA DURANTE LA MIGRACIÓN DE LA CAJA",
         "Etat Mode de veille planning": "Estado Planificación del modo de espera",
         "FIN DE NETTOYAGE LORS MIGRATION DE BOX": "FIN DE LA LIMPIEZA DURANTE LA MIGRACIÓN DE CAJAS",
