@@ -73,7 +73,7 @@ function Freebox_OS_update()
 		$cron->setTimeout('15');
 		$cron->save();
 	}
-	updateConfig();
+
 
 
 	try {
@@ -154,7 +154,8 @@ function Freebox_OS_update()
 			}*/
 		}
 		log::add('Freebox_OS', 'debug', '│ Etape 4/4 : ' . (__('Création API', __FILE__)));
-		$Config_KEY = config::byKey('FREEBOX_API', 'Freebox_OS');
+		updateConfig();
+		/*$Config_KEY = config::byKey('FREEBOX_API', 'Freebox_OS');
 		if (empty($Config_KEY)) {
 			config::save('FREEBOX_API', 'v13', 'Freebox_OS');
 			log::add('Freebox_OS', 'debug', '│ ' . (__('Mise à jour de la version API en V13', __FILE__)));
@@ -162,7 +163,7 @@ function Freebox_OS_update()
 		$Config_KEY = config::byKey('FREEBOX_REBOOT_DEAMON', 'Freebox_OS');
 		if (empty($Config_KEY)) {
 			config::save('FREEBOX_REBOOT_DEAMON', FALSE, 'Freebox_OS');
-		}
+		}*/
 
 		//message::add('Freebox_OS', '{{Cette mise nécessite de lancer les divers Scans afin de bénéficier des nouveautés et surtout des correctifs}}');
 	} catch (Exception $e) {
