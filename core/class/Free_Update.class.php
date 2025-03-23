@@ -647,14 +647,6 @@ class Free_Update
         $ID_Player = str_replace('player_', '', $ID_Player);
         $player_API_VERSION = $logicalId_eq->getConfiguration('player_API_VERSION');
         switch ($logicalId) {
-            case "uuid":
-                $channeluuid = 'app:fr.freebox.tv?' . $_options['select'];
-                $option = array(
-                    "url" =>  $channeluuid,
-                );
-                $playerURL = '/api/' . $player_API_VERSION . '/control/open';
-                $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'POST', $option);
-                break;
             case "app":
                 $option = array(
                     "url" =>  $_options['select'],
@@ -679,14 +671,6 @@ class Free_Update
                 $playerURL = '/api/' . $player_API_VERSION . '/control/mediactrl/';
                 $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'POST', $option);
                 break;
-            case "volume":
-                log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Volume', __FILE__)) . ' : ' . $_options['slider']);
-                $option = array(
-                    "volume" => $_options['slider']
-                );
-                $playerURL = '/api/' . $player_API_VERSION . '/control/volume/';
-                $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'PUT', $option);
-                break;
             case 'muteOn':
             case 'muteOff':
                 $mute = true;
@@ -700,6 +684,30 @@ class Free_Update
                 $playerURL = '/api/' . $player_API_VERSION . '/control/volume/';
                 $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'PUT', $option);
                 break;
+            case "reboot":
+                log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Redémarrer', __FILE__)));
+                $option = null;
+                $playerURL = '/api/' . $player_API_VERSION . '/system/reboot/';
+                $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'POST', $option);
+                break;
+            case "volume":
+                log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Volume', __FILE__)) . ' : ' . $_options['slider']);
+                $option = array(
+                    "volume" => $_options['slider']
+                );
+                $playerURL = '/api/' . $player_API_VERSION . '/control/volume/';
+                $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'PUT', $option);
+                break;
+            case "uuid":
+                $channeluuid = 'app:fr.freebox.tv?' . $_options['select'];
+                $option = array(
+                    "url" =>  $channeluuid,
+                );
+                $playerURL = '/api/' . $player_API_VERSION . '/control/open';
+                $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'POST', $option);
+                break;
+
+
             default:
                 $Free_API->universal_put($logicalId, 'player_ID_ctrl', $logicalId_eq->getConfiguration('action'), null, $_options);
                 break;
