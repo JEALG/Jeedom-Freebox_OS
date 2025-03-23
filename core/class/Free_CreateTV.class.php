@@ -104,7 +104,9 @@ class Free_CreateTV
                                 $listchanel = Free_CreateTV::listTV_player($logicalinfo, $templatecore_V4);
                                 //$EqLogic->AddCommand(__('Liste des chaînes', __FILE__), 'uuid', 'action', 'select', null, null, null, 1, 'default', 'default', 0,  $iconmediactrl, 1, 'default', 'default', $order++, '0', 'default', false, null, true, null, null, null, null, null, null, null, null, $listchanel);
                                 $channelNumber = $EqLogic->AddCommand(__('Numéro de chaîne', __FILE__), 'channelNumber', 'info', 'numeric', null, null, null, 0, 'default', 'default', 0, null, 1, 'default', 'dafault', $order++, '0', false, false);
+                                //Ligne ci-dessous a désactiver lors de la publication
                                 //$EqLogic->AddCommand(__('Choix de la chaîne', __FILE__), 'channel', 'action', 'slider', null, null, null, 0, $channelNumber, 'channelNumber', 0, null, 1, '0', 3500, $order++, '0', false, false);
+                                //
                                 $listAPP = "app:fr.freebox.tv|" . __('Allumer la TV avec la dernière chaine ', __FILE__) . ";app:fr.freebox.radio|" . __('Radio', __FILE__) . ";https://www.netflix.com|Netfix" . ";https://www.primevideo.com|Prime vidéo" . ";https://www.youtube.com|Youtube" .  ";pvr://|" . __('Mes enregistrements', __FILE__) . ";vodservice://replay|Replay";
                                 $EqLogic->AddCommand(__('Lancer l\'application', __FILE__), 'app', 'action', 'select', null, null, null, 1, 'default', 'default', 0,  $iconmediactrl, 1, 'default', 'default', $order++, '0', 'default', false, null, true, null, null, null, null, null, null, null, null, $listAPP);
 
