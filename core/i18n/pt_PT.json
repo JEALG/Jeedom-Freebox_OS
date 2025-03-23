@@ -364,6 +364,7 @@
         "Play - Pause": "Reproduzir - Pausa",
         "Précédent": "Anterior",
         "Radio": "Rádio",
+        "Redémarrage": "Reiniciar",
         "SUR VOTRE BOX": "NA SUA CAIXA",
         "Stop": "Parar",
         "Suivant": "Seguinte",
@@ -471,6 +472,7 @@
         "Média": "Media",
         "Média type": "Tipo de suporte",
         "Player": "Jogador",
+        "Redémarrer": "Reiniciar",
         "Volume": "Volume"
     },
     "plugins\/Freebox_OS\/core\/class\/Freebox_OS.class.php": {
