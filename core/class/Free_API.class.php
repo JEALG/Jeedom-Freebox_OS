@@ -185,7 +185,7 @@ class Free_API
             while ($session_token->getValue('') == '') {
                 $session_token = cache::byKey('Freebox_OS::SessionToken');
             }
-            $requetURL = '[Freebox Request Connexion] : ' . $method . ' ' . (__('sur la l\'adresse', __FILE__)) . ' ' . $this->serveur . $api_url . '(' . json_encode($params) . ')';
+            //$requetURL = '[Freebox Request Connexion] : ' . $method . ' ' . (__('sur la l\'adresse', __FILE__)) . ' ' . $this->serveur . $api_url . '(' . json_encode($params) . ')';
             $requetURL = '[Freebox Request Connexion] : ' . $method . ' ' . (__('sur la l\'adresse', __FILE__)) . ' ' . $this->serveur . $api_url  . json_encode($params);
             if ($log_request  != false) {
                 log::add('Freebox_OS', 'debug', $requetURL);
