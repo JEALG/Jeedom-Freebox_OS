@@ -153,7 +153,7 @@ function Freebox_OS_update()
 				config::save('FREEBOX_TILES_CmdbyCmd', '1', 'Freebox_OS');
 			}*/
 		}
-		log::add('Freebox_OS', 'debug', '│ Etape 4/4 : ' . (__('Création API', __FILE__)));
+		log::add('Freebox_OS', 'debug', '│ Etape 4/4 : ' . (__('Création ou mise à jour des variables nécessaire pour le plugin', __FILE__)));
 		updateConfig();
 
 		//message::add('Freebox_OS', '{{Cette mise nécessite de lancer les divers Scans afin de bénéficier des nouveautés et surtout des correctifs}}');
@@ -250,6 +250,9 @@ function updateConfig()
 	$Config_value = $FREEBOX_API;
 	$Config = config::byKey($Config_KEY, 'Freebox_OS');
 	if (empty($Config)) {
+		config::byKey($Config, 'Freebox_OS', $Config_value);
+	}
+	if (config::byKey($Config, 'Freebox_OS', 0) != $$Config_value) {
 		config::byKey($Config, 'Freebox_OS', $Config_value);
 	}
 	$Config_KEY = 'FREEBOX_SERVER_DEVICE_NAME';
