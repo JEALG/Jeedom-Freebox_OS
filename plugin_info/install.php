@@ -251,10 +251,10 @@ function updateConfig()
 			$Config_value = '$FREEBOX_API';
 			//config::save('FREEBOX_SERVER_APP_ID', config::byKey('FREEBOX_SERVER_APP_ID', 'Freebox_OS', "plugin.freebox.jeedom"), 'Freebox_OS');
 		}
-		$Config = config::byKey($Config_KEY, 'Freebox_OS');
+		/*$Config = config::byKey($Config_KEY, 'Freebox_OS');
 		if (empty($Config)) {
 			config::byKey($Config, 'Freebox_OS', $Config_value);
-		}
+		}*/
 	}
 
 
