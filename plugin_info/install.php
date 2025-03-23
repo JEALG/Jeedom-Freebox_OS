@@ -236,7 +236,7 @@ function updateConfig()
 	$Config_KEY = config::byKey('FREEBOX_SERVER_IP', 'Freebox_OS');
 	if (empty($Config_KEY)) {
 		config::byKey('FREEBOX_SERVER_IP', 'Freebox_OS', "mafreebox.freebox.fr");
-		//log::add('Freebox_OS', 'debug', '│ Etape 4/4 : ' . 'DEBUG');
+		log::add('Freebox_OS', 'debug', '│ Etape 4/4 : ' . 'DEBUG - no');
 	} else {
 		log::add('Freebox_OS', 'debug', '│ Etape 4/4 : ' . 'DEBUG');
 	}
