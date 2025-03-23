@@ -232,8 +232,17 @@ function updateConfig()
 	$FREEBOX_API = 'v13';
 	//config::save('FREEBOX_API', $FREEBOX_API, 'Freebox_OS');
 	config::save('FREEBOX_API_DEFAUT', $FREEBOX_API, 'Freebox_OS');
+
+	$Config_KEY = 'FREEBOX_SERVER_IP';
+	$Config_value = 'mafreebox.freebox.fr';
+	$Config = config::byKey($Config_KEY, 'Freebox_OS');
+	if (empty($Config)) {
+		config::byKey($Config, 'Freebox_OS', $Config_value);
+	}
+
+
 	$boucle_num = 1;
-	while ($boucle_num <= 4) {
+	/*while ($boucle_num <= 4) {
 		if ($boucle_num == 1) {
 			$Config_KEY = 'FREEBOX_SERVER_IP';
 			$Config_value = 'mafreebox.freebox.fr';
@@ -251,11 +260,11 @@ function updateConfig()
 			$Config_value = '$FREEBOX_API';
 			//config::save('FREEBOX_SERVER_APP_ID', config::byKey('FREEBOX_SERVER_APP_ID', 'Freebox_OS', "plugin.freebox.jeedom"), 'Freebox_OS');
 		}
-		/*$Config = config::byKey($Config_KEY, 'Freebox_OS');
+		$Config = config::byKey($Config_KEY, 'Freebox_OS');
 		if (empty($Config)) {
 			config::byKey($Config, 'Freebox_OS', $Config_value);
-		}*/
-	}
+		}
+	}*/
 
 
 
