@@ -185,29 +185,46 @@ class Free_API
             while ($session_token->getValue('') == '') {
                 $session_token = cache::byKey('Freebox_OS::SessionToken');
             }
-            //$requetURL = '[Freebox Request Connexion] : ' . $method . ' ' . (__('sur la l\'adresse', __FILE__)) . ' ' . $this->serveur . $api_url . '(' . json_encode($params) . ')';
-            $requetURL = '[Freebox Request Connexion] : ' . $method . ' ' . (__('sur la l\'adresse', __FILE__)) . ' ' . $this->serveur . $api_url  . json_encode($params);
+
             if ($log_request  != false) {
+                //$requetURL = '[Freebox Request Connexion] : ' . $method . ' ' . (__('sur la l\'adresse', __FILE__)) . ' ' . $this->serveur . $api_url . '(' . json_encode($params) . ')';
+                if (empty($params)) {
+                    $params_log = '';
+                } else {
+                    $params_log = json_encode($params);
+                }
+                $requetURL = '[Freebox Request Connexion 1] : ' . $method . ' ' . (__('sur la l\'adresse', __FILE__)) . ' ' . $this->serveur . $api_url  .  $params_log;
                 log::add('Freebox_OS', 'debug', $requetURL);
             };
             $ch = curl_init();
+            //CURLOPT_URL : l'url cible que la requête devra appeler (une chaine de caractères typée URL).
             curl_setopt($ch, CURLOPT_URL, $this->serveur . $api_url);
+            //CURLOPT_HEADER : si nous souhaitons ou non récupérer les informations de l'entête (boolean). 
             curl_setopt($ch, CURLOPT_HEADER, false);
+            //CURLOPT_RETURNTRANSFER : si nous voulons ou non récupérer le contenu de la requête appelée (boolean). 
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            //
             curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+            //CURLOPT_CONNECTTIMEOUT : le délais maximum exprimé en secondes avant l'abandon de la connexion au serveur lors de l'établissement de la connexion (entier). 
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+            //CURLOPT_TIMEOUT : le délais maximum exprimé en secondes avant l'abandon de la résolution de la requête curl lors de son éxécution (entier). 
             curl_setopt($ch, CURLOPT_TIMEOUT, 60);
             if ($method == "POST") {
+                //CURLOPT_POST : si la requête doit utiliser le protocole POST pour sa résolution (boolean). 
                 curl_setopt($ch, CURLOPT_POST, true);
             } elseif ($method == "DELETE" || $method == "PUT") {
+                //CURLOPT_CUSTOMREQUEST : pour forcer le format de la commande HTTP (chaine de caractères, PUT,GET,POST,CONNECT,HEAD,etc.).
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
             }
             if ($params) {
+                //CURLOPT_POSTFIELDS : le tableau de paramètres à assigner à une requête POST (tableau associatif). 
                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
             }
+            //CURLOPT_HTTPHEADER : un tableau non associatif permettant de modifier des paramètres du header envoyé par la requête (tableau).
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("X-Fbx-App-Auth: " . $session_token->getValue('')));
             $content = curl_exec($ch);
             $errorno = 0;
+            //Contrôler la présence d'erreur fatale dans l'éxécution de la requête par curl en php
             if (curl_errno($ch) !== 0) {
                 $error = curl_error($ch);
                 $errorno = curl_errno($ch);

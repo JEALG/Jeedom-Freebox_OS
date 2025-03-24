@@ -656,10 +656,11 @@ class Free_Update
                 break;
             case "channel":
                 log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Choix de la Chaîne', __FILE__)) . ' : ' . $_options['slider']);
-                $chanel = 'app:fr.freebox.tv?channel=' . $_options['slider'];
+                $channel = 'app:fr.freebox.tv?channel=' . $_options['slider'];
                 $option = array(
-                    "url" => $chanel,
+                    "url" => $channel,
                 );
+                //$tvchain= echo -n $channel| base64 ;
                 $playerURL = '/api/' . $player_API_VERSION . '/control/open/';
                 $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'POST', $option);
                 break;
