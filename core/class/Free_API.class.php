@@ -217,6 +217,9 @@ class Free_API
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
             }
             if ($params) {
+                // Pour test uniquement cela sort dans les logs http.error
+                //echo  json_encode($params);
+                //$enc64_param = base64_encode($params);
                 //CURLOPT_POSTFIELDS : le tableau de paramètres à assigner à une requête POST (tableau associatif). 
                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
             }
@@ -671,7 +674,12 @@ class Free_API
             $return = $this->fetch('/' . $config . '', $parametre, $fonction, true, true);
         } else if ($update == 'universal_put') {
             $return = $this->fetch('/' . $config,  $_options_2, $fonction, true, true);
-            return $return['success'];
+            if (isset($return['success'])) {
+                $return_ID = $return['success'];
+            } else {
+                $return_ID = $return;
+            }
+            return $return_ID;
         } else if ($update == 'set_tiles') {
             $return = $this->fetch('/' . $config . $nodeId . '/' . $id, $parametre, "PUT", true, true);
         } else if ($_options == 'mac_filter') {
