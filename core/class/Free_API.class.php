@@ -193,7 +193,7 @@ class Free_API
                 } else {
                     $params_log = json_encode($params);
                 }
-                $requetURL = '[Freebox Request Connexion 1] : ' . $method . ' ' . (__('sur la l\'adresse', __FILE__)) . ' ' . $this->serveur . $api_url  .  $params_log;
+                $requetURL = '[Freebox Request Connexion] : ' . $method . ' ' . (__('sur la l\'adresse', __FILE__)) . ' ' . $this->serveur . $api_url  .  $params_log;
                 log::add('Freebox_OS', 'debug', $requetURL);
             };
             $ch = curl_init();
