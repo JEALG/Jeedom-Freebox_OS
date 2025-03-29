@@ -205,10 +205,12 @@ class Free_API
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             //
             curl_setopt($ch, CURLOPT_COOKIESESSION, true);
-            curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
             //CURLOPT_CONNECTTIMEOUT : le délais maximum exprimé en secondes avant l'abandon de la connexion au serveur lors de l'établissement de la connexion (entier). 
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+            //
+            curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
             //CURLOPT_TIMEOUT : le délais maximum exprimé en secondes avant l'abandon de la résolution de la requête curl lors de son éxécution (entier). 
+
             curl_setopt($ch, CURLOPT_TIMEOUT, 60);
             if ($method == "POST") {
                 //CURLOPT_POST : si la requête doit utiliser le protocole POST pour sa résolution (boolean). 
