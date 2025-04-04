@@ -767,7 +767,7 @@ class Free_CreateEq
         $netshare = Freebox_OS::AddEqLogic($logicalinfo['netshareName'], $logicalinfo['netshareID'], 'multimedia', false, null, null, null, '5 */12 * * *', null, null, 'system', true);
         $boucle_num = 1; // 1 = Partage Imprimante - 2 = Partage de fichiers Windows - 3 = Partage Fichier Mac - 4 = Partage Fichier FTP
         $order = 1;
-        while ($boucle_num <= 5) {
+        while ($boucle_num <= 6) {
             if ($boucle_num == 1) {
                 $name = __('Partage Imprimante', __FILE__);
                 $Logical_ID = 'print_share_enabled';
@@ -796,8 +796,8 @@ class Free_CreateEq
             } else if ($boucle_num == 6) {
                 $name = __('Mot de passe', __FILE__);
                 $Logical_ID = 'logon_enabled';
-                $icon = 'fab fa-creative-commons-share';
-                $template = 'Freebox_OS::Activer SMBv2';
+                $icon = 'fas fa-key';
+                $template = 'Freebox_OS::Activer Mot de passe';
             }
             log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('Boucle pour Création des commandes', __FILE__)) . ' : ' . $name);
             $netshareSTATUS = $netshare->AddCommand($name, $Logical_ID, "info", 'binary', null, null, 'SWITCH_STATE', 0, '', '', '', $icon, 0, 'default', 'default', '0', $order, $updateicon, true);

@@ -111,6 +111,18 @@ class Free_Template
 				'#_time_widget_#' => '1'
 			)
 		);
+		// Template pour le Mot der passe
+		$return['action']['other']['Mot de passe'] = array(
+			'template' => 'tmplicon',
+			'display' => array(
+				'#icon#' => '<i class=\'icon_blue icon fas fa-key\'></i>',
+			),
+			'replace' => array(
+				'#_icon_on_#' => '<i class=\'icon_green icon fas fa-key\'></i>',
+				'#_icon_off_#' => '<i class=\'icon_red icon fas fa-key\'></i>',
+				'#_time_widget_#' => '1'
+			)
+		);
 		// Template pour le 4G (action)
 		$return['action']['other']['4G'] = array(
 			'template' => 'tmplicon',
