@@ -760,7 +760,6 @@ class Free_CreateEq
     private static function createEq_netshare($logicalinfo, $templatecore_V4)
     {
         log::add('Freebox_OS', 'debug', '┌── :fg-success:' . (__('Début de création des commandes pour', __FILE__)) . ' ::/fg: '  . $logicalinfo['netshareName'] . ' ──');
-        $order = 1;
         $color_on = ' icon_green';
         $color_off = ' icon_red';
         $updateicon = false;
@@ -794,6 +793,11 @@ class Free_CreateEq
                 $Logical_ID = 'smbv2_enabled';
                 $icon = 'fab fa-creative-commons-share';
                 $template = 'Freebox_OS::Activer SMBv2';
+            } else if ($boucle_num == 6) {
+                $name = __('Mot de passe', __FILE__);
+                $Logical_ID = 'logon_enabled';
+                $icon = 'fab fa-creative-commons-share';
+                $template = 'Freebox_OS::Activer SMBv2';
             }
             log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('Boucle pour Création des commandes', __FILE__)) . ' : ' . $name);
             $netshareSTATUS = $netshare->AddCommand($name, $Logical_ID, "info", 'binary', null, null, 'SWITCH_STATE', 0, '', '', '', $icon, 0, 'default', 'default', '0', $order, $updateicon, true);
@@ -801,6 +805,7 @@ class Free_CreateEq
             $netshare->AddCommand(__('Désactiver', __FILE__) . ' ' . $name, $Logical_ID  . 'Off', 'action', 'other', $template, null, 'SWITCH_OFF', 1, $netshareSTATUS, '', 0, $icon . $color_off, 0, 'default', 'default', $order++, '0', $updateicon, false);
             $boucle_num++;
         }
+        $order = 100;
         $netshare->AddCommand('Workgroup', 'workgroup', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
         $netshare->AddCommand(__('Nom d\'utilisateur', __FILE__), 'logon_user', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
         log::add('Freebox_OS', 'debug', '└────────────────────');
