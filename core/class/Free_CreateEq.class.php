@@ -789,7 +789,7 @@ class Free_CreateEq
                 $icon = 'fas fa-handshake';
                 $template = 'Freebox_OS::Partage FTP';
             } else if ($boucle_num == 5) {
-                $name = __('SMBv2', __FILE__);
+                $name = __('Activer SMB2/SMB3', __FILE__);
                 $Logical_ID = 'smbv2_enabled';
                 $icon = 'fab fa-creative-commons-share';
                 $template = 'Freebox_OS::Activer SMBv2';
