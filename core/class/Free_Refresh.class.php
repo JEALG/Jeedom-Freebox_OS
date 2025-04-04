@@ -253,7 +253,6 @@ class Free_Refresh
         $result = $Free_API->universal_get('connexion', null, null, null);
         $para_resultC = array('nb' => 0, 1 => null, 2 => null, 3 => null);
         Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultC, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
-
         //$result = $Free_API->universal_get('connexion', null, null, null);
         if ($result != false) {
             foreach ($EqLogics->getCmd('info') as $Command) {
@@ -554,7 +553,7 @@ class Free_Refresh
 
     private static function refresh_netshare($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null,  $para_Value_calcul = null, $para_Config_eq = null)
     {
-        $list = 'file_share_enabled,print_share_enabled,smbv2_enabled';
+        $list = 'file_share_enabled,print_share_enabled,smbv2_enabled,workgroup,logon_enabled,logon_user';
         $result = $Free_API->universal_get('universalAPI', null, null, 'netshare/samba', true, true, false);
         $para_resultNET = array('nb' => 0, 1 => null, 2 => null, 3 => null);
         Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultNET, $para_LogicalId, $para_Value, $para_Config, $log_Erreur,  $para_Value_calcul, $para_Config_eq = null);

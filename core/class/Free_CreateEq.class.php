@@ -801,6 +801,8 @@ class Free_CreateEq
             $netshare->AddCommand(__('Désactiver', __FILE__) . ' ' . $name, $Logical_ID  . 'Off', 'action', 'other', $template, null, 'SWITCH_OFF', 1, $netshareSTATUS, '', 0, $icon . $color_off, 0, 'default', 'default', $order++, '0', $updateicon, false);
             $boucle_num++;
         }
+        $netshare->AddCommand('Workgroup', 'workgroup', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
+        $netshare->AddCommand(__('Nom d\'utilisateur', __FILE__), 'logon_user', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
         log::add('Freebox_OS', 'debug', '└────────────────────');
     }
     private static function createEq_network_interface($logicalinfo, $templatecore_V4, $order = 0)
