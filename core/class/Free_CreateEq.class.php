@@ -552,11 +552,15 @@ class Free_CreateEq
         $result = $Free_API->universal_get('universalAPI', null, null, 'freeplug', true, true, false);
         if (isset($result['result'])) {
             foreach ($result['result'] as $freeplugs) {
+                $order = 0;
                 foreach ($freeplugs['members'] as $freeplug) {
                     log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('Création Freeplug', __FILE__)) . ' : ' . $freeplug['id']);
                     $FreePlug = Freebox_OS::AddEqLogic($logicalinfo['freeplugName'] . ' - ' . $freeplug['id'], $freeplug['id'], 'default', true, $logicalinfo['freeplugID'], null, null, '*/5 * * * *', null, null, 'system');
-                    $FreePlug->AddCommand(__('Rôle', __FILE__), 'net_role', 'info', 'string',  $templatecore_V4 . 'line', null, 'default', 0, 'default', 'default', 0, 'default', 0, 'default', 'default', 10, '0', $updateicon, false, false, true);
-                    $FreePlug->AddCommand(__('Redémarrer', __FILE__), 'reset', 'action', 'other',  $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, $iconReboot, 0, 'default', 'default',  1, '0', true, false, null, true);
+                    $FreePlug->AddCommand(__('Redémarrer', __FILE__), 'reset', 'action', 'other',  $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, $iconReboot, 0, 'default', 'default',  $order++, '0', true, false, null, true);
+                    $FreePlug->AddCommand(__('Rôle', __FILE__), 'net_role', 'info', 'string',  $templatecore_V4 . 'line', null, 'default', 0, 'default', 'default', 0, 'default', 0, 'default', 'default', $order++, '0', $updateicon, false, false, true);
+                    $FreePlug->AddCommand(__('Modèle', __FILE__), 'model', 'info', 'string',  $templatecore_V4 . 'line', null, 'default', 0, 'default', 'default', 0, 'default', 0, 'default', 'default', $order++, '0', $updateicon, false, false, true);
+                    $FreePlug->AddCommand(__('Statut Ethernet', __FILE__), 'eth_port_status', 'info', 'string',  $templatecore_V4 . 'line', null, 'default', 0, 'default', 'default', 0, 'default', 0, 'default', 'default', $order++, '0', $updateicon, false, false, true);
+                    $FreePlug->AddCommand(__('Freeplug connecté', __FILE__), 'has_network', 'info', 'string',  $templatecore_V4 . 'line', null, 'default', 0, 'default', 'default', 0, 'default', 0, 'default', 'default', $order++, '0', $updateicon, false, false, true);
                 }
             }
         }

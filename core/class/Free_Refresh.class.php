@@ -1028,7 +1028,7 @@ class Free_Refresh
     }
     private static function refresh_freeplug($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null)
     {
-        $list = 'net_role,rx_rate,tx_rate';
+        $list = 'net_role,rx_rate,tx_rate,model,net_id,eth_port_status,has_network';
         $log_Erreur =  (__('Erreur freeplug : Pas de plug avec cet identifiant', __FILE__));
         $para_Value = array('net_role__cco' => (__('Coordinateur', __FILE__)), 'net_role__sta' => (__('Station', __FILE__)));
         $result = $Free_API->universal_get('universalAPI', $EqLogics->getLogicalId(), null, 'freeplug', true, true, false);
