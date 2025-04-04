@@ -298,6 +298,12 @@ class Free_Update
             case "file_share_enabledOff":
                 $Free_API->universal_put(false, 'universalAPI', null, null, 'file_share_enabled', null, 'netshare/samba');
                 break;
+            case "logon_enabledOn":
+                $Free_API->universal_put(true, 'universalAPI', null, null, 'file_share_enabled', null, 'netshare/samba');
+                break;
+            case "logon_enabledOff":
+                $Free_API->universal_put(false, 'universalAPI', null, null, 'file_share_enabled', null, 'netshare/samba');
+                break;
             case "mac_share_enabledOn":
                 $Free_API->universal_put(true, 'universalAPI', null, null, 'enabled', null, 'netshare/afp');
                 break;

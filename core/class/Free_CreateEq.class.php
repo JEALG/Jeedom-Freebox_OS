@@ -807,7 +807,7 @@ class Free_CreateEq
         }
         $order = 100;
         $netshare->AddCommand('Workgroup', 'workgroup', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
-        $netshare->AddCommand(__('Nom d\'utilisateur', __FILE__), 'logon_user', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
+        $netshare->AddCommand(__('Nom Utilisateur', __FILE__), 'logon_user', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
         log::add('Freebox_OS', 'debug', '└────────────────────');
     }
     private static function createEq_network_interface($logicalinfo, $templatecore_V4, $order = 0)

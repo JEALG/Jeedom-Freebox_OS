@@ -112,7 +112,7 @@ class Free_Template
 			)
 		);
 		// Template pour le Mot der passe
-		$return['action']['other']['Mot de passe'] = array(
+		$return['action']['other']['Activer Mot de passe'] = array(
 			'template' => 'tmplicon',
 			'display' => array(
 				'#icon#' => '<i class=\'icon_blue icon fas fa-key\'></i>',
