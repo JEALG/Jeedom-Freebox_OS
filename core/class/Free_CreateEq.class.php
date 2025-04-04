@@ -766,7 +766,7 @@ class Free_CreateEq
 
         $netshare = Freebox_OS::AddEqLogic($logicalinfo['netshareName'], $logicalinfo['netshareID'], 'multimedia', false, null, null, null, '5 */12 * * *', null, null, 'system', true);
         $boucle_num = 1; // 1 = Partage Imprimante - 2 = Partage de fichiers Windows - 3 = Partage Fichier Mac - 4 = Partage Fichier FTP
-        $order = 1;
+
         while ($boucle_num <= 6) {
             if ($boucle_num == 1) {
                 $name = __('Partage Imprimante', __FILE__);
@@ -799,13 +799,14 @@ class Free_CreateEq
                 $icon = 'fas fa-key';
                 $template = 'Freebox_OS::Activer Mot de passe';
             }
+            $order = $boucle_num  + 20;
             log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('Boucle pour Création des commandes', __FILE__)) . ' : ' . $name);
-            $netshareSTATUS = $netshare->AddCommand($name, $Logical_ID, "info", 'binary', null, null, 'SWITCH_STATE', 0, '', '', '', $icon, 0, 'default', 'default', '0', $order, $updateicon, true);
-            $netshare->AddCommand(__('Activer', __FILE__) . ' ' . $name, $Logical_ID . 'On', 'action', 'other', $template, null, 'SWITCH_ON', 1, $netshareSTATUS, '', 0, $icon . $color_on, 0, 'default', 'default', $order++, '0', $updateicon, false);
+            $netshareSTATUS = $netshare->AddCommand($name, $Logical_ID, "info", 'binary', null, null, 'SWITCH_STATE', 0, '', '', '', $icon, 0, 'default', 'default', '0', $boucle_num, $updateicon, true);
+            $netshare->AddCommand(__('Activer', __FILE__) . ' ' . $name, $Logical_ID . 'On', 'action', 'other', $template, null, 'SWITCH_ON', 1, $netshareSTATUS, '', 0, $icon . $color_on, 0, 'default', 'default', $order, '0', $updateicon, false);
             $netshare->AddCommand(__('Désactiver', __FILE__) . ' ' . $name, $Logical_ID  . 'Off', 'action', 'other', $template, null, 'SWITCH_OFF', 1, $netshareSTATUS, '', 0, $icon . $color_off, 0, 'default', 'default', $order++, '0', $updateicon, false);
             $boucle_num++;
         }
-        $order = 100;
+        $order = 200;
         $netshare->AddCommand('Workgroup', 'workgroup', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
         $netshare->AddCommand(__('Nom Utilisateur', __FILE__), 'logon_user', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
         log::add('Freebox_OS', 'debug', '└────────────────────');

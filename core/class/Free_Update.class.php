@@ -234,33 +234,26 @@ class Free_Update
     }
     private static function update_LCD($logicalId, $logicalId_type, $logicalId_eq, $Free_API, $_options)
     {
+        $_enabled = true;
+        $_OFF = substr($logicalId, -3);
+        if ($_OFF == "Off") {
+            $_enabled = FALSE;
+        }
         switch ($logicalId) {
             case 'brightness_action':
                 $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('brightness' => $_options['slider']));
                 break;
             case 'orientation_forcedOn':
             case 'orientation_forcedOff':
-                $orientation_forced = true;
-                if ($logicalId == 'orientation_forcedOff') {
-                    $orientation_forced = false;
-                }
-                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('orientation_forced' => $orientation_forced));
+                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('orientation_forced' => $_enabled));
                 break;
             case 'hide_wifi_keyOn':
             case 'hide_wifi_keyOff':
-                $hide_wifi_key = true;
-                if ($logicalId == 'hide_wifi_keyOff') {
-                    $hide_wifi_key = false;
-                }
-                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('hide_wifi_key' => $hide_wifi_key));
+                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('hide_wifi_key' => $_enabled));
                 break;
             case 'led_strip_enabledOn':
             case 'led_strip_enabledOff':
-                $led_strip_enable = true;
-                if ($logicalId == 'led_strip_enabledOff') {
-                    $led_strip_enable = false;
-                }
-                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('led_strip_enabled' => $led_strip_enable));
+                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('led_strip_enabled' => $_enabled));
                 break;
             case 'led_strip_animation_action':
                 if ($_options['select'] != null) {
@@ -285,42 +278,35 @@ class Free_Update
     }
     private static function update_netshare($logicalId, $logicalId_type, $logicalId_eq, $Free_API, $_options)
     {
+        $_enabled = true;
+        $_OFF = substr($logicalId, -3);
+        if ($_OFF == "Off") {
+            $_enabled = FALSE;
+        }
         switch ($logicalId) {
             case "FTP_enabledOn":
-                $Free_API->universal_put(true, 'universalAPI', null, null, 'enabled', null, 'ftp/config');
-                break;
             case "FTP_enabledOff":
-                $Free_API->universal_put(false, 'universalAPI', null, null, 'enabled', null, 'ftp/config');
+                $Free_API->universal_put($_enabled, 'universalAPI', null, null, 'enabled', null, 'ftp/config');
                 break;
             case "file_share_enabledOn":
-                $Free_API->universal_put(true, 'universalAPI', null, null, 'file_share_enabled', null, 'netshare/samba');
-                break;
             case "file_share_enabledOff":
-                $Free_API->universal_put(false, 'universalAPI', null, null, 'file_share_enabled', null, 'netshare/samba');
+                $Free_API->universal_put($_enabled, 'universalAPI', null, null, 'file_share_enabled', null, 'netshare/samba');
                 break;
             case "logon_enabledOn":
-                $Free_API->universal_put(true, 'universalAPI', null, null, 'logon_enabled', null, 'netshare/samba');
-                break;
             case "logon_enabledOff":
-                $Free_API->universal_put(false, 'universalAPI', null, null, 'logon_enabled', null, 'netshare/samba');
+                $Free_API->universal_put($_enabled, 'universalAPI', null, null, 'logon_enabled', null, 'netshare/samba');
                 break;
             case "mac_share_enabledOn":
-                $Free_API->universal_put(true, 'universalAPI', null, null, 'enabled', null, 'netshare/afp');
-                break;
             case "mac_share_enabledOff":
-                $Free_API->universal_put(false, 'universalAPI', null, null, 'enabled', null, 'netshare/afp');
+                $Free_API->universal_put($_enabled, 'universalAPI', null, null, 'enabled', null, 'netshare/afp');
                 break;
             case "print_share_enabledOn":
-                $Free_API->universal_put(true, 'universalAPI', null, null, 'print_share_enabled', null, 'netshare/samba');
-                break;
             case "print_share_enabledOff":
-                $Free_API->universal_put(false, 'universalAPI', null, null, 'print_share_enabled', null, 'netshare/samba');
+                $Free_API->universal_put($_enabled, 'universalAPI', null, null, 'print_share_enabled', null, 'netshare/samba');
                 break;
             case "smbv2_enabledOn":
-                $Free_API->universal_put(true, 'universalAPI', null, null, 'smbv2_enabled', null, 'netshare/samba');
-                break;
             case "smbv2_enabledOff":
-                $Free_API->universal_put(false, 'universalAPI', null, null, 'smbv2_enabled', null, 'netshare/samba');
+                $Free_API->universal_put($_enabled, 'universalAPI', null, null, 'smbv2_enabled', null, 'netshare/samba');
                 break;
         }
     }
@@ -652,6 +638,11 @@ class Free_Update
         $ID_Player = $logicalId_eq->getlogicalId();
         $ID_Player = str_replace('player_', '', $ID_Player);
         $player_API_VERSION = $logicalId_eq->getConfiguration('player_API_VERSION');
+        $_enabled = true;
+        $_OFF = substr($logicalId, -3);
+        if ($_OFF == "Off") {
+            $_enabled = FALSE;
+        }
         switch ($logicalId) {
             case "app":
                 $option = array(
@@ -680,13 +671,9 @@ class Free_Update
                 break;
             case 'muteOn':
             case 'muteOff':
-                $mute = true;
-                if ($logicalId == 'muteOff') {
-                    $mute = false;
-                }
-                log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Mute', __FILE__)) . ' : ' . $mute);
+                log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Mute', __FILE__)) . ' : ' . $_enabled);
                 $option = array(
-                    "mute" => $mute
+                    "mute" => $_enabled
                 );
                 $playerURL = '/api/' . $player_API_VERSION . '/control/volume/';
                 $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'PUT', $option);
@@ -713,8 +700,6 @@ class Free_Update
                 $playerURL = '/api/' . $player_API_VERSION . '/control/open';
                 $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'POST', $option);
                 break;
-
-
             default:
                 $Free_API->universal_put($logicalId, 'player_ID_ctrl', $logicalId_eq->getConfiguration('action'), null, $_options);
                 break;
@@ -733,15 +718,18 @@ class Free_Update
     }
     private static function update_system($logicalId, $logicalId_type, $logicalId_eq, $Free_API, $_options)
     {
+        $_enabled = true;
+        $_OFF = substr($logicalId, -3);
+        if ($_OFF == "Off") {
+            $_enabled = FALSE;
+        }
         switch ($logicalId) {
             case "reboot":
                 $Free_API->universal_put(null, 'reboot', null, null, null);
                 break;
             case '4GOn':
-                $Free_API->universal_put(1, 'universalAPI', null, null, 'enabled', null, 'connection/aggregation');
-                break;
             case '4GOff':
-                $Free_API->universal_put(0, 'universalAPI', null, null, 'enabled', null, 'connection/aggregation');
+                $Free_API->universal_put($_enabled, 'universalAPI', null, null, 'enabled', null, 'connection/aggregation');
                 break;
             case 'avalaible':
                 $Free_API->universal_put(null, 'universal_put', null, null, 'lang', 'POST', array('lang' => $_options['select']), null);
