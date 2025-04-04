@@ -254,7 +254,7 @@ class Free_Refresh
         $para_resultC = array('nb' => 0, 1 => null, 2 => null, 3 => null);
         Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultC, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
 
-        $result = $Free_API->universal_get('connexion', null, null, null);
+        //$result = $Free_API->universal_get('connexion', null, null, null);
         if ($result != false) {
             foreach ($EqLogics->getCmd('info') as $Command) {
                 if (is_object($Command)) {
