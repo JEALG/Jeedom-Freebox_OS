@@ -111,7 +111,7 @@ class Free_Template
 				'#_time_widget_#' => '1'
 			)
 		);
-		// Template pour le Mot der passe
+		// Template pour le Mot de passe
 		$return['action']['other']['Activer Mot de passe'] = array(
 			'template' => 'tmplicon',
 			'display' => array(
@@ -120,6 +120,18 @@ class Free_Template
 			'replace' => array(
 				'#_icon_on_#' => '<i class=\'icon_green icon fas fa-key\'></i>',
 				'#_icon_off_#' => '<i class=\'icon_red icon fas fa-key\'></i>',
+				'#_time_widget_#' => '1'
+			)
+		);
+		// Template pour Autoriser les accès invité
+		$return['action']['other']['Autoriser Invité'] = array(
+			'template' => 'tmplicon',
+			'display' => array(
+				'#icon#' => '<i class=\'icon_blue icon fab fa-slideshare\'></i>',
+			),
+			'replace' => array(
+				'#_icon_on_#' => '<i class=\'icon_green icon fab fa-slideshare\'></i>',
+				'#_icon_off_#' => '<i class=\'icon_red icon fab fa-slideshare\'></i>',
 				'#_time_widget_#' => '1'
 			)
 		);

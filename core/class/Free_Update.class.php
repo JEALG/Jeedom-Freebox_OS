@@ -300,6 +300,10 @@ class Free_Update
             case "mac_share_enabledOff":
                 $Free_API->universal_put($_enabled, 'universalAPI', null, null, 'enabled', null, 'netshare/afp');
                 break;
+            case "guest_allowOn":
+            case "guest_allowOff":
+                $Free_API->universal_put($_enabled, 'universalAPI', null, null, 'guest_allow', null, 'netshare/afp');
+                break;
             case "print_share_enabledOn":
             case "print_share_enabledOff":
                 $Free_API->universal_put($_enabled, 'universalAPI', null, null, 'print_share_enabled', null, 'netshare/samba');

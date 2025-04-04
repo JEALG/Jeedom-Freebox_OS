@@ -559,7 +559,7 @@ class Free_Refresh
         Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultNET, $para_LogicalId, $para_Value, $para_Config, $log_Erreur,  $para_Value_calcul, $para_Config_eq = null);
 
         $para_LogicalId = array('enabled' => 'mac_share_enabled');
-        $list = 'enabled';
+        $list = 'enabled,server_type,guest_allow';
         $result = $Free_API->universal_get('universalAPI', null, null, 'netshare/afp', true, true, false);
         $para_resultNET = array('nb' => 0, 1 => null, 2 => null, 3 => null);
         Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultNET, $para_LogicalId, $para_Value, $para_Config, $log_Erreur,  $para_Value_calcul, $para_Config_eq = null);

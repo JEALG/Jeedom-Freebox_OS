@@ -767,7 +767,7 @@ class Free_CreateEq
         $netshare = Freebox_OS::AddEqLogic($logicalinfo['netshareName'], $logicalinfo['netshareID'], 'multimedia', false, null, null, null, '5 */12 * * *', null, null, 'system', true);
         $boucle_num = 1; // 1 = Partage Imprimante - 2 = Partage de fichiers Windows - 3 = Partage Fichier Mac - 4 = Partage Fichier FTP
 
-        while ($boucle_num <= 6) {
+        while ($boucle_num <= 7) {
             if ($boucle_num == 1) {
                 $name = __('Partage Imprimante', __FILE__);
                 $Logical_ID = 'print_share_enabled';
@@ -798,6 +798,11 @@ class Free_CreateEq
                 $Logical_ID = 'logon_enabled';
                 $icon = 'fas fa-key';
                 $template = 'Freebox_OS::Activer Mot de passe';
+            } else if ($boucle_num == 7) {
+                $name = __('Autoriser les accès invité', __FILE__);
+                $Logical_ID = 'guest_allow';
+                $icon = 'fab fa-slideshare';
+                $template = 'Freebox_OS::Autoriser Invité';
             }
             $order = $boucle_num  + 20;
             log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('Boucle pour Création des commandes', __FILE__)) . ' : ' . $name);
@@ -809,6 +814,7 @@ class Free_CreateEq
         $order = 200;
         $netshare->AddCommand('Workgroup', 'workgroup', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
         $netshare->AddCommand(__('Nom Utilisateur', __FILE__), 'logon_user', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
+        $netshare->AddCommand('Icône finder', 'server_type', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
         log::add('Freebox_OS', 'debug', '└────────────────────');
     }
     private static function createEq_network_interface($logicalinfo, $templatecore_V4, $order = 0)
