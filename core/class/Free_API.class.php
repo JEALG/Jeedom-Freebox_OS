@@ -203,6 +203,8 @@ class Free_API
             //CURLOPT_URL : l'url cible que la requête devra appeler (une chaine de caractères typée URL).
             $url = $this->serveur . $api_url;
             curl_setopt($ch, CURLOPT_URL, $url);
+            // Force une nouvelle connection
+            curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
             //CURLOPT_HEADER : si nous souhaitons ou non récupérer les informations de l'entête (boolean). 
             curl_setopt($ch, CURLOPT_HEADER, false);
             //CURLOPT_RETURNTRANSFER : si nous voulons ou non récupérer le contenu de la requête appelée (boolean). 
