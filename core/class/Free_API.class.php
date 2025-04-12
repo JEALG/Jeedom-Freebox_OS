@@ -182,6 +182,7 @@ class Free_API
     {
         try {
             $session_token = cache::byKey('Freebox_OS::SessionToken');
+            $url = $this->serveur . $api_url;
             while ($session_token->getValue('') == '') {
                 $session_token = cache::byKey('Freebox_OS::SessionToken');
             }
@@ -198,10 +199,8 @@ class Free_API
                 $requetURL = '[Freebox Request Connexion] : ' . $method . ' ' . (__('sur la l\'adresse', __FILE__)) . ' ' . $url  .  $params_log;
                 log::add('Freebox_OS', 'debug', $requetURL);
             };
-
             $ch = curl_init();
             //CURLOPT_URL : l'url cible que la requête devra appeler (une chaine de caractères typée URL).
-            $url = $this->serveur . $api_url;
             curl_setopt($ch, CURLOPT_URL, $url);
             // Force une nouvelle connection
             curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
@@ -219,7 +218,8 @@ class Free_API
             curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
             //
             curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
-
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             if ($method == "POST") {
                 //CURLOPT_POST : si la requête doit utiliser le protocole POST pour sa résolution (boolean). 
                 curl_setopt($ch, CURLOPT_POST, true);
