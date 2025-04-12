@@ -178,40 +178,46 @@ class Free_API
         }
     }
 
-    public function fetch($api_url, $params = array(), $method = 'GET', $log_request = false, $log_result = false)
+    public function fetch($api_url, $params = array(), $method = 'GET', $Type_log = false)
     {
         try {
             $session_token = cache::byKey('Freebox_OS::SessionToken');
             while ($session_token->getValue('') == '') {
                 $session_token = cache::byKey('Freebox_OS::SessionToken');
             }
-
-            if ($log_request  != false) {
+            if (!isset($Type_log['log_request'])) {
+                $Type_log['log_request'] = true;
+            }
+            if ($Type_log['log_request']  != false) {
                 //$requetURL = '[Freebox Request Connexion] : ' . $method . ' ' . (__('sur la l\'adresse', __FILE__)) . ' ' . $this->serveur . $api_url . '(' . json_encode($params) . ')';
                 if (empty($params)) {
                     $params_log = '';
                 } else {
                     $params_log = json_encode($params);
                 }
-                $requetURL = '[Freebox Request Connexion] : ' . $method . ' ' . (__('sur la l\'adresse', __FILE__)) . ' ' . $this->serveur . $api_url  .  $params_log;
+                $requetURL = '[Freebox Request Connexion] : ' . $method . ' ' . (__('sur la l\'adresse', __FILE__)) . ' ' . $url  .  $params_log;
                 log::add('Freebox_OS', 'debug', $requetURL);
             };
+
             $ch = curl_init();
             //CURLOPT_URL : l'url cible que la requête devra appeler (une chaine de caractères typée URL).
-            curl_setopt($ch, CURLOPT_URL, $this->serveur . $api_url);
+            $url = $this->serveur . $api_url;
+            curl_setopt($ch, CURLOPT_URL, $url);
             //CURLOPT_HEADER : si nous souhaitons ou non récupérer les informations de l'entête (boolean). 
             curl_setopt($ch, CURLOPT_HEADER, false);
             //CURLOPT_RETURNTRANSFER : si nous voulons ou non récupérer le contenu de la requête appelée (boolean). 
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            //
+            //Cookie pour la session
             curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+            //Timeout
+            $timeout = 60;
             //CURLOPT_CONNECTTIMEOUT : le délais maximum exprimé en secondes avant l'abandon de la connexion au serveur lors de l'établissement de la connexion (entier). 
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+            //CURLOPT_TIMEOUT : le délais maximum exprimé en secondes avant l'abandon de la résolution de la requête curl lors de son éxécution (entier). 
+            curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
             //
             curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
-            //CURLOPT_TIMEOUT : le délais maximum exprimé en secondes avant l'abandon de la résolution de la requête curl lors de son éxécution (entier). 
 
-            curl_setopt($ch, CURLOPT_TIMEOUT, 60);
             if ($method == "POST") {
                 //CURLOPT_POST : si la requête doit utiliser le protocole POST pour sa résolution (boolean). 
                 curl_setopt($ch, CURLOPT_POST, true);
@@ -227,6 +233,15 @@ class Free_API
                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
             }
             //CURLOPT_HTTPHEADER : un tableau non associatif permettant de modifier des paramètres du header envoyé par la requête (tableau).
+            $headers = [
+                "X-Fbx-App-Auth: " . $session_token->getValue(''),
+                "Content-Type: application/json"
+            ];
+            /* $headers = array(
+                "X-Fbx-App-Auth" =>  $session_token->getValue(''),
+                "Content-Type" => "application/json"
+            );*/
+            //curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("X-Fbx-App-Auth: " . $session_token->getValue('')));
             $content = curl_exec($ch);
             $errorno = 0;
@@ -236,8 +251,10 @@ class Free_API
                 $errorno = curl_errno($ch);
             }
             curl_close($ch);
-
-            if ($log_result  != false) {
+            if (!isset($Type_log['log_result'])) {
+                $Type_log['log_result'] = true;
+            }
+            if ($Type_log['log_result'] != false) {
                 log::add('Freebox_OS', 'debug', '[Freebox Request Result] : ' . $content);
             }
             if ($errorno !== 0) {
@@ -323,7 +340,11 @@ class Free_API
     {
         $API_version = $this->API_version;
         $PortForwardingUrl = '/' . 'api/' . $API_version . '/fw/redir/';
-        $PortForwarding = $this->fetch($PortForwardingUrl, null, "GET", true, true);
+        $Type_log = array(
+            "log_request" =>  true,
+            "log_result" => true
+        );
+        $PortForwarding = $this->fetch($PortForwardingUrl, null, "GET", $Type_log);
         $id = str_replace("ether-", "", $id);
         $id = strtoupper($id);
         log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('Lecture des Ports l\'adresse Mac', __FILE__)) . ' : '  . $Mac . ' - ' . (__('FONCTION', __FILE__)) . ' ' . $fonction . ' - ' . (__('action', __FILE__)) . ' ' . $active);
@@ -353,13 +374,13 @@ class Free_API
             return $result;
         } elseif ($fonction == "PUT") {
             if ($active == 1) {
-                $this->fetch($PortForwardingUrl . $id, array("enabled" => true), $fonction, true, true);
+                $this->fetch($PortForwardingUrl . $id, array("enabled" => true), $fonction, $Type_log);
                 return true;
             } elseif ($active == 0) {
-                $this->fetch($PortForwardingUrl . $id, array("enabled" => false), $fonction, true, true);
+                $this->fetch($PortForwardingUrl . $id, array("enabled" => false), $fonction, $Type_log);
                 return true;
             } elseif ($active == 3) {
-                $this->fetch($PortForwardingUrl . $id, null, "DELETE", true, true);
+                $this->fetch($PortForwardingUrl . $id, null, "DELETE", $Type_log);
                 return true;
             }
         }
@@ -448,9 +469,13 @@ class Free_API
                 $config_log = 'Upload Progress tracking API';
                 break;
         }
-        $result = $this->fetch('/' . $config, $Parameter, $fonction, $log_request, $log_result);
+        $Type_log = array(
+            "log_request" =>  $log_request,
+            "log_result" => $log_result
+        );
+        $result = $this->fetch('/' . $config, $Parameter, $fonction, $Type_log);
         if ($result == 'auth_required') {
-            $result = $this->fetch('/' . $config, $Parameter, $fonction);
+            $result = $this->fetch('/' . $config, $Parameter, $fonction, $Type_log);
         }
         if ($result === 'invalid_api_version') {
             $result = 'invalid_api_version';
@@ -552,6 +577,10 @@ class Free_API
         if ($id != null) {
             $id = $id . '/';
         }
+        $Type_log = array(
+            "log_request" =>  true,
+            "log_result" => true
+        );
         switch ($update) {
             case 'notification_ID':
                 $config = 'api/' . $API_version . '/notif/targets/' . $id;
@@ -674,9 +703,9 @@ class Free_API
             }
         }
         if ($update == 'parental' || $update == 'VM') {
-            $return = $this->fetch('/' . $config . '', $parametre, $fonction, true, true);
+            $return = $this->fetch('/' . $config . '', $parametre, $fonction, $Type_log);
         } else if ($update == 'universal_put') {
-            $return = $this->fetch('/' . $config,  $_options_2, $fonction, true, true);
+            $return = $this->fetch('/' . $config,  $_options_2, $fonction, $Type_log);
             if (isset($return['success'])) {
                 $return_ID = $return['success'];
             } else {
@@ -684,11 +713,11 @@ class Free_API
             }
             return $return_ID;
         } else if ($update == 'set_tiles') {
-            $return = $this->fetch('/' . $config . $nodeId . '/' . $id, $parametre, "PUT", true, true);
+            $return = $this->fetch('/' . $config . $nodeId . '/' . $id, $parametre, "PUT", $Type_log);
         } else if ($_options == 'mac_filter') {
-            $return = $this->fetch('/' . $config  . '/' . $id, $parametre, $fonction, true, true);
+            $return = $this->fetch('/' . $config  . '/' . $id, $parametre, $fonction, $Type_log);
         } else if ($update == 'phone') {
-            $return = $this->fetch('/' . $config . '/', null, $fonction, true, true);
+            $return = $this->fetch('/' . $config . '/', null, $fonction, $Type_log);
         } else {
             if ($config_log != null) {
                 log::add('Freebox_OS', 'debug', '───▶︎ ' . $config_log . ' ' . (__('avec la valeur', __FILE__)) . ' : ' . $parametre);
@@ -698,7 +727,7 @@ class Free_API
             } else {
                 $requet = null;
             }
-            $return = $this->fetch('/' . $config . '/', $requet, $fonction, true, true);
+            $return = $this->fetch('/' . $config . '/', $requet, $fonction, $Type_log);
 
             if ($return === false) {
                 return false;
@@ -847,7 +876,11 @@ class Free_API
         $API_version = $this->API_version;
         $whitelist = null;
         $blacklist = null;
-        $result = $this->fetch('/api/' . $API_version . '/wifi/mac_filter/', null, null, true, true);
+        $Type_log = array(
+            "log_request" =>  true,
+            "log_result" => true
+        );
+        $result = $this->fetch('/api/' . $API_version . '/wifi/mac_filter/', null, null, $Type_log);
         if ($result === false)
             return false;
         if ($result['success']) {
