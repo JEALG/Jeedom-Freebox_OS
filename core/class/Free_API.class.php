@@ -227,9 +227,6 @@ class Free_API
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
             }
             if ($params) {
-                // Pour test uniquement cela sort dans les logs http.error
-                //echo  json_encode($params);
-                //$enc64_param = base64_encode($params);
                 //CURLOPT_POSTFIELDS : le tableau de paramètres à assigner à une requête POST (tableau associatif). 
                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
             }
