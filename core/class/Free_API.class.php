@@ -190,7 +190,6 @@ class Free_API
                 $Type_log['log_request'] = true;
             }
             if ($Type_log['log_request']  != false) {
-                //$requetURL = '[Freebox Request Connexion] : ' . $method . ' ' . (__('sur la l\'adresse', __FILE__)) . ' ' . $this->serveur . $api_url . '(' . json_encode($params) . ')';
                 if (empty($params)) {
                     $params_log = '';
                 } else {
