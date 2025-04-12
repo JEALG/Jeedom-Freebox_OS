@@ -662,10 +662,7 @@ class Free_Update
                 $option = array(
                     "url" =>  $channel
                 );
-                /*$option = array(
-                    "url" => $channel
-                );*/
-                $playerURL = '/api/' . $player_API_VERSION . '/control/open/';
+                $playerURL = '/api/' . $player_API_VERSION . '/control/open';
                 $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'POST', $option);
                 break;
             case "mediactrl":

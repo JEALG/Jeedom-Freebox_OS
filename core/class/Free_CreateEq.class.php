@@ -1040,10 +1040,10 @@ class Free_CreateEq
     }*/
     private static function createEq_system_standby($logicalinfo, $templatecore_V4, $order = 1, $system = null)
     {
-        log::add('Freebox_OS', 'debug', '|:fg-success:───▶︎ ' . (__('Ajout des commandes spécifiques pour l\'équipement', __FILE__)) . ' ::/fg: ' .  $logicalinfo['systemName'] . ' - Mode Standby Disponible');
         if ($system != null) {
             $Free_API = new Free_API();
             $result = $Free_API->universal_get('system', null, null, null, true, true, null);
+            log::add('Freebox_OS', 'debug', '|:fg-success:───▶︎ ' . (__('Ajout des commandes spécifiques pour l\'équipement', __FILE__)) . ' ::/fg: ' .  $logicalinfo['systemName'] . ' - Mode Standby Disponible');
             if (isset($result['model_info']['has_standby'])) {
                 $system->AddCommand(__('Mode Standby disponible', __FILE__), 'has_standby', 'info', 'binary',  $templatecore_V4 . 'line', null, null, 0, 'default', 'model_info',  0, null, 0, 'default', 'default',  $order++, '0', null, true, null, null, null, null, null, null, null, null, null, true, null, null, null, null, null, null, null, null, null, null);
             } else {
@@ -1053,6 +1053,12 @@ class Free_CreateEq
                 $system->AddCommand(__('Mode Veille Wifi', __FILE__), 'has_eco_wifi', 'info', 'binary',  $templatecore_V4 . 'line', null, null, 0, 'default', 'model_info',  0, null, 0, 'default', 'default',  $order++, '0', null, true, null, null, null, null, null, null, null, null, null, true, null, null, null, null, null, null, null, null, null, null);
             } else {
                 log::add('Freebox_OS', 'debug', '|:fg-success:───▶︎ ' . (__('Mode Veille Wifi pas disponible', __FILE__)) . ':/fg:');
+            }
+            log::add('Freebox_OS', 'debug', '|:fg-success:───▶︎ ' . (__('Ajout des commandes spécifiques pour l\'équipement', __FILE__)) . ' ::/fg: ' .  $logicalinfo['systemName'] . ' - USB3');
+            if (isset($result['usb3_enable'])) {
+                $system->AddCommand(__('Support USB3', __FILE__), 'usb3_enable', 'info', 'string',  $templatecore_V4 . 'line', null, null, 1, 'default', null, 0,  'default', 0, 'default', 'default',  $order++, '0', null, true, null, true, null, null, null, null, null, null, null, true, null, null, null, null, null, null, null, null, null, null);
+            } else {
+                log::add('Freebox_OS', 'debug', '|:fg-success:───▶︎ ' . (__('Support USB3 disponible', __FILE__)) . ':/fg:');
             }
         }
     }
@@ -1096,14 +1102,14 @@ class Free_CreateEq
                 $result_SP = $Free_API->universal_get('system', null, $boucle_update, null, true, true, false);
                 if ($boucle_num == 3) {
                     if (isset(($result_SP['has_expansions']))) {
-                        log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Module expansions disponible', __FILE__)) . ':/fg:');
+                        log::add('Freebox_OS', 'info', '|:fg-info:───▶︎ ' . (__('Module expansions disponible', __FILE__)) . ':/fg:');
                     } else {
-                        log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Module expansions non disponible', __FILE__)) . ':/fg:');
+                        log::add('Freebox_OS', 'info', '|:fg-info:───▶︎ ' . (__('Module expansions non disponible', __FILE__)) . ':/fg:');
                         break;
                     }
                 }
                 if ($result_SP != false) {
-                    log::add('Freebox_OS', 'debug', '|:fg-warning: ───▶︎ ' . (__('Boucle pour la mise à jour', __FILE__)) . ' ::/fg: ' . $boucle_update);
+                    log::add('Freebox_OS', 'debug', '|:fg-warning:───▶︎ ' . (__('Boucle pour la mise à jour', __FILE__)) . ' ::/fg: ' . $boucle_update);
 
                     foreach ($result_SP  as $Equipement) {
                         if ($Equipement != null) {

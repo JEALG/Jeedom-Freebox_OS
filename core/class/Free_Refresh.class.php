@@ -617,7 +617,7 @@ class Free_Refresh
         Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultSY, $para_LogicalId, $para_Value, $para_Config, $log_Erreur,  $para_Value_calcul, $para_Config_eq = null);
         $para_LogicalId = null;
 
-        $list = 'firmware_version,mac,uptime,board_name,info,serial,disk_status';
+        $list = 'firmware_version,mac,uptime,board_name,info,serial,disk_status,usb3_enable';
         $para_Value_calcul  = array('uptime' => '_TIME_');
         $para_Config = array('board_name' => 'TYPE_FREEBOX', 'firmware_version' => 'TYPE_FIRMWARE');
         $para_Value = array('disk_status__not_detected_' => (__('Le disque n\'a pas été détecté', __FILE__)), 'disk_status__disabled' => (__('Le disque est désactivé', __FILE__)), 'disk_status__initializing' => (__('Le disque est en cours d\'initialisation', __FILE__)), 'disk_status__error' => (__('Le disque n\'a pas pu être monté', __FILE__)), 'disk_status__active' => (__('Le disque est prêt', __FILE__)));

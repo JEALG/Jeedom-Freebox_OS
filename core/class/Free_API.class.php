@@ -215,6 +215,11 @@ class Free_API
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
             //CURLOPT_TIMEOUT : le délais maximum exprimé en secondes avant l'abandon de la résolution de la requête curl lors de son éxécution (entier). 
             curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+            /*if (preg_match('`^https://`i', $url)) {
+                // here you can force TLS verification
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            }*/
             //
             curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
@@ -222,7 +227,8 @@ class Free_API
             if ($method == "POST") {
                 //CURLOPT_POST : si la requête doit utiliser le protocole POST pour sa résolution (boolean). 
                 curl_setopt($ch, CURLOPT_POST, true);
-            } elseif ($method == "DELETE" || $method == "PUT") {
+            }
+            if ($method == "DELETE" || $method == "PUT" ||  $method == "POST" || $method == "GET") {
                 //CURLOPT_CUSTOMREQUEST : pour forcer le format de la commande HTTP (chaine de caractères, PUT,GET,POST,CONNECT,HEAD,etc.).
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
             }
