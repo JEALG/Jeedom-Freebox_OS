@@ -261,41 +261,23 @@ class Free_API
                 log::add('Freebox_OS', 'debug', '[Freebox Request Result] : ' . $content);
             }
             if ($errorno !== 0) {
-                return '[WARNING] Erreur de connexion cURL vers ' . $this->serveur . $api_url . ': ' . $error;
+                return '[WARNING] ' . (__('Erreur de connexion cURL vers', __FILE__)) . ' ' . $this->serveur . $api_url . ': ' . $error;
             } else {
                 $result = json_decode($content, true);
                 if ($result == null) return false;
                 if (isset($result['success']) || isset($result['error_code'])) {
                     if (!$result['success']) {
-                        if ($result['error_code'] == "insufficient_rights" || $result['error_code'] == 'missing_right') {
-                            log::add('Freebox_OS', 'error', 'Erreur Droits : '  . $result['msg']);
+                        $msg = $this->msg_box($result['error_code'], $result['msg']);
+                        log::add('Freebox_OS', $msg['type_log'], $msg['msg_box1'] . ' : ' . $result['error_code']);
+                        if ($msg['return_result'] == false) {
                             return false;
-                        } else if ($result['error_code'] == "auth_required") {
-                            log::add('Freebox_OS', 'Debug', (__('[Redémarrage session à cause de l\'erreur]', __FILE__)) . ' : ' . $result['error_code']);
+                        } else if ($msg['return_result'] == 'auth_required') {
                             $this->close_session();
                             $this->getFreeboxOpenSessionData();
-                            log::add('Freebox_OS', 'Debug', (__('[Redémarrage session Terminée à cause de l\'erreur]', __FILE__)) . ' : ' . $result['error_code']);
-                            $result = 'auth_required';
+                            log::add('Freebox_OS', $msg['type_log'], $msg['msg_box2'] . ' : ' . $result['error_code']);
                             return $result;
-                        } else if ($result['error_code'] == 'denied_from_external_ip') {
-                            log::add('Freebox_OS', 'error', (__('Erreur Accès', __FILE__)) . ' : '  . $result['msg']);
-                            return false;
-                        } else if ($result['error_code'] == 'new_apps_denied' || $result['error_code'] == 'apps_denied') {
-                            log::add('Freebox_OS', 'error', (__('Erreur Application', __FILE__)) . ' : '  . $result['msg']);
-                            return false;
-                        } else if ($result['error_code'] == 'invalid_token' || $result['error_code'] == 'pending_token') {
-                            log::add('Freebox_OS', 'error', (__('Erreur Token', __FILE__)) . ' : ' . $result['msg']);
-                            return false;
-                        } else if ($result['error_code'] == 'invalid_api_version') {
-                            log::add('Freebox_OS', 'error', (__('API NON COMPATIBLE', __FILE__)) . ' : ' . $result['msg'] . ' - ' . $requetURL);
-                            $result = $result['error_code'];
+                        } else if ($msg['return_result'] == 'result') {
                             return $result;
-                        } else if ($result['error_code'] == "invalid_request" || $result['error_code'] == 'ratelimited') {
-                            log::add('Freebox_OS', 'error', (__('Erreur AUTRE', __FILE__)) . ' : '  . $result['msg']);
-                            return false;
-                        } else if ($result['error_code'] == "no_such_vm") {
-                            log::add('Freebox_OS', 'error', (__('Erreur VM', __FILE__)) . ' : '  . $result['msg']);
-                            return false;
                         }
                     }
                 }
@@ -304,6 +286,70 @@ class Free_API
         } catch (Exception $e) {
             log::add('Freebox_OS', 'error', '[Freebox Request] : '  . $e->getCode());
         }
+    }
+    private static function msg_box($error_code, $msg = null)
+    {
+        $msg_box2 = null;
+        $return_result = false;
+        $type_log = 'Error';
+        switch ($error_code) {
+            case "insufficient_rights":
+            case "missing_right":
+                $msg_box1 = (__('Erreur Autorisation : Les autorisations de votre application ne vous permettent pas d\'accéder à cette API', __FILE__));
+                break;
+            case "auth_required":
+                $msg_box1 = (__('[Redémarrage session à cause de l\'erreur]', __FILE__));
+                $msg_box2 = (__('[Redémarrage session Terminée à cause de l\'erreur]', __FILE__));
+                $return_result = 'auth_required';
+                $type_log = 'Debug';
+                break;
+            case "denied_from_external_ip":
+                $msg_box1 = (__('Erreur Accès : Vous essayez d\'obtenir un Token d\'application depuis une adresse IP distante', __FILE__));
+                break;
+            case "nosta":
+                if ($msg == 'Erreur freeplug : Pas de plug avec cet identifiant') {
+                    $type_log = 'Debug';
+                    $msg_box1 = (__('Erreur Freeplug : Pas de Plug avec cet identifiant', __FILE__));
+                } else {
+                    $msg_box1 = (__('[Message inconnue]', __FILE__));
+                }
+                break;
+            case "new_apps_denied":
+                $msg_box1 = (__('Erreur Application : L\'application a été désactivé', __FILE__));
+                break;
+            case "apps_denied":
+                $msg_box1 = (__('Erreur Application : L\'accès à l\'API depuis les applications a été désactivé', __FILE__));
+                break;
+            case "invalid_token":
+                $msg_box1 =  (__('Erreur : Le Token que vous essayez d\'utiliser est non valide ou a été révoqué', __FILE__));
+                break;
+            case "pending_token":
+                $msg_box1 =  (__('Erreur : Le Token que vous essayez d\'utiliser n\'a pas encore été validé par l\'utilisateur', __FILE__));
+                break;
+            case "invalid_api_version":
+                $msg_box1 = (__('API NON COMPATIBLE', __FILE__));
+                $return_result = 'result';
+                break;
+            case "invalid_request":
+                $msg_box1 =  (__('Requête non valide : Impossible d\'analyser JSON', __FILE__));
+                break;
+            case "ratelimited":
+                $msg_box1 =  (__('Erreur AUTRE', __FILE__));
+                break;
+            case "no_such_vm":
+                $msg_box1 = (__('Erreur VM : La VM n\'existe pas ou l\'application n\'ai pas comptatible avec la BOX', __FILE__));
+                break;
+            default:
+                $msg_box1 = (__('[Message inconnue]', __FILE__));
+                break;
+        }
+        $msgbox = array(
+            'msg_box1' => $msg_box1,
+            'msg_box2' => $msg_box2,
+            'return_result' => $return_result,
+            'type_log' => $type_log
+        );
+        return $msgbox;
     }
 
     public function close_session()
