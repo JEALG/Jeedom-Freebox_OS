@@ -275,7 +275,7 @@ class Free_API
                             $this->close_session();
                             $this->getFreeboxOpenSessionData();
                             log::add('Freebox_OS', $msg['type_log'], $msg['msg_box2'] . ' : ' . $result['error_code']);
-                            return $result;
+                            $result = 'auth_required';
                         } else if ($msg['return_result'] == 'result') {
                             return $result;
                         }
