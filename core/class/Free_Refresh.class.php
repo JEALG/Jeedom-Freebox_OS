@@ -963,6 +963,7 @@ class Free_Refresh
     private static function refresh_player($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null)
     {
         log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . (__('Le statut du Player est-il disponible', __FILE__)) . ' ? :/fg:: [  ' . $EqLogics->getConfiguration('player') . '  ]');
+        $IP_update = null;
         $player_API_VERSION = $EqLogics->getConfiguration('player_API_VERSION');
         if ($EqLogics->getConfiguration('player') == 'OK' && $EqLogics->getConfiguration('player_MAC') != 'MAC') {
             $results_playerID = $Free_API->universal_get('universalAPI', null, null, 'player/' . $EqLogics->getConfiguration('action') . '/api/' . $player_API_VERSION . '/status', true, true, false);
@@ -1008,6 +1009,7 @@ class Free_Refresh
                 $para_Config_eq = array('api_version' => 'player_API_VERSION');
                 Free_Refresh::refresh_VALUE($EqLogics, $results_player, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul, $Value_calcul, $para_Config_eq);
                 $results_player_ID = $results_player['mac'];
+                $IP_update = true;
             } else {
                 $results_player_ID = $results_player['id'];
             }
@@ -1022,6 +1024,24 @@ class Free_Refresh
                 $para_Config_eq = array('api_version' => 'player_API_VERSION');
                 Free_Refresh::refresh_VALUE($EqLogics, $results_player, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul, $Value_calcul, $para_Config_eq);
                 $results_player_ID = $results_player['mac'];
+                $IP_update = true;
+            }
+        }
+        if ($IP_update == true) {
+            // Récupération IP
+            log::add('Freebox_OS', 'debug', ':fg-success:───▶︎ ' . (__('Récupération de l\'adresse IP', __FILE__)) . ':/fg:');
+            $_networkinterface = 'pub' . '/ether-' . $results_player_ID;
+            $result_network_ping = $Free_API->universal_get('universalAPI', null, null, 'lan/browser/' . $_networkinterface, true, true, false);
+            $result_network_ping = $result_network_ping['l3connectivities'];
+            foreach ($result_network_ping as $result_network_IP) {
+                if ($result_network_IP['af'] == 'ipv4') {
+                    $list = 'addr';
+                    $para_Value_calcul  = null;
+                    $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
+                    $Value_calcul = null;
+                    //log::add('Freebox_OS', 'debug', ':fg-success:───▶︎ ' . (__('Récupération de l\'adresse IP', __FILE__)) . ' : ' . $result_network_IP['af'] . ':/fg:');
+                    Free_Refresh::refresh_VALUE($EqLogics, $result_network_IP, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul, $Value_calcul, $para_Config_eq);
+                }
             }
         }
     }
@@ -1153,10 +1173,8 @@ class Free_Refresh
                 //log::add('Freebox_OS', 'debug', ':fg-info:Niveau 3 ───▶︎ :/fg:' . $para_result[1] . '/' . $para_result[2] . '/' . $para_result[3]);
             }
         }
-
         if ($result != false) {
             $fields = explode(',', $list);
-
             foreach ($EqLogics->getCmd('info') as $Cmd) {
                 foreach ($fields as $fieldname) {
                     $fielLogicalId = $fieldname;

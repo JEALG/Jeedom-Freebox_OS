@@ -120,6 +120,7 @@ class Free_CreateTV
                                 $EqLogic->AddCommand(__('Mute On', __FILE__), 'muteOn', 'action', 'other', 'core::toggleLine', null, 'SWITCH_ON', 1,  $Mute, 'mute', 0, $iconmuteon, 1, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
                                 $EqLogic->AddCommand(__('Mute Off', __FILE__), 'muteOff', 'action', 'other', 'core::toggleLine', null, 'SWITCH_OFF', 1,  $Mute, 'mute', 0, $iconmuteoff, 1, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
                                 $EqLogic->AddCommand(__('Redémarrage', __FILE__), 'reboot', 'action', 'other',  $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, $iconReboot, true, 'default', 'default',   $order++, '0', true, null, null, true, null, null, null, null, null, null, true, null, null, null, null, null, null, null, null, null, null);
+                                $EqLogic->AddCommand(__('Adresse IPV4 du player', __FILE__), 'addr', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'dafault', $order++, '0', false, false);
                             }
                         }
                     } else {
