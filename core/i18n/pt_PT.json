@@ -343,6 +343,7 @@
     "plugins\/Freebox_OS\/core\/class\/Free_CreateTV.class.php": {
         "API Disponible": "API disponível",
         "AUCUNE INFO supplémentaire disponible pour le player ou absence d\\'ID": "NÃO existe INFO adicional disponível para o leitor ou não existe ID",
+        "Adresse IPV4 du player": "Endereço IPV4 do leitor",
         "Allumer la TV avec la dernière chaine ": "Ligar a televisão com o canal mais recente",
         "CONFIGURATION PLAYER": "LEITOR DE CONFIGURAÇÃO",
         "Choix de la chaîne": "Escolha do canal",
@@ -452,6 +453,7 @@
         "Pluie": "Chuva",
         "RESULTAT Requête pas correct ou Pas d\\'appareil trouvé": "RESULTADO A consulta não está correta ou Nenhum dispositivo encontrado",
         "Respiration": "Respiração",
+        "Récupération de l\\'adresse IP": "Recuperação de endereços IP",
         "Récupération des valeurs du Système": "Recuperação de valores do sistema",
         "SUPPRESSION": "APAGAR",
         "Station": "Estação",
