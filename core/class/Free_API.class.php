@@ -198,7 +198,6 @@ class Free_API
                 $requetURL = '[Freebox Request Connexion] : ' . $method . ' ' . (__('sur la l\'adresse', __FILE__)) . ' : ' . $url  .  $params_log;
                 $requettoken = '[Token] : ' . $session_token->getValue('');
                 log::add('Freebox_OS', 'debug', $requetURL);
-                log::add('Freebox_OS', 'debug', $requettoken);
             };
             $ch = curl_init();
             //CURLOPT_URL : l'url cible que la requête devra appeler (une chaine de caractères typée URL).
@@ -217,13 +216,6 @@ class Free_API
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
             //CURLOPT_TIMEOUT : le délais maximum exprimé en secondes avant l'abandon de la résolution de la requête curl lors de son éxécution (entier). 
             curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
-            // a intégrer uniquement si la partie TLS est activé
-            /*if (preg_match('`^https://`i', $url)) {
-                // here you can force TLS verification
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-            }*/
-            //
             curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -240,12 +232,13 @@ class Free_API
                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
             }
             //CURLOPT_HTTPHEADER : un tableau non associatif permettant de modifier des paramètres du header envoyé par la requête (tableau).
-            $headers = [
-                "X-Fbx-App-Auth: " . $session_token->getValue(''),
-                "Content-Type: application/json"
-            ];
-            //curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("X-Fbx-App-Auth: " . $session_token->getValue('')));
+            $token =  $session_token->getValue('');
+            $headers = array("Content-Type: application/json", "X-Fbx-App-Auth: $token");
+            curl_setopt($ch, CURLOPT_VERBOSE, true);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+            //curl_setopt($ch, CURLOPT_HTTPHEADER, array("X-Fbx-App-Auth: " . $session_token->getValue('')));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             $content = curl_exec($ch);
             $errorno = 0;
             //Contrôler la présence d'erreur fatale dans l'éxécution de la requête par curl en php
