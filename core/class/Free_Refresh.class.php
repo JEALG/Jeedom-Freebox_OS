@@ -973,12 +973,7 @@ class Free_Refresh
                 $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
                 $result = $results_playerID;
                 Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
-                if (isset($results_playerID['foreground_app']['context']['channel'])) {
-                    $list = 'channelNumber,channelName';
-                    $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
-                    $resultTV = $results_playerID['foreground_app']['context']['channel'];
-                    Free_Refresh::refresh_VALUE($EqLogics, $resultTV, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
-                }
+
                 if (isset($results_playerID['player']['state'])) {
                     $list = 'playback_state';
                     $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
@@ -990,6 +985,12 @@ class Free_Refresh
                 $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
                 $result = $results_player_info;
                 Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
+                if (isset($results_playerID['foreground_app']['context']['channel'])) {
+                    $list = 'channelNumber,channelName';
+                    $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
+                    $resultTV = $results_playerID['foreground_app']['context']['channel'];
+                    Free_Refresh::refresh_VALUE($EqLogics, $resultTV, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
+                }
             } else {
                 log::add('Freebox_OS', 'debug', ':fg-info:' . (__('Le status du Player n\'est pas disponible car le Player n\'est pas joignable', __FILE__)) . ':/fg:');
                 $player_power_state = 'standby';
