@@ -658,7 +658,6 @@ class Free_Update
             case "channel":
                 log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Choix de la Chaîne', __FILE__)) . ' : ' . $_options['slider']);
                 $channel = 'tv:?channel=' . $_options['slider'];
-                //{"url":"tv:?channel=2"}'
                 $option = array(
                     "url" =>  $channel
                 );
@@ -697,7 +696,7 @@ class Free_Update
                 $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'PUT', $option);
                 break;
             case "uuid":
-                $channeluuid = 'app:fr.freebox.tv?' . $_options['select'];
+                $channeluuid = 'tv:?channel.tv?' . $_options['select'];
                 $option = array(
                     "url" =>  $channeluuid
                 );
