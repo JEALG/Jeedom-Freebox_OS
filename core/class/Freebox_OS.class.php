@@ -400,12 +400,6 @@ class Freebox_OS extends eqLogic
 					$EqLogic->setConfiguration('action', $logicalID_equip);
 				}
 			}
-			if ($Player != null) {
-				$EqLogic->setConfiguration('player', $Player);
-				if ($Player_MAC != null) {
-					$EqLogic->setConfiguration('player_MAC', $Player_MAC);
-				}
-			}
 			if ($eq_group != null) {
 				$EqLogic->setConfiguration('eq_group', $eq_group);
 			}
@@ -462,6 +456,9 @@ class Freebox_OS extends eqLogic
 						$EqLogic->setConfiguration('action', $eq_action);
 					}
 				}
+				if ($Player_CONFIG['player_MAC_ADDRESS'] != null) {
+					$EqLogic->setConfiguration('player_MAC_ADDRESS', $Player_CONFIG['player_MAC_ADDRESS']);
+				}
 				log::add('Freebox_OS', 'debug', ':fg-info:| ───▶︎ ' . (__('Configuration spécifique pour les players', __FILE__)) .  ' : :/fg:' . $Player_CONFIG['player_ID_MAC'] . ' / ' . $Player_CONFIG['player_API_VERSION']);
 			}
 		}
@@ -478,7 +475,7 @@ class Freebox_OS extends eqLogic
 		return Free_Template::getTemplate();
 	}
 
-	public function AddCommand($Name, $_logicalId, $Type = 'info', $SubType = 'binary', $Template = null, $unite = null, $generic_type = null, $IsVisible = 1, $link_I = 'default', $link_logicalId = 'default',  $invertBinary_display = '0', $icon = null, $forceLineB = '0', $valuemin = 'default', $valuemax = 'default', $_order = null, $IsHistorized = '0', $forceIcone_widget = false, $repeatevent = 'never', $_logicalId_slider = null, $_iconname = null, $_home_config_eq = null, $_calculValueOffset = null, $_historizeRound = null, $_noiconname = null, $invertSlide = null, $request = null, $_eq_type_home = null, $forceLineA = null, $listValue = null, $updatenetwork = false, $name_connectivity_type = null, $listValue_Update = null, $_display_parameters = null, $invertBinary_config = null)
+	public function AddCommand($Name, $_logicalId, $Type = 'info', $SubType = 'binary', $Template = null, $unite = null, $generic_type = null, $IsVisible = 1, $link_I = 'default', $link_logicalId = 'default',  $invertBinary_display = '0', $icon = null, $forceLineB = '0', $valuemin = 'default', $valuemax = 'default', $_order = null, $IsHistorized = '0', $forceIcone_widget = false, $repeatevent = 'never', $_logicalId_slider = null, $_iconname = null, $_home_config_eq = null, $_calculValueOffset = null, $_historizeRound = null, $_noiconname = null, $invertSlide = null, $request = null, $_eq_type_home = null, $forceLineA = null, $listValue = null, $updatenetwork = false, $name_connectivity_type = null, $listValue_Update = null, $_display_parameters = null, $invertBinary_config = null, $PARATemplate = null)
 	{
 		if ($listValue_Update == true) {
 			log::add('Freebox_OS', 'debug', ':fg-info:| ' . (__('Création Commande', __FILE__)) . ' : :/fg:' . $Name . ' ── LogicalID : ' . $_logicalId . ' ── ' . (__('Mise à jour de la liste de choix avec les valeurs', __FILE__)) . ' : ' . $listValue . ':/fg:');
@@ -526,6 +523,10 @@ class Freebox_OS extends eqLogic
 			if ($Template != null) {
 				$Cmd->setTemplate('dashboard', $Template);
 				$Cmd->setTemplate('mobile', $Template);
+				if ($PARATemplate != null) {
+					$Cmd->setDisplay('parameters', $PARATemplate);
+					log::add('Freebox_OS', 'debug', ':fg-info:| ' . (__('Création Commande', __FILE__)) . ' : :/fg:' . 'TEST');
+				}
 			}
 			$Cmd->setIsVisible($IsVisible);
 			$Cmd->setIsHistorized($IsHistorized);

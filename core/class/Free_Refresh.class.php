@@ -964,18 +964,45 @@ class Free_Refresh
     {
         log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . (__('Le statut du Player est-il disponible', __FILE__)) . ' ? :/fg:: [  ' . $EqLogics->getConfiguration('player') . '  ]');
         $IP_update = null;
+        $results_players = $Free_API->universal_get('universalAPI', null, null, 'player/', true, true, true);
+        $results_players = $results_players['result'];
+        foreach ($results_players as $results_player) {
+            if ($EqLogics->getConfiguration('player_MAC_ADDRESS') == $results_player['mac']) {
+                log::add('Freebox_OS', 'debug', ':fg-success:───▶︎ ' . (__('PLAYER TROUVE', __FILE__)) . ':/fg:');
+                if ($EqLogics->getConfiguration('player_MAC') == 'MAC') {
+                    $list = 'mac,stb_type,device_model,api_version,api_available,reachable,last_time_reachable,uid';
+                } else {
+                    $list = 'mac,api_available,reachable';
+                    // $results_player_ID = $results_player['id'];
+                }
+                $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
+                $para_Value_calcul  = array('last_time_reachable' => '_TRANSLATE_DATE_');
+                $Value_calcul = null;
+                $para_Config_eq = array('api_version' => 'player_API_VERSION');
+                Free_Refresh::refresh_VALUE($EqLogics, $results_player, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul, $Value_calcul, $para_Config_eq);
+                $results_player_ID = $results_player['mac'];
+                $IP_update = true;
+            }
+        }
         $player_API_VERSION = $EqLogics->getConfiguration('player_API_VERSION');
         if ($EqLogics->getConfiguration('player') == 'OK' && $EqLogics->getConfiguration('player_MAC') != 'MAC') {
             $results_playerID = $Free_API->universal_get('universalAPI', null, null, 'player/' . $EqLogics->getConfiguration('action') . '/api/' . $player_API_VERSION . '/status', true, true, false);
             if (isset($results_playerID['power_state'])) {
                 log::add('Freebox_OS', 'debug', ':fg-success:───▶︎ ' . (__('Le status du Player est disponible', __FILE__)) . ':/fg:');
+                //Status
                 $list = 'power_state';
                 $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
                 $result = $results_playerID;
                 Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
+                //Application
+                $list = 'package';
+                $para_Value = array('package__fr.freebox.tv' => 'app:fr.freebox.tv', 'package__fr.freebox.replay' => 'vodservice://replay', 'package__com.netflix' => 'https://www.netflix.com', 'package__com.primevideo' => 'https://www.primevideo.com', 'package__com.youtube.tv' => 'https://www.youtube.com', 'package__fr.freebox.pvr' => 'pvr://', 'package__fr.freebox.radio' => 'app:fr.freebox.radiofr.freebox.radio');
+                $result = $results_playerID['foreground_app'];
+                Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
                 if (isset($results_playerID['player']['state'])) {
                     $list = 'playback_state';
                     $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
+                    $para_Value = array('playback_state__paused' => 'pause', 'playback_state__stopped' => 'stop', 'playback_state__playing' => 'play_pause');
                     $resultTV = $results_playerID['player']['state'];
                     Free_Refresh::refresh_VALUE($EqLogics, $resultTV, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
                 }
@@ -998,35 +1025,7 @@ class Free_Refresh
             $player_power_state = 'KO';
             log::add('Freebox_OS', 'debug', ':fg-info:' . (__('Il n\'est pas possible de récupérer le status du Player', __FILE__)) . ':/fg:');
         }
-        $results_players = $Free_API->universal_get('universalAPI', null, null, 'player/', true, true, true);
-        $results_players = $results_players['result'];
-        foreach ($results_players as $results_player) {
-            if ($EqLogics->getConfiguration('player_MAC') == 'MAC') {
-                $list = 'mac,stb_type,device_model,api_version,api_available,reachable,last_time_reachable,uid';
-                $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
-                $para_Value_calcul  = array('last_time_reachable' => '_TRANSLATE_DATE_');
-                $Value_calcul = null;
-                $para_Config_eq = array('api_version' => 'player_API_VERSION');
-                Free_Refresh::refresh_VALUE($EqLogics, $results_player, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul, $Value_calcul, $para_Config_eq);
-                $results_player_ID = $results_player['mac'];
-                $IP_update = true;
-            } else {
-                $results_player_ID = $results_player['id'];
-            }
-            if ($results_player_ID != $EqLogics->getConfiguration('action')) {
-                continue;
-            } else {
-                log::add('Freebox_OS', 'debug', ':fg-success:───▶︎ ' . (__('PLAYER TROUVE', __FILE__)) . ':/fg:');
-                $list = 'mac,stb_type,device_model,api_version,api_available,reachable,last_time_reachable,uid';
-                $para_Value_calcul  = array('last_time_reachable' => '_TRANSLATE_DATE_');
-                $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
-                $Value_calcul = null;
-                $para_Config_eq = array('api_version' => 'player_API_VERSION');
-                Free_Refresh::refresh_VALUE($EqLogics, $results_player, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul, $Value_calcul, $para_Config_eq);
-                $results_player_ID = $results_player['mac'];
-                $IP_update = true;
-            }
-        }
+
         if ($IP_update == true) {
             // Récupération IP
             log::add('Freebox_OS', 'debug', ':fg-success:───▶︎ ' . (__('Récupération de l\'adresse IP', __FILE__)) . ':/fg:');
