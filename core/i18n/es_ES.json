@@ -4,8 +4,8 @@
         "Aucune methode correspondante à : ": "Ningún método correspondiente a :"
     },
     "plugins\/Freebox_OS\/core\/class\/Free_API.class.php": {
-        "API NON COMPATIBLE": "API NO COMPATIBLE",
         "AUCUN APPEL": "SIN LLAMADA",
+        "Annulation du message d\\'erreur pour le Player avec la version de l\\'API": "Cancelar mensaje de error para Player con versión API",
         "Aucune donnée": "Sin datos",
         "Erreur : Le Token que vous essayez d\\'utiliser est non valide ou a été révoqué": "Error : El token que intenta utilizar no es válido o ha sido revocado",
         "Erreur : Le Token que vous essayez d\\'utiliser n\\'a pas encore été validé par l\\'utilisateur": "Error : El token que intenta utilizar aún no ha sido validado por el usuario",
@@ -23,6 +23,7 @@
         "Fonction": "Función",
         "Fonction 2": "Función 2",
         "La version API est nulle mise en place version provisoire": "La versión de la API no se ha implementado - versión provisional",
+        "La version de l\\'API n\\'est pas compatible": "La versión de la API no es compatible",
         "Lecture des Ports l\\'adresse Mac": "Lectura de puertos de direcciones Mac",
         "Mise à jour de": "Actualización",
         "Mise à jour de : Etat du Wifi": "Actualización de : Estado Wifi",
