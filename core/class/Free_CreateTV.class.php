@@ -61,7 +61,7 @@ class Free_CreateTV
 
                         if ($Equipement['id']) {
                             if ($Equipement['id'] != null) {
-                                $results_playerID = $Free_API->universal_get('universalAPI', null, null, 'player/' . $Equipement['id'] . '/api/v6/status', false, true, false);
+                                $results_playerID = $Free_API->universal_get('universalAPI', null, null, 'player/' . $Equipement['id'] . '/api/' . $player_API_VERSION . '/status', true, true, false);
                                 $player_ID = $Equipement['id'];
                                 if (isset($results_playerID['power_state'])) {
                                     log::add('Freebox_OS', 'debug', '| ───▶︎ :fg-info:' . __('ETAT PLAYER', __FILE__) . ' ::/fg: ' . $results_playerID['power_state']);

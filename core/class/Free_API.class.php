@@ -196,7 +196,6 @@ class Free_API
                     $params_log = json_encode($params);
                 }
                 $requetURL = '[Freebox Request Connexion] : ' . $method . ' ' . (__('sur la l\'adresse', __FILE__)) . ' : ' . $url  .  $params_log;
-                $requettoken = '[Token] : ' . $session_token->getValue('');
                 log::add('Freebox_OS', 'debug', $requetURL);
             };
             $ch = curl_init();
@@ -260,7 +259,7 @@ class Free_API
                 if ($result == null) return false;
                 if (isset($result['success']) || isset($result['error_code'])) {
                     if (!$result['success']) {
-                        $msg = $this->msg_box($result['error_code'], $result['msg']);
+                        $msg = $this->msg_box($result['error_code'], $result['msg'], $api_url);
                         log::add('Freebox_OS', $msg['type_log'], $msg['msg_box1'] . ' : ' . $result['error_code']);
                         if ($msg['return_result'] == false) {
                             return false;
@@ -280,11 +279,17 @@ class Free_API
             log::add('Freebox_OS', 'error', '[Freebox Request] : '  . $e->getCode());
         }
     }
-    private static function msg_box($error_code, $msg = null)
+    private static function msg_box($error_code, $msg = null, $api_url)
     {
         $msg_box2 = null;
         $return_result = false;
-        $type_log = 'Error';
+        if (str_contains($api_url, '/player/') && $error_code == 'invalid_api_version') {
+            $type_log = 'Debug';
+            log::add('Freebox_OS', 'debug', ':fg-warning: ───▶︎ ' . (__('Annulation du message d\'erreur pour le Player avec la version de l\'API', __FILE__))  .  ':/fg:' . ' : ' . $api_url);
+        } else {
+            $type_log = 'Error';
+        }
+
         switch ($error_code) {
             case "insufficient_rights":
             case "missing_right":
@@ -320,7 +325,7 @@ class Free_API
                 $msg_box1 =  (__('Erreur : Le Token que vous essayez d\'utiliser n\'a pas encore été validé par l\'utilisateur', __FILE__));
                 break;
             case "invalid_api_version":
-                $msg_box1 = (__('API NON COMPATIBLE', __FILE__));
+                $msg_box1 = (__('La version de l\'API n\'est pas compatible', __FILE__));
                 $return_result = 'result';
                 break;
             case "invalid_request":
