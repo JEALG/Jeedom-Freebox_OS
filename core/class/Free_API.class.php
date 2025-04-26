@@ -279,7 +279,7 @@ class Free_API
             log::add('Freebox_OS', 'error', '[Freebox Request] : '  . $e->getCode());
         }
     }
-    private static function msg_box($error_code, $msg = null, $api_url)
+    private static function msg_box($error_code, $msg = null, $api_url = null)
     {
         $msg_box2 = null;
         $return_result = false;
