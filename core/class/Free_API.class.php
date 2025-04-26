@@ -332,6 +332,10 @@ class Free_API
             case "no_such_vm":
                 $msg_box1 = (__('Erreur VM : La VM n\'existe pas ou l\'application n\'ai pas comptatible avec la BOX', __FILE__));
                 break;
+            case "nohost":
+                $type_log = 'Debug';
+                $msg_box1 = (__('Pas d\'appareil connecté avec cette adresse MAC', __FILE__));
+                break;
             default:
                 $msg_box1 = (__('[Message inconnue]', __FILE__));
                 break;

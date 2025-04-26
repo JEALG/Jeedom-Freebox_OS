@@ -973,11 +973,16 @@ class Free_Refresh
                 $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
                 $result = $results_playerID;
                 Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
-
                 if (isset($results_playerID['player']['state'])) {
                     $list = 'playback_state';
                     $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
                     $resultTV = $results_playerID['player']['state'];
+                    Free_Refresh::refresh_VALUE($EqLogics, $resultTV, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
+                }
+                if (isset($results_playerID['foreground_app']['context']['channel'])) {
+                    $list = 'channelNumber,channelName';
+                    $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
+                    $resultTV = $results_playerID['foreground_app']['context']['channel'];
                     Free_Refresh::refresh_VALUE($EqLogics, $resultTV, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
                 }
                 $results_player_info = $Free_API->universal_get('universalAPI', null, null, 'player/' . $EqLogics->getConfiguration('action') . '/api/' . $player_API_VERSION . '/control/volume', true, true, false);
@@ -985,12 +990,6 @@ class Free_Refresh
                 $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
                 $result = $results_player_info;
                 Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
-                if (isset($results_playerID['foreground_app']['context']['channel'])) {
-                    $list = 'channelNumber,channelName';
-                    $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
-                    $resultTV = $results_playerID['foreground_app']['context']['channel'];
-                    Free_Refresh::refresh_VALUE($EqLogics, $resultTV, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
-                }
             } else {
                 log::add('Freebox_OS', 'debug', ':fg-info:' . (__('Le status du Player n\'est pas disponible car le Player n\'est pas joignable', __FILE__)) . ':/fg:');
                 $player_power_state = 'standby';
@@ -1033,16 +1032,20 @@ class Free_Refresh
             log::add('Freebox_OS', 'debug', ':fg-success:───▶︎ ' . (__('Récupération de l\'adresse IP', __FILE__)) . ':/fg:');
             $_networkinterface = 'pub' . '/ether-' . $results_player_ID;
             $result_network_ping = $Free_API->universal_get('universalAPI', null, null, 'lan/browser/' . $_networkinterface, true, true, false);
-            $result_network_ping = $result_network_ping['l3connectivities'];
-            foreach ($result_network_ping as $result_network_IP) {
-                if ($result_network_IP['af'] == 'ipv4') {
-                    $list = 'addr';
-                    $para_Value_calcul  = null;
-                    $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
-                    $Value_calcul = null;
-                    //log::add('Freebox_OS', 'debug', ':fg-success:───▶︎ ' . (__('Récupération de l\'adresse IP', __FILE__)) . ' : ' . $result_network_IP['af'] . ':/fg:');
-                    Free_Refresh::refresh_VALUE($EqLogics, $result_network_IP, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul, $Value_calcul, $para_Config_eq);
+            if (isset($result_network_ping['l3connectivities'])) {
+                $result_network_ping = $result_network_ping['l3connectivities'];
+                foreach ($result_network_ping as $result_network_IP) {
+                    if ($result_network_IP['af'] == 'ipv4') {
+                        $list = 'addr';
+                        $para_Value_calcul  = null;
+                        $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
+                        $Value_calcul = null;
+                        //log::add('Freebox_OS', 'debug', ':fg-success:───▶︎ ' . (__('Récupération de l\'adresse IP', __FILE__)) . ' : ' . $result_network_IP['af'] . ':/fg:');
+                        Free_Refresh::refresh_VALUE($EqLogics, $result_network_IP, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul, $Value_calcul, $para_Config_eq);
+                    }
                 }
+            } else {
+                log::add('Freebox_OS', 'debug', ':fg-info:' . (__('Il n\'est pas possible de l\'adresse IP du Player', __FILE__)) . ':/fg:');
             }
         }
     }
