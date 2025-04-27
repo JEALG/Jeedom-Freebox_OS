@@ -118,6 +118,11 @@ class Freebox_OS extends eqLogic
 			}
 		}
 	}
+	// Fonction exécutée automatiquement tous les jours par Jeedom
+	public static function cronDaily()
+	{
+		Freebox_OS::FreeboxAPI();
+	}
 
 	public static function cron_autorefresh_eqLogic($eqLogic, $deamon_info)
 	{
