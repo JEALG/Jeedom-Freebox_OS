@@ -997,8 +997,10 @@ class Free_Refresh
                 //Application
                 $list = 'package';
                 $para_Value = array('package__fr.freebox.tv' => 'app:fr.freebox.tv', 'package__fr.freebox.replay' => 'vodservice://replay', 'package__com.netflix' => 'https://www.netflix.com', 'package__com.primevideo' => 'https://www.primevideo.com', 'package__com.youtube.tv' => 'https://www.youtube.com', 'package__fr.freebox.pvr' => 'pvr://', 'package__fr.freebox.radio' => 'app:fr.freebox.radiofr.freebox.radio');
-                $result = $results_playerID['foreground_app'];
-                Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
+                if (isset($results_playerID['foreground_app'])) {
+                    $result = $results_playerID['foreground_app'];
+                    Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
+                }
                 if (isset($results_playerID['player']['state'])) {
                     $list = 'playback_state';
                     $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);

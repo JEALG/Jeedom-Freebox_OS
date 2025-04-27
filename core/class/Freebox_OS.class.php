@@ -121,7 +121,14 @@ class Freebox_OS extends eqLogic
 	// Fonction exécutée automatiquement tous les jours par Jeedom
 	public static function cronDaily()
 	{
-		Freebox_OS::FreeboxAPI();
+		$API_version_OLD = config::byKey('FREEBOX_API', 'Freebox_OS');
+		log::add('Freebox_OS', 'debug', '──────────▶︎ :fg-info: CRON DAILY' . (__('pour l\'actualisation de l\'API', __FILE__)) . ' : ' . ':/fg: ◀︎───────────');
+		$API_version = Freebox_OS::FreeboxAPI($type_Log = 'Debug');
+		if ($API_version_OLD != $API_version) {
+			message::add('Freebox_OS', '{{L\'API de la Freebox a été mis à jour de la version }}' . $API_version_OLD . ' à la version ' . $API_version);
+		}
+
+		log::add('Freebox_OS', 'debug', '───────────────────────────────────────────');
 	}
 
 	public static function cron_autorefresh_eqLogic($eqLogic, $deamon_info)
@@ -341,7 +348,6 @@ class Freebox_OS extends eqLogic
 		config::save('TYPE_FREEBOX_TILES', "", 'Freebox_OS');
 		log::add('Freebox_OS', 'debug', 'RESET [  OK  ]');
 	}
-
 	public static function EqLogic_ID($Name, $_logicalId)
 	{
 		$EqLogic = self::byLogicalId($_logicalId, 'Freebox_OS');
@@ -930,11 +936,11 @@ class Freebox_OS extends eqLogic
 			$cron->stop();
 			log::add('Freebox_OS', 'debug', ' OK  CRON ' . (__('Arrêt', __FILE__)) . ' Freebox GET');
 		}
-		$cron = cron::byClassAndFunction('Freebox_OS', 'FreeboxAPI');
+		/*$cron = cron::byClassAndFunction('Freebox_OS', 'FreeboxAPI');
 		if (is_object($cron)) {
 			$cron->stop();
 			log::add('Freebox_OS', 'debug', ' OK  CRON ' . (__('Arrêt', __FILE__)) . ' Freebox API');
-		}
+		}*/
 		sleep(1);
 		$Free_API = new Free_API();
 		$Free_API->close_session();
@@ -1015,28 +1021,28 @@ class Freebox_OS extends eqLogic
 			'wifiECOName' => (__('Mode Eco Wifi', __FILE__))
 		);
 	}
-	public static function FreeboxAPI()
+	public static function FreeboxAPI($type_Log = 'info')
 	{
-		log::add('Freebox_OS', 'debug', '┌── :fg-success: ' . (__('Check Version API de la Freebox', __FILE__)) . ' :/fg:──');
-		log::add('Freebox_OS', 'info', '|:fg-warning: ' . (__('Il est possible d\'avoir le message suivant dans les messages : API NON COMPATIBLE : Version d\'API inconnue', __FILE__)) . ' :/fg:');
+		log::add('Freebox_OS', $type_Log, '┌── :fg-success: ' . (__('Check Version API de la Freebox', __FILE__)) . ' :/fg:──');
+		log::add('Freebox_OS', $type_Log, '|:fg-warning: ' . (__('Il est possible d\'avoir le message suivant dans les messages : API NON COMPATIBLE : Version d\'API inconnue', __FILE__)) . ' :/fg:');
 		$Free_API = new Free_API();
 		$result = $Free_API->universal_get('universalAPI', null, null, 'api_version', true, true, true);
-		log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Nom du type de Box', __FILE__)) . ' ::/fg: ' . $result['box_model_name']);
-		log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ API URL ::/fg: ' . $result['api_base_url']);
-		log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ Port https ::/fg: ' . $result['https_port']);
-		log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Nom Box', __FILE__)) . ' ::/fg: ' . $result['device_name']);
-		log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Https disponible', __FILE__)) . ' ::/fg: ' . $result['https_available']);
-		log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Modele de Box', __FILE__)) . ' ::/fg: ' . $result['box_model']);
-		log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Type de box', __FILE__)) . ' ::/fg: ' . $result['device_type']);
-		log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ API domaine ::/fg: ' . $result['api_domain']);
-		log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ API version ::/fg: ' . $result['api_version']);
+		log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Nom du type de Box', __FILE__)) . ' ::/fg: ' . $result['box_model_name']);
+		log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ API URL ::/fg: ' . $result['api_base_url']);
+		log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ Port https ::/fg: ' . $result['https_port']);
+		log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Nom Box', __FILE__)) . ' ::/fg: ' . $result['device_name']);
+		log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Https disponible', __FILE__)) . ' ::/fg: ' . $result['https_available']);
+		log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Modele de Box', __FILE__)) . ' ::/fg: ' . $result['box_model']);
+		log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Type de box', __FILE__)) . ' ::/fg: ' . $result['device_type']);
+		log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ API domaine ::/fg: ' . $result['api_domain']);
+		log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ API version ::/fg: ' . $result['api_version']);
 		$API_version = 'v'  . $result['api_version'];
 		$API_version = strstr($API_version, '.', true);
-		log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Version actuelle dans la base', __FILE__)) . ' ::/fg: ' . config::byKey('FREEBOX_API', 'Freebox_OS'));
+		log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Version actuelle dans la base', __FILE__)) . ' ::/fg: ' . config::byKey('FREEBOX_API', 'Freebox_OS'));
 		config::save('FREEBOX_API', $API_version, 'Freebox_OS');
-		log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Mise à jour de Version dans la base', __FILE__)) . ' ::/fg: ' . config::byKey('FREEBOX_API', 'Freebox_OS'));
-		log::add('Freebox_OS', 'debug', '└────────────────────');
-		Free_CreateEq::createEq('box');
+		log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Mise à jour de Version dans la base', __FILE__)) . ' ::/fg: ' . config::byKey('FREEBOX_API', 'Freebox_OS'));
+		log::add('Freebox_OS', $type_Log, '└────────────────────');
+		Free_CreateEq::createEq('box', true, 'Debug');
 		return $API_version;
 	}
 	public static function updateLogicalID($eq_version, $_update = false)

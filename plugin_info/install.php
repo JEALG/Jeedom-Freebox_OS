@@ -26,7 +26,7 @@ function Freebox_OS_install()
 		$cron->setTimeout('1440');
 		$cron->save();
 	}
-	$cron = cron::byClassAndFunction('Freebox_OS', 'FreeboxAPI');
+	/*$cron = cron::byClassAndFunction('Freebox_OS', 'FreeboxAPI');
 	if (!is_object($cron)) {
 		$cron = new cron();
 		$cron->setClass('Freebox_OS');
@@ -37,7 +37,7 @@ function Freebox_OS_install()
 		//$cron->setDeamonSleepTime(1);
 		$cron->setTimeout('15');
 		$cron->save();
-	}
+	}*/
 	updateConfig();
 }
 function Freebox_OS_update()
@@ -64,17 +64,10 @@ function Freebox_OS_update()
 		$cron->save();
 	}
 	$cron = cron::byClassAndFunction('Freebox_OS', 'FreeboxAPI');
-	if (!is_object($cron)) {
-		$cron = new cron();
-		$cron->setClass('Freebox_OS');
-		$cron->setFunction('FreeboxAPI');
-		$cron->setEnable(1);
-		$cron->setSchedule('0 0 * * 1');
-		$cron->setTimeout('15');
-		$cron->save();
+	if (is_object($cron)) {
+		$cron->stop();
+		$cron->remove();
 	}
-
-
 
 	try {
 		$plugin = plugin::byId('Freebox_OS');

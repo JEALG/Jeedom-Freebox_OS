@@ -23,7 +23,7 @@ require_once __DIR__  . '/../../../../core/php/core.inc.php';
 
 class Free_CreateEq
 {
-    public static function createEq($create = 'default', $IsVisible = true)
+    public static function createEq($create = 'default', $IsVisible = true, $type_Log = 'info')
     {
         $date = time();
         $date = date("d/m/Y H:i:s", $date);
@@ -44,7 +44,7 @@ class Free_CreateEq
                 Free_CreateEq::createEq_airmedia($logicalinfo, $templatecore_V4, $order);
                 break;
             case 'box':
-                Free_CreateEq::createEq_Type_Box();
+                Free_CreateEq::createEq_Type_Box($type_Log);
                 break;
             case 'connexion':
                 Free_CreateEq::createEq_connexion($logicalinfo, $templatecore_V4, $order);
@@ -166,9 +166,9 @@ class Free_CreateEq
                 break;
         }
     }
-    private static function createEq_Type_Box()
+    private static function createEq_Type_Box($type_Log = 'info')
     {
-        log::add('Freebox_OS', 'info', '┌── :fg-success: ' . (__('Vérification de la compatibilité de la box avec certaines options', __FILE__)) . ' :/fg:──');
+        log::add('Freebox_OS', $type_Log, '┌── :fg-success: ' . (__('Vérification de la compatibilité de la box avec certaines options', __FILE__)) . ' :/fg:──');
         $Free_API = new Free_API();
         $result = $Free_API->universal_get('system', null, null);
         if (isset($result['disk_status'])) {
@@ -178,57 +178,57 @@ class Free_CreateEq
             $disk_status_description = str_ireplace('initializing', __('Le disque est en cours d\'initialisation', __FILE__), $disk_status_description);
             $disk_status_description = str_ireplace('error', __('Le disque n\'a pas pu être monté', __FILE__), $disk_status_description);
             $disk_status_description = str_ireplace('active', __('Le disque est prêt', __FILE__), $disk_status_description);
-            log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Etat du disque', __FILE__)) . ' ::/fg: ' . $result['disk_status'] . ' / ' . $disk_status_description);
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Etat du disque', __FILE__)) . ' ::/fg: ' . $result['disk_status'] . ' / ' . $disk_status_description);
             $disk_status = $result['disk_status'];
         }
 
         // Compatibilité VM
         if (isset($result['model_info']['has_vm'])) {
-            log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Box compatible avec les VM', __FILE__)) . ' ::/fg: ' . $result['model_info']['has_vm']);
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Box compatible avec les VM', __FILE__)) . ' ::/fg: ' . $result['model_info']['has_vm']);
             $has_vm = $result['model_info']['has_vm'];
         } else {
             $has_vm = false;
-            log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Box compatible avec les VM', __FILE__)) . '::/fg: ' . (__('Non', __FILE__)));
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Box compatible avec les VM', __FILE__)) . '::/fg: ' . (__('Non', __FILE__)));
         }
         config::save('FREEBOX_VM', $has_vm, 'Freebox_OS');
 
         // Compatibilité LED Rouges
         if (isset($result['model_info']['has_led_strip'])) {
-            log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Box compatible avec les LED rouges', __FILE__)) . ' ::/fg: ' . $result['model_info']['has_led_strip']);
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Box compatible avec les LED rouges', __FILE__)) . ' ::/fg: ' . $result['model_info']['has_led_strip']);
             $has_led_strip = $result['model_info']['has_led_strip'];
         } else {
             $has_led_strip = '0';
-            log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Box compatible avec les LED rouges', __FILE__)) . '::/fg: ' . (__('Non', __FILE__)));
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Box compatible avec les LED rouges', __FILE__)) . '::/fg: ' . (__('Non', __FILE__)));
         }
         config::save('FREEBOX_LED_RD', $has_led_strip, 'Freebox_OS');
 
         // Compatibilité mode Eco Wfi
         if (isset($result['model_info']['has_eco_wifi'])) {
             $has_eco_wifi = 1;
-            log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Box compatible avec le mode Eco Wifi', __FILE__)) . ' ::/fg: ' . $result['model_info']['has_eco_wifi']);
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Box compatible avec le mode Eco Wifi', __FILE__)) . ' ::/fg: ' . $result['model_info']['has_eco_wifi']);
         } else {
             $has_eco_wifi = '0';
-            log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Box compatible avec le mode Eco Wifi', __FILE__)) . ' ::/fg: ' . (__('Non', __FILE__)));
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Box compatible avec le mode Eco Wifi', __FILE__)) . ' ::/fg: ' . (__('Non', __FILE__)));
         }
         config::save('FREEBOX_HAS_ECO_WFI', $has_eco_wifi, 'Freebox_OS');
 
         // Compatibilité oritentation texte
         if (isset($result['model_info']['has_lcd_orientation'])) {
-            log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Box compatible avec l\'orientation du texte sur l\'afficheur', __FILE__)) . ' ::/fg: ' . $result['model_info']['has_lcd_orientation']);
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Box compatible avec l\'orientation du texte sur l\'afficheur', __FILE__)) . ' ::/fg: ' . $result['model_info']['has_lcd_orientation']);
             $has_lcd_orientation = $result['model_info']['has_lcd_orientation'];
         } else {
             $has_lcd_orientation = false;
-            log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Box compatible avec l\'orientation du texte sur l\'afficheur', __FILE__)) . '::/fg: ' . (__('Non', __FILE__)));
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Box compatible avec l\'orientation du texte sur l\'afficheur', __FILE__)) . '::/fg: ' . (__('Non', __FILE__)));
         }
         config::save('FREEBOX_LCD_TEXTE', $has_lcd_orientation, 'Freebox_OS');
 
         // Compatibilité Domotique
         if (isset($result['model_info']['has_home_automation'])) {
-            log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Module domotique', __FILE__)) . ' ::/fg: ' . $result['model_info']['has_vm']);
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Module domotique', __FILE__)) . ' ::/fg: ' . $result['model_info']['has_vm']);
             $has_home_automation = $result['model_info']['has_home_automation'];
         } else {
             $has_home_automation = false;
-            log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Module domotique', __FILE__)) . ': :/fg: ' . (__('Non présent', __FILE__)));
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Module domotique', __FILE__)) . ': :/fg: ' . (__('Non présent', __FILE__)));
         }
         if ($result['board_name'] == 'fbxgw7r') {
             $has_home_box = 'OK';
@@ -239,11 +239,11 @@ class Free_CreateEq
             if (is_object($cron)) {
                 $cron->stop();
                 $cron->remove();
-                log::add('Freebox_OS', 'info', '| [  OK  ] - ' . (__('SUPPRESSION CRON DOMOTIQUE', __FILE__)));
+                log::add('Freebox_OS', $type_Log, '| [  OK  ] - ' . (__('SUPPRESSION CRON DOMOTIQUE', __FILE__)));
             }
-            log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Etat CRON Domotique', __FILE__)) . ' ::/fg: ' . config::byKey('FREEBOX_TILES_CRON', 'Freebox_OS'));
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Etat CRON Domotique', __FILE__)) . ' ::/fg: ' . config::byKey('FREEBOX_TILES_CRON', 'Freebox_OS'));
         }
-        log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Box compatible avec la domotique', __FILE__)) . ' ::/fg: ' . config::byKey('TYPE_FREEBOX_TILES', 'Freebox_OS'));
+        log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Box compatible avec la domotique', __FILE__)) . ' ::/fg: ' . config::byKey('TYPE_FREEBOX_TILES', 'Freebox_OS'));
 
         // Ecriture variable
         $Setting = array(
@@ -258,14 +258,14 @@ class Free_CreateEq
         );
         // board_Name
         config::save('TYPE_FREEBOX', $result['board_name'], 'Freebox_OS');
-        log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ Board name ::/fg: ' . config::byKey('TYPE_FREEBOX', 'Freebox_OS'));
+        log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ Board name ::/fg: ' . config::byKey('TYPE_FREEBOX', 'Freebox_OS'));
         // pretty_name
         config::save('TYPE_FREEBOX_NAME', $result['model_info']['pretty_name'], 'Freebox_OS');
-        log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Type de box', __FILE__)) . '  ::/fg: ' . config::byKey('TYPE_FREEBOX_NAME', 'Freebox_OS'));
+        log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Type de box', __FILE__)) . '  ::/fg: ' . config::byKey('TYPE_FREEBOX_NAME', 'Freebox_OS'));
         // Titles
         config::save('TYPE_FREEBOX_TILES', $Setting['has_home_box'], 'Freebox_OS');
 
-        log::add('Freebox_OS', 'info', '└────────────────────');
+        log::add('Freebox_OS', $type_Log, '└────────────────────');
         return $Setting;
     }
     private static function createEq_airmedia($logicalinfo, $templatecore_V4, $order = 0)
