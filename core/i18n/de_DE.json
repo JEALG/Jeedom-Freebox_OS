@@ -535,6 +535,7 @@
         "Interrupteur Etat (Freebox_OS)": "Schalter Status (Freebox_OS)",
         "Inverser Affichage": "Invertieren Anzeige",
         "Inverser Valeur Binaire": "Binärwert umkehren",
+        "L\\'API de la Freebox a été mis à jour de la version ": "Die Freebox API wurde aktualisiert von der Version",
         "L\\'expression Cron pour l\\'\"Ajout nouvelle commande\" est non valide pour l\\'équipement": "Der Ausdruck \"Neue Bestellung hinzufügen\" ist für das Gerät ungültig",
         "L\\'expression cron est non valide pour ": "Der cron-Ausdruck ist ungültig für",
         "Le champ \"Temps de rafraichissement (cron)\" ne peut être vide": "Das Feld \"Aktualisierungszeit (cron)\" darf nicht leer sein",
@@ -590,6 +591,7 @@
         "Wifi Invité": "Wifi Gast",
         "dans la commande": "in der Bestellung",
         "pour l\\'actualisation de": "für die Aktualisierung von",
+        "pour l\\'actualisation de l\\'API": "für die Aktualisierung der API",
         "Équipement Type": "Ausstattung Typ",
         "à cause du Démon": "wegen des Dämons"
     },

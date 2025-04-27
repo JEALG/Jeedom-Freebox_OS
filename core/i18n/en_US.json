@@ -535,6 +535,7 @@
         "Interrupteur Etat (Freebox_OS)": "Status switch (Freebox_OS)",
         "Inverser Affichage": "Invert Display",
         "Inverser Valeur Binaire": "Invert Binary Value",
+        "L\\'API de la Freebox a été mis à jour de la version ": "The Freebox API has been updated to version",
         "L\\'expression Cron pour l\\'\"Ajout nouvelle commande\" est non valide pour l\\'équipement": "The Cron expression for \"Add new command\" is invalid for the equipment",
         "L\\'expression cron est non valide pour ": "The cron expression is invalid for",
         "Le champ \"Temps de rafraichissement (cron)\" ne peut être vide": "Refresh time (cron)\" field cannot be empty",
@@ -590,6 +591,7 @@
         "Wifi Invité": "Guest Wifi",
         "dans la commande": "in the command",
         "pour l\\'actualisation de": "for the update of",
+        "pour l\\'actualisation de l\\'API": "to update the API",
         "Équipement Type": "Equipment Type",
         "à cause du Démon": "because of the Demon"
     },
