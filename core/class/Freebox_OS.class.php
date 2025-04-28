@@ -1030,9 +1030,9 @@ class Freebox_OS extends eqLogic
 		log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Nom du type de Box', __FILE__)) . ' ::/fg: ' . $result['box_model_name']);
 		log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ API URL ::/fg: ' . $result['api_base_url']);
 		log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ Port https ::/fg: ' . $result['https_port']);
-		log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Nom Box', __FILE__)) . ' ::/fg: ' . $result['device_name']);
+		log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Nom de la Box', __FILE__)) . ' ::/fg: ' . $result['device_name']);
 		log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Https disponible', __FILE__)) . ' ::/fg: ' . $result['https_available']);
-		log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Modele de Box', __FILE__)) . ' ::/fg: ' . $result['box_model']);
+		log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Modele de la Box', __FILE__)) . ' ::/fg: ' . $result['box_model']);
 		log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Type de box', __FILE__)) . ' ::/fg: ' . $result['device_type']);
 		log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ API domaine ::/fg: ' . $result['api_domain']);
 		log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ API version ::/fg: ' . $result['api_version']);

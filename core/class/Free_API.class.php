@@ -210,11 +210,11 @@ class Free_API
             //Cookie pour la session
             curl_setopt($ch, CURLOPT_COOKIESESSION, true);
             //Timeout
-            $timeout = 60;
+            $_timeout = 60;
             //CURLOPT_CONNECTTIMEOUT : le délais maximum exprimé en secondes avant l'abandon de la connexion au serveur lors de l'établissement de la connexion (entier). 
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $_timeout);
             //CURLOPT_TIMEOUT : le délais maximum exprimé en secondes avant l'abandon de la résolution de la requête curl lors de son éxécution (entier). 
-            curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+            curl_setopt($ch, CURLOPT_TIMEOUT, $_timeout);
             curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
