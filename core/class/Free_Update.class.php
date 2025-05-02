@@ -179,7 +179,7 @@ class Free_Update
                 log::add('Freebox_OS', 'error', '[AirPlay] ' . (__('Impossible d\'envoyer la demande, Pas de média', __FILE__)) . ' : '  . $media_value);
                 return;
             }
-            $Free_API->universal_put($Parameter, 'universal_put', null, null, 'airmedia//receivers/' . $receivers_value  . '/', 'POST', $Parameter);
+            $Free_API->universal_put($Parameter, 'universal_put', null, null, 'airmedia/receivers/' . $receivers_value  . '/', 'POST', $Parameter);
         }
     }
 
