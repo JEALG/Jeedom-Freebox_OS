@@ -179,7 +179,7 @@ class Free_Update
                 log::add('Freebox_OS', 'error', '[AirPlay] ' . (__('Impossible d\'envoyer la demande, Pas de média', __FILE__)) . ' : '  . $media_value);
                 return;
             }
-            $Free_API->universal_put($Parameter, 'universal_put', null, null, 'airmedia//receivers/' . $receivers_value  . '/', 'POST', $Parameter);
+            $Free_API->universal_put($Parameter, 'universal_put', null, null, 'airmedia/receivers/' . $receivers_value  . '/', 'POST', $Parameter);
         }
     }
 
@@ -206,7 +206,7 @@ class Free_Update
                     };
                     $option = array(
                         "throttling" => $_options['select'],
-                        "is_scheduled" => $parametre,
+                        "is_scheduled" => $parametre
                     );
                     $Free_API->universal_put($_options['select'], 'universal_put', null, null, 'downloads/throttling', 'PUT', $option);
                     break;
@@ -223,7 +223,7 @@ class Free_Update
             $ID_logicalID = substr($logicalId, 6);
         }
         $option = array(
-            'status' => $parametre,
+            'status' => $parametre
         );
         log::add('Freebox_OS', 'debug', '│ Récupération ID : ' . $ID_logicalID);
         $Free_API->universal_put('default', 'universal_put', $ID_logicalID, null, 'home/adapters/', 'PUT', $option);
@@ -234,27 +234,26 @@ class Free_Update
     }
     private static function update_LCD($logicalId, $logicalId_type, $logicalId_eq, $Free_API, $_options)
     {
+        $_enabled = true;
+        $_OFF = substr($logicalId, -3);
+        if ($_OFF == "Off") {
+            $_enabled = FALSE;
+        }
         switch ($logicalId) {
             case 'brightness_action':
                 $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('brightness' => $_options['slider']));
                 break;
             case 'orientation_forcedOn':
-                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('orientation_forced' => true));
-                break;
             case 'orientation_forcedOff':
-                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('orientation_forced' => false));
+                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('orientation_forced' => $_enabled));
                 break;
             case 'hide_wifi_keyOn':
-                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('hide_wifi_key' => true));
-                break;
             case 'hide_wifi_keyOff':
-                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('hide_wifi_key' => false));
+                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('hide_wifi_key' => $_enabled));
                 break;
             case 'led_strip_enabledOn':
-                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('led_strip_enabled' => true));
-                break;
             case 'led_strip_enabledOff':
-                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('led_strip_enabled' => false));
+                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('led_strip_enabled' => $_enabled));
                 break;
             case 'led_strip_animation_action':
                 if ($_options['select'] != null) {
@@ -279,36 +278,39 @@ class Free_Update
     }
     private static function update_netshare($logicalId, $logicalId_type, $logicalId_eq, $Free_API, $_options)
     {
+        $_enabled = true;
+        $_OFF = substr($logicalId, -3);
+        if ($_OFF == "Off") {
+            $_enabled = FALSE;
+        }
         switch ($logicalId) {
             case "FTP_enabledOn":
-                $Free_API->universal_put(true, 'universalAPI', null, null, 'enabled', null, 'ftp/config');
-                break;
             case "FTP_enabledOff":
-                $Free_API->universal_put(false, 'universalAPI', null, null, 'enabled', null, 'ftp/config');
+                $Free_API->universal_put($_enabled, 'universalAPI', null, null, 'enabled', null, 'ftp/config');
                 break;
             case "file_share_enabledOn":
-                $Free_API->universal_put(true, 'universalAPI', null, null, 'file_share_enabled', null, 'netshare/samba');
-                break;
             case "file_share_enabledOff":
-                $Free_API->universal_put(false, 'universalAPI', null, null, 'file_share_enabled', null, 'netshare/samba');
+                $Free_API->universal_put($_enabled, 'universalAPI', null, null, 'file_share_enabled', null, 'netshare/samba');
+                break;
+            case "logon_enabledOn":
+            case "logon_enabledOff":
+                $Free_API->universal_put($_enabled, 'universalAPI', null, null, 'logon_enabled', null, 'netshare/samba');
                 break;
             case "mac_share_enabledOn":
-                $Free_API->universal_put(true, 'universalAPI', null, null, 'enabled', null, 'netshare/afp');
-                break;
             case "mac_share_enabledOff":
-                $Free_API->universal_put(false, 'universalAPI', null, null, 'enabled', null, 'netshare/afp');
+                $Free_API->universal_put($_enabled, 'universalAPI', null, null, 'enabled', null, 'netshare/afp');
+                break;
+            case "guest_allowOn":
+            case "guest_allowOff":
+                $Free_API->universal_put($_enabled, 'universalAPI', null, null, 'guest_allow', null, 'netshare/afp');
                 break;
             case "print_share_enabledOn":
-                $Free_API->universal_put(true, 'universalAPI', null, null, 'print_share_enabled', null, 'netshare/samba');
-                break;
             case "print_share_enabledOff":
-                $Free_API->universal_put(false, 'universalAPI', null, null, 'print_share_enabled', null, 'netshare/samba');
+                $Free_API->universal_put($_enabled, 'universalAPI', null, null, 'print_share_enabled', null, 'netshare/samba');
                 break;
             case "smbv2_enabledOn":
-                $Free_API->universal_put(true, 'universalAPI', null, null, 'smbv2_enabled', null, 'netshare/samba');
-                break;
             case "smbv2_enabledOff":
-                $Free_API->universal_put(false, 'universalAPI', null, null, 'smbv2_enabled', null, 'netshare/samba');
+                $Free_API->universal_put($_enabled, 'universalAPI', null, null, 'smbv2_enabled', null, 'netshare/samba');
                 break;
         }
     }
@@ -388,7 +390,7 @@ class Free_Update
                     $option = array(
                         "mac" => $host_value_mac_ID,
                         "ip" => $add_del_ip_value,
-                        "comment" => $comment_value,
+                        "comment" => $comment_value
                     );
 
                     switch ($method_value) {
@@ -430,7 +432,7 @@ class Free_Update
                             $option = array(
                                 "mac" => $host_value_mac_ID,
                                 "type" => $mac_filter_value,
-                                "comment" => $comment_value,
+                                "comment" => $comment_value
                             );
                             //$host_value_mac_ID = null;
                             $method_value = 'POST';
@@ -441,7 +443,7 @@ class Free_Update
                             $option = array(
                                 "mac" => $host_value_mac_ID,
                                 "type" => 'whitelist',
-                                "comment" => $comment_value,
+                                "comment" => $comment_value
                             );
                             //$host_value_mac_ID = null;
                             $method_value = 'POST';
@@ -453,7 +455,7 @@ class Free_Update
                             $option = array(
                                 "mac" => $host_value_mac_ID,
                                 "type" => $mac_filter_value,
-                                "comment" => $comment_value,
+                                "comment" => $comment_value
                             );
                             $host_value_mac_ID = $host_value_mac_ID . '-' . $mac_filter_value;
                             break;
@@ -464,7 +466,7 @@ class Free_Update
                             $option = array(
                                 "mac" => $host_value_mac_ID,
                                 "type" => $mac_filter_value,
-                                "comment" => $comment_value,
+                                "comment" => $comment_value
                             );
                             $host_value_mac_ID = $host_value_mac_ID . '-' . $mac_filter_value;
                             break;
@@ -475,7 +477,7 @@ class Free_Update
                             $option = array(
                                 "mac" => $host_value_mac_ID,
                                 "type" => $mac_filter_value,
-                                "comment" => $comment_value,
+                                "comment" => $comment_value
                             );
                             $host_value_mac_ID = $host_value_mac_ID . '-' . $mac_filter_value;
                             break;
@@ -486,7 +488,7 @@ class Free_Update
                             $option = array(
                                 "mac" => $host_value_mac_ID,
                                 "type" => $mac_filter_value,
-                                "comment" => $comment_value,
+                                "comment" => $comment_value
                             );
                             $host_value_mac_ID = $host_value_mac_ID . '-' . $mac_filter_value;
                             break;
@@ -527,7 +529,7 @@ class Free_Update
                         $option = array(
                             "mac" => $host_value_mac_ID,
                             "ip" => $add_del_ip_value,
-                            "comment" => $comment_value,
+                            "comment" => $comment_value
                         );
                         if ($method_value == 'POST') {
                             $host_value_mac_ID = null;
@@ -594,7 +596,7 @@ class Free_Update
                 $option = array(
                     "mac" => $_options['mac_address'],
                     "ip" => $_options['ip'],
-                    "comment" => $_options['comment'],
+                    "comment" => $_options['comment']
                 );
                 if ($_options['function'] != 'device') {
                     $Free_API->universal_put(null, 'universal_put', $_options['mac_address'], null, 'dhcp/static_lease/', $_options['function'], $option);
@@ -637,33 +639,69 @@ class Free_Update
     }
     private static function update_player($logicalId, $logicalId_type, $logicalId_eq, $Free_API, $_options, $_cmd, $update)
     {
-
+        $ID_Player = $logicalId_eq->getlogicalId();
+        $ID_Player = str_replace('player_', '', $ID_Player);
+        $player_API_VERSION = $logicalId_eq->getConfiguration('player_API_VERSION');
+        $_enabled = true;
+        $_OFF = substr($logicalId, -3);
+        if ($_OFF == "Off") {
+            $_enabled = FALSE;
+        }
         switch ($logicalId) {
+            case "app":
+                $option = array(
+                    "url" =>  $_options['select']
+                );
+                $playerURL = '/api/' . $player_API_VERSION . '/control/open';
+                $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'POST', $option);
+                break;
             case "channel":
-                log::add('Freebox_OS', 'debug', '│ Chaine : '  . $_options['message']);
-                foreach ($logicalId_eq->getCmd('info') as $Cmd) {
-                    if ($Cmd->getLogicalId() === 'channel_info') {
-                        log::add('Freebox_OS', 'debug', '│ ' . (__('Choix Chaine', __FILE__)) . ' : '  . $_options['message']);
-                        if ($logicalId == 'channel') {
-                            $logicalId_eq->checkAndUpdateCmd($Cmd->getLogicalId(), $_options['message']);
-                        }
-                        $ID_Player = $logicalId_eq->getlogicalId();
-                        $ID_Player = str_replace('player_', '', $ID_Player);
-                        log::add('Freebox_OS', 'debug', '│ ' . (__('Player', __FILE__)) . ' ' . $logicalId_eq->getlogicalId() . ' -  ' . (__('avec ID', __FILE__)) . ' : ' . $ID_Player);
-                        $channel_value = $_cmd->execCmd();
-                        $channel_value = 'tv:?channel=' . $channel_value;
-                        log::add('Freebox_OS', 'debug', '│ ' . (__('Chaine', __FILE__)) . ' : ' . $channel_value . ' / ' . $_options['message']);
-                        //Option par défaut
-                        $option = array(
-                            "url" =>  $channel_value,
-                        );
-                        $playerURL = '/api/v6/control/open';
-                        log::add('Freebox_OS', 'debug', '──────────▶︎ ' . (__('REQUETE', __FILE__)));
-                        $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, null, $option);
-                        log::add('Freebox_OS', 'debug', '──────────▶︎ ' . (__('FIN REQUETE', __FILE__)));
-                        break;
-                    }
-                }
+                log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Choix de la Chaîne', __FILE__)) . ' : ' . $_options['slider']);
+                $channel = 'tv:?channel=' . $_options['slider'];
+                $option = array(
+                    "url" =>  $channel
+                );
+                $playerURL = '/api/' . $player_API_VERSION . '/control/open';
+                $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'POST', $option);
+                break;
+            case "mediactrl":
+                log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Choix du contrôle', __FILE__)) . ' : ' . $_options['select']);
+                $option = array(
+                    "cmd" =>  $_options['select']
+                );
+                $playerURL = '/api/' . $player_API_VERSION . '/control/mediactrl/';
+                $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'POST', $option);
+                break;
+            case 'muteOn':
+            case 'muteOff':
+                log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Mute', __FILE__)) . ' : ' . $_enabled);
+                $option = array(
+                    "mute" => $_enabled
+                );
+                $playerURL = '/api/' . $player_API_VERSION . '/control/volume/';
+                $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'PUT', $option);
+                break;
+            case "reboot":
+                log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Redémarrer', __FILE__)));
+                $option = null;
+                $playerURL = '/api/' . $player_API_VERSION . '/system/reboot/';
+                $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'POST', $option);
+                break;
+            case "volume":
+                log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('ID du Player', __FILE__)) . ' : ' . $ID_Player . ' -- ' . (__('Volume', __FILE__)) . ' : ' . $_options['slider']);
+                $option = array(
+                    "volume" => $_options['slider']
+                );
+                $playerURL = '/api/' . $player_API_VERSION . '/control/volume/';
+                $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'PUT', $option);
+                break;
+            case "uuid":
+                $channeluuid = 'tv:?channel.tv?' . $_options['select'];
+                $option = array(
+                    "url" =>  $channeluuid
+                );
+                $playerURL = '/api/' . $player_API_VERSION . '/control/open';
+                $Free_API->universal_put(null, 'universal_put', null, null, 'player/' . $ID_Player .  $playerURL, 'POST', $option);
                 break;
             default:
                 $Free_API->universal_put($logicalId, 'player_ID_ctrl', $logicalId_eq->getConfiguration('action'), null, $_options);
@@ -683,15 +721,18 @@ class Free_Update
     }
     private static function update_system($logicalId, $logicalId_type, $logicalId_eq, $Free_API, $_options)
     {
+        $_enabled = true;
+        $_OFF = substr($logicalId, -3);
+        if ($_OFF == "Off") {
+            $_enabled = FALSE;
+        }
         switch ($logicalId) {
             case "reboot":
                 $Free_API->universal_put(null, 'reboot', null, null, null);
                 break;
             case '4GOn':
-                $Free_API->universal_put(1, 'universalAPI', null, null, 'enabled', null, 'connection/aggregation');
-                break;
             case '4GOff':
-                $Free_API->universal_put(0, 'universalAPI', null, null, 'enabled', null, 'connection/aggregation');
+                $Free_API->universal_put($_enabled, 'universalAPI', null, null, 'enabled', null, 'connection/aggregation');
                 break;
             case 'avalaible':
                 $Free_API->universal_put(null, 'universal_put', null, null, 'lang', 'POST', array('lang' => $_options['select']), null);
@@ -740,7 +781,7 @@ class Free_Update
                         $value = true;
                     }
                     $option = array(
-                        $param =>  $value,
+                        $param =>  $value
                     );
                     $Free_API->universal_put(1, 'universal_put', null, null, 'wifi/config', 'PUT', $option);
                     break;
@@ -750,7 +791,7 @@ class Free_Update
                         $value = true;
                     }
                     $option = array(
-                        "use_planning" =>  $value,
+                        "use_planning" =>  $value
                     );
                     $Free_API->universal_put(1, 'universal_put', null, null, 'wifi/planning', 'PUT', $option);
                     break;

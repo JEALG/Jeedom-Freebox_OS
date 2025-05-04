@@ -129,7 +129,7 @@ class Free_Refresh
             }
         }
     }
-    private static function refresh_parental($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null,  $para_Value_calcul = null)
+    private static function refresh_parental($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null,  $para_Value_calcul = null, $para_Config_eq = null)
     {
         $list = 'current_mode,cdayranges,macs';
         $result = $Free_API->universal_get('parental', $EqLogics->getConfiguration('action'));
@@ -174,7 +174,7 @@ class Free_Refresh
 
 
 
-    private static function refresh_airmedia($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null,  $para_Value_calcul = null)
+    private static function refresh_airmedia($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null,  $para_Value_calcul = null, $para_Config_eq = null)
     {
         foreach ($EqLogics->getCmd('info') as $Command) {
             if (is_object($Command)) {
@@ -247,14 +247,13 @@ class Free_Refresh
             }
         }
     }
-    private static function refresh_connexion($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null)
+    private static function refresh_connexion($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null)
     {
         $list = 'bandwidth_down,bandwidth_up,bytes_down,bytes_up,ipv4,ipv6,media,rate_down,rate_up,state';
         $result = $Free_API->universal_get('connexion', null, null, null);
         $para_resultC = array('nb' => 0, 1 => null, 2 => null, 3 => null);
         Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultC, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
-
-        $result = $Free_API->universal_get('connexion', null, null, null);
+        //$result = $Free_API->universal_get('connexion', null, null, null);
         if ($result != false) {
             foreach ($EqLogics->getCmd('info') as $Command) {
                 if (is_object($Command)) {
@@ -274,7 +273,7 @@ class Free_Refresh
         }
     }
 
-    private static function refresh_connexion_4G($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null)
+    private static function refresh_connexion_4G($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null)
     {
 
         log::add('Freebox_OS', 'debug', '──────────▶︎ :fg-success: ' . (__('Mise à jour', __FILE__)) . ' ::/fg:' . (__('Connexion 4G - xDSL', __FILE__)));
@@ -299,7 +298,7 @@ class Free_Refresh
         Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_result4, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
         $para_LogicalId = null;
     }
-    private static function refresh_connexion_Config($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null)
+    private static function refresh_connexion_Config($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null)
     {
         log::add('Freebox_OS', 'debug', '──────────▶︎ :fg-success: ' . (__('Mise à jour', __FILE__)) . ' ::/fg: ' . (__('Configuration PING', __FILE__)));
         $list = 'ping,wol';
@@ -308,7 +307,7 @@ class Free_Refresh
         Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultCO, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
     }
 
-    private static function refresh_connexion_FTTH($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null)
+    private static function refresh_connexion_FTTH($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null)
     {
         log::add('Freebox_OS', 'debug', '──────────▶︎ :fg-success: ' . (__('Mise à jour', __FILE__)) . ' ::/fg: ' . (__('Connexion FTTH', __FILE__)));
         $list = 'link_type,sfp_present,sfp_has_signal,sfp_alim_ok,sfp_pwr_tx,sfp_pwr_rx';
@@ -317,7 +316,7 @@ class Free_Refresh
         Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultFT, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
     }
 
-    private static function refresh_disk($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null)
+    private static function refresh_disk($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null)
     {
         $result = $Free_API->universal_get('universalAPI', null, null, 'storage/disk', true, true, null);
         $log_Erreur = 'AUCUN DISQUE';
@@ -375,7 +374,7 @@ class Free_Refresh
         }
     }
 
-    private static function refresh_download($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null)
+    private static function refresh_download($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null)
     {
         log::add('Freebox_OS', 'debug', '──────────▶︎ :fg-success: ' . (__('Mise à jour', __FILE__)) . ' ::/fg: ' . (__('de la configuration', __FILE__)));
         $list = 'mode';
@@ -391,7 +390,7 @@ class Free_Refresh
         Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultDO, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
         $para_Value_calcul = null;
     }
-    private static function refresh_LCD($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null)
+    private static function refresh_LCD($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null)
     {
         $list = 'orientation,orientation_forced,brightness,hide_wifi_key,led_strip_animation,led_strip_brightness,led_strip_enabled';
         $result = $Free_API->universal_get('universalAPI', null, null, 'lcd/config/', true, true, null);
@@ -400,7 +399,7 @@ class Free_Refresh
         Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultDO, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, null);
     }
 
-    private static function refresh_phone($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null,  $para_Value_calcul = null)
+    private static function refresh_phone($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null,  $para_Value_calcul = null, $para_Config_eq = null)
     {
         $log_Erreur = (__('AUCUN APPEL', __FILE__));
         $list = 'missed,listmissed,missed_new,listmissed_new,accepted,listaccepted,accepted_new,listaccepted_new,outgoing,listoutgoing';
@@ -552,24 +551,24 @@ class Free_Refresh
         }
     }
 
-    private static function refresh_netshare($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null,  $para_Value_calcul = null)
+    private static function refresh_netshare($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null,  $para_Value_calcul = null, $para_Config_eq = null)
     {
-        $list = 'file_share_enabled,print_share_enabled,smbv2_enabled';
+        $list = 'file_share_enabled,print_share_enabled,smbv2_enabled,workgroup,logon_enabled,logon_user';
         $result = $Free_API->universal_get('universalAPI', null, null, 'netshare/samba', true, true, false);
         $para_resultNET = array('nb' => 0, 1 => null, 2 => null, 3 => null);
-        Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultNET, $para_LogicalId, $para_Value, $para_Config, $log_Erreur,  $para_Value_calcul);
+        Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultNET, $para_LogicalId, $para_Value, $para_Config, $log_Erreur,  $para_Value_calcul, $para_Config_eq = null);
 
         $para_LogicalId = array('enabled' => 'mac_share_enabled');
-        $list = 'enabled';
+        $list = 'enabled,server_type,guest_allow';
         $result = $Free_API->universal_get('universalAPI', null, null, 'netshare/afp', true, true, false);
         $para_resultNET = array('nb' => 0, 1 => null, 2 => null, 3 => null);
-        Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultNET, $para_LogicalId, $para_Value, $para_Config, $log_Erreur,  $para_Value_calcul);
+        Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultNET, $para_LogicalId, $para_Value, $para_Config, $log_Erreur,  $para_Value_calcul, $para_Config_eq = null);
 
         $para_LogicalId = array('enabled' => 'FTP_enabled');
         $list = 'enabled';
         $result = $Free_API->universal_get('universalAPI', null, null, 'ftp/config', true, true, false);
         $para_resultNET = array('nb' => 0, 1 => null, 2 => null, 3 => null);
-        Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultNET, $para_LogicalId, $para_Value, $para_Config, $log_Erreur,  $para_Value_calcul);
+        Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultNET, $para_LogicalId, $para_Value, $para_Config, $log_Erreur,  $para_Value_calcul, $para_Config_eq = null);
     }
     public static function Free_removeLogicId($eqLogic, $cmdDell)
     {
@@ -579,7 +578,7 @@ class Free_Refresh
             $cmd->remove();
         }
     }
-    private static function refresh_system($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null)
+    private static function refresh_system($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null)
     {
         log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('Récupération des valeurs du Système', __FILE__)));
         // Config réeseau
@@ -588,7 +587,7 @@ class Free_Refresh
         $list = 'ip,mode,name';
         $result =  $Free_API->universal_get('network', null, null, 'lan/config/', true, true, true);
         $para_resultSY = array('nb' => 1, 1 => 'result', 2 => null, 3 => null);
-        Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultSY, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
+        Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultSY, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul, $para_Config_eq = null);
         $para_Config = null;
 
         //Config Lang
@@ -597,7 +596,7 @@ class Free_Refresh
         $list = 'lang';
         $result = $Free_API->universal_get('universalAPI', null, null, 'lang', true, true, null);
         $para_resultSY = array('nb' => 0, 1 => null, 2 => null, 3 => null);
-        Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultSY, $para_LogicalId, $para_Value, $para_Config, $log_Erreur,  $para_Value_calcul);
+        Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultSY, $para_LogicalId, $para_Value, $para_Config, $log_Erreur,  $para_Value_calcul, $para_Config_eq = null);
         $para_Value = null;
 
         //Mise à jour
@@ -606,7 +605,7 @@ class Free_Refresh
         $list = 'state';
         $result = $Free_API->universal_get('universalAPI', null, null, 'update', true, true, null);
         $para_resultSY = array('nb' => 0, 1 => null, 2 => null, 3 => null);
-        Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultSY, $para_LogicalId, $para_Value, $para_Config, $log_Erreur,  $para_Value_calcul);
+        Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultSY, $para_LogicalId, $para_Value, $para_Config, $log_Erreur,  $para_Value_calcul, $para_Config_eq = null);
 
         // Système
         log::add('Freebox_OS', 'debug', '──────────▶︎ :fg-success: ' . (__('Mise à jour', __FILE__)) . ' : ' . (__('Autres', __FILE__)) .  ':/fg:');
@@ -615,15 +614,15 @@ class Free_Refresh
         $result = $Free_API->universal_get('system', null, null, null, true, true, null);
         $para_Config = array('has_eco_wifi' => 'FREEBOX_HAS_ECO_WFI');
         $para_resultSY = array('nb' => 1, 1 => 'model_info', 2 => null, 3 => null);
-        Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultSY, $para_LogicalId, $para_Value, $para_Config, $log_Erreur,  $para_Value_calcul);
+        Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultSY, $para_LogicalId, $para_Value, $para_Config, $log_Erreur,  $para_Value_calcul, $para_Config_eq = null);
         $para_LogicalId = null;
 
-        $list = 'firmware_version,mac,uptime,board_name,info,serial,disk_status';
+        $list = 'firmware_version,mac,uptime,board_name,info,serial,disk_status,usb3_enable';
         $para_Value_calcul  = array('uptime' => '_TIME_');
         $para_Config = array('board_name' => 'TYPE_FREEBOX', 'firmware_version' => 'TYPE_FIRMWARE');
         $para_Value = array('disk_status__not_detected_' => (__('Le disque n\'a pas été détecté', __FILE__)), 'disk_status__disabled' => (__('Le disque est désactivé', __FILE__)), 'disk_status__initializing' => (__('Le disque est en cours d\'initialisation', __FILE__)), 'disk_status__error' => (__('Le disque n\'a pas pu être monté', __FILE__)), 'disk_status__active' => (__('Le disque est prêt', __FILE__)));
         $para_resultSY = array('nb' => 0, 1 => null, 2 => null, 3 => null);
-        Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultSY, $para_LogicalId, $para_Value, $para_Config, $log_Erreur,  $para_Value_calcul);
+        Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultSY, $para_LogicalId, $para_Value, $para_Config, $log_Erreur,  $para_Value_calcul, $para_Config_eq = null);
         $para_Config = null;
         $para_Value_calcul = null;
 
@@ -633,7 +632,7 @@ class Free_Refresh
         foreach ($EqLogics->getCmd('info') as $Cmd) {
             switch ($Cmd->getConfiguration('logicalId')) {
                 case "4G":
-                    Free_Refresh::refresh_system_4G($EqLogics, $Free_API, $para_LogicalId, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null);
+                    Free_Refresh::refresh_system_4G($EqLogics, $Free_API, $para_LogicalId, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null);
                     break;
                 default:
                     break;
@@ -678,7 +677,7 @@ class Free_Refresh
             }
         }
     }
-    private static function refresh_system_4G($EqLogics, $Free_API, $para_LogicalId, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null)
+    private static function refresh_system_4G($EqLogics, $Free_API, $para_LogicalId, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null)
     {
         log::add('Freebox_OS', 'debug', '──────────▶︎ :fg-success: ' . (__('Mise à jour', __FILE__)) . ' ::/fg: 4G');
 
@@ -961,64 +960,99 @@ class Free_Refresh
             }
         }
     }
-    private static function refresh_player($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null)
+    private static function refresh_player($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null)
     {
-        log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('LE STATUT DU PLAYER EST-IL DISPONIBLE', __FILE__)) . ' ? : [  ' . $EqLogics->getConfiguration('player') . '  ]');
+        log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . (__('Le statut du Player est-il disponible', __FILE__)) . ' ? :/fg:: [  ' . $EqLogics->getConfiguration('player') . '  ]');
+        $IP_update = null;
+        $results_players = $Free_API->universal_get('universalAPI', null, null, 'player/', true, true, true);
+        $results_players = $results_players['result'];
+        foreach ($results_players as $results_player) {
+            if ($EqLogics->getConfiguration('player_MAC_ADDRESS') == $results_player['mac']) {
+                log::add('Freebox_OS', 'debug', ':fg-success:───▶︎ ' . (__('PLAYER TROUVE', __FILE__)) . ':/fg:');
+                if ($EqLogics->getConfiguration('player_MAC') == 'MAC') {
+                    $list = 'mac,stb_type,device_model,api_version,api_available,reachable,last_time_reachable,uid';
+                } else {
+                    $list = 'mac,api_available,reachable';
+                    // $results_player_ID = $results_player['id'];
+                }
+                $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
+                $para_Value_calcul  = array('last_time_reachable' => '_TRANSLATE_DATE_');
+                $Value_calcul = null;
+                $para_Config_eq = array('api_version' => 'player_API_VERSION');
+                Free_Refresh::refresh_VALUE($EqLogics, $results_player, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul, $Value_calcul, $para_Config_eq);
+                $results_player_ID = $results_player['mac'];
+                $IP_update = true;
+            }
+        }
+        $player_API_VERSION = $EqLogics->getConfiguration('player_API_VERSION');
         if ($EqLogics->getConfiguration('player') == 'OK' && $EqLogics->getConfiguration('player_MAC') != 'MAC') {
-            $results_playerID = $Free_API->universal_get('universalAPI', null, null, 'player/' . $EqLogics->getConfiguration('action') . '/api/v6/status', false, true, false);
-            if (!isset($results_playerID['power_state'])) {
+            $results_playerID = $Free_API->universal_get('universalAPI', null, null, 'player/' . $EqLogics->getConfiguration('action') . '/api/' . $player_API_VERSION . '/status', true, true, false);
+            if (isset($results_playerID['power_state'])) {
+                log::add('Freebox_OS', 'debug', ':fg-success:───▶︎ ' . (__('Le status du Player est disponible', __FILE__)) . ':/fg:');
+                //Status
+                $list = 'power_state';
+                $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
+                $result = $results_playerID;
+                Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
+                //Application
+                $list = 'package';
+                $para_Value = array('package__fr.freebox.tv' => 'app:fr.freebox.tv', 'package__fr.freebox.replay' => 'vodservice://replay', 'package__com.netflix' => 'https://www.netflix.com', 'package__com.primevideo' => 'https://www.primevideo.com', 'package__com.youtube.tv' => 'https://www.youtube.com', 'package__fr.freebox.pvr' => 'pvr://', 'package__fr.freebox.radio' => 'app:fr.freebox.radiofr.freebox.radio');
+                if (isset($results_playerID['foreground_app'])) {
+                    $result = $results_playerID['foreground_app'];
+                    Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
+                }
+                if (isset($results_playerID['player']['state'])) {
+                    $list = 'playback_state';
+                    $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
+                    $para_Value = array('playback_state__paused' => 'pause', 'playback_state__stopped' => 'stop', 'playback_state__playing' => 'play_pause');
+                    $resultTV = $results_playerID['player']['state'];
+                    Free_Refresh::refresh_VALUE($EqLogics, $resultTV, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
+                }
+                if (isset($results_playerID['foreground_app']['context']['channel'])) {
+                    $list = 'channelNumber,channelName';
+                    $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
+                    $resultTV = $results_playerID['foreground_app']['context']['channel'];
+                    Free_Refresh::refresh_VALUE($EqLogics, $resultTV, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
+                }
+                $results_player_info = $Free_API->universal_get('universalAPI', null, null, 'player/' . $EqLogics->getConfiguration('action') . '/api/' . $player_API_VERSION . '/control/volume', true, true, false);
+                $list = 'volume,mute';
+                $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
+                $result = $results_player_info;
+                Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
+            } else {
                 log::add('Freebox_OS', 'debug', ':fg-info:' . (__('Le status du Player n\'est pas disponible car le Player n\'est pas joignable', __FILE__)) . ':/fg:');
                 $player_power_state = 'standby';
-            } else {
-                log::add('Freebox_OS', 'debug', '───▶︎ Le status du Player est disponible');
-                $player_power_state = $results_playerID['power_state'];
             }
         } else {
             $player_power_state = 'KO';
             log::add('Freebox_OS', 'debug', ':fg-info:' . (__('Il n\'est pas possible de récupérer le status du Player', __FILE__)) . ':/fg:');
         }
 
-        $results_players = $Free_API->universal_get('universalAPI', null, null, 'player/', true, true, true);
-        $results_players = $results_players['result'];
-        foreach ($results_players as $results_player) {
-            if ($EqLogics->getConfiguration('player_MAC') == 'MAC') {
-                $results_player_ID = $results_player['mac'];
-            } else {
-                $results_player_ID = $results_player['id'];
-            }
-            if ($results_player_ID != $EqLogics->getConfiguration('action')) {
-                continue;
-            } else {
-                log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . (__('PLAYER TROUVE', __FILE__)) . ':/fg:');
-                foreach ($EqLogics->getCmd('info') as $Cmd) {
-                    if (is_object($Cmd)) {
-                        switch ($Cmd->getLogicalId()) {
-                            case "power_state":
-                                if ($player_power_state != 'KO') {
-                                    log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . (__('Etat', __FILE__)) . ' ::/fg: ' . $player_power_state);
-                                    $EqLogics->checkAndUpdateCmd($Cmd->getLogicalId(), $player_power_state);
-                                }
-                                break;
-                            default:
-                                if (isset($results_player[$Cmd->getLogicalId()])) {
-                                    $EqLogics->checkAndUpdateCmd($Cmd->getLogicalId(), $results_player[$Cmd->getLogicalId()]);
-                                    log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . $Cmd->getName() . ' ::/fg: ' . $results_player[$Cmd->getLogicalId()]);
-                                }
-                                break;
-                                break;
-                                log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . (__('API Disponible', __FILE__)) . ' ::/fg:    ' . $results_player['api_available']);
-                                $EqLogics->checkAndUpdateCmd($Cmd->getLogicalId(), $results_player['api_available']);
-                                break;
-                        }
+        if ($IP_update == true) {
+            // Récupération IP
+            log::add('Freebox_OS', 'debug', ':fg-success:───▶︎ ' . (__('Récupération de l\'adresse IP', __FILE__)) . ':/fg:');
+            $_networkinterface = 'pub' . '/ether-' . $results_player_ID;
+            $result_network_ping = $Free_API->universal_get('universalAPI', null, null, 'lan/browser/' . $_networkinterface, true, true, false);
+            if (isset($result_network_ping['l3connectivities'])) {
+                $result_network_ping = $result_network_ping['l3connectivities'];
+                foreach ($result_network_ping as $result_network_IP) {
+                    if ($result_network_IP['af'] == 'ipv4') {
+                        $list = 'addr';
+                        $para_Value_calcul  = null;
+                        $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
+                        $Value_calcul = null;
+                        //log::add('Freebox_OS', 'debug', ':fg-success:───▶︎ ' . (__('Récupération de l\'adresse IP', __FILE__)) . ' : ' . $result_network_IP['af'] . ':/fg:');
+                        Free_Refresh::refresh_VALUE($EqLogics, $result_network_IP, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul, $Value_calcul, $para_Config_eq);
                     }
                 }
-                break;
+            } else {
+                log::add('Freebox_OS', 'debug', ':fg-info:' . (__('Il n\'est pas possible de l\'adresse IP du Player', __FILE__)) . ':/fg:');
             }
         }
     }
-    private static function refresh_freeplug($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null)
+    private static function refresh_freeplug($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null)
     {
-        $list = 'net_role,rx_rate,tx_rate';
+        $list = 'net_role,rx_rate,tx_rate,model,net_id,eth_port_status,has_network';
         $log_Erreur =  (__('Erreur freeplug : Pas de plug avec cet identifiant', __FILE__));
         $para_Value = array('net_role__cco' => (__('Coordinateur', __FILE__)), 'net_role__sta' => (__('Station', __FILE__)));
         $result = $Free_API->universal_get('universalAPI', $EqLogics->getLogicalId(), null, 'freeplug', true, true, false);
@@ -1031,7 +1065,7 @@ class Free_Refresh
         $log_Erreur = null;
         $para_Value = null;
     }
-    private static function refresh_VM($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null)
+    private static function refresh_VM($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null)
     {
         $list = 'enable_screen,disk_type,mac,memory,name,status,vcpus,bind_usb_ports';
         $log_Erreur =  (__('VM : Impossible de récupérer l’état de cette VM : La VM n’existe pas', __FILE__));
@@ -1064,7 +1098,7 @@ class Free_Refresh
     {
         $result = $Free_API->universal_get('WebSocket', null, null, null);
     }
-    private static function refresh_wifi($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null)
+    private static function refresh_wifi($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null)
     {
         log::add('Freebox_OS', 'debug', '──────────▶︎ :fg-success:' . (__('Mise à jour', __FILE__)) . ' ::/fg: ' . (__('Liste Noire / Blanche', __FILE__)));
         $result = $Free_API->mac_filter_list();
@@ -1128,7 +1162,7 @@ class Free_Refresh
             }
         }
     }
-    private  static function refresh_VALUE($EqLogics, $result, $list, $para_result = null, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $Value_calcul = null)
+    private  static function refresh_VALUE($EqLogics, $result, $list, $para_result = null, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $Value_calcul = null, $para_Config_eq = null)
     {
         if ($para_result['nb'] != 0) {
             if ($para_result['nb'] === 1) {
@@ -1144,10 +1178,8 @@ class Free_Refresh
                 //log::add('Freebox_OS', 'debug', ':fg-info:Niveau 3 ───▶︎ :/fg:' . $para_result[1] . '/' . $para_result[2] . '/' . $para_result[3]);
             }
         }
-
         if ($result != false) {
             $fields = explode(',', $list);
-
             foreach ($EqLogics->getCmd('info') as $Cmd) {
                 foreach ($fields as $fieldname) {
                     $fielLogicalId = $fieldname;
@@ -1180,6 +1212,12 @@ class Free_Refresh
                                         $value = $_uptime;
                                         //log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ Calcul Temps' . ' ::/fg: ' . $value);
                                     }
+                                    if ($para_Value_calcul[$fieldname] === '_TRANSLATE_DATE_') {
+                                        $_jour = date('d.m.y', $value);
+                                        $_time = date('H:i', $value);
+                                        $value = $_jour . ' ' . $_time;
+                                        //log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ Calcul Translate Date' . ' ::/fg: ' . $_jour);
+                                    }
                                     if ($para_Value_calcul[$fieldname] === '_bcdiv_') {
                                         if (function_exists('bcdiv')) {
                                             $value = bcdiv($value, 1048576, 2);
@@ -1200,6 +1238,17 @@ class Free_Refresh
                                 if (isset($para_Config[$fieldname])) {
                                     config::save($para_Config[$fieldname], $value, 'Freebox_OS');
                                     log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . (__('Mise à jour de la configuratuon du Plugin', __FILE__)) . ' ::/fg: ' . $para_Config[$fieldname]);
+                                }
+                            }
+                            if ($para_Config_eq != null) { // Mise à jour des paramétres Config de l'équipement
+                                if (isset($para_Config_eq[$fieldname])) {
+                                    if ($fieldname == 'api_version') {
+                                        $value = 'v'  . $value;
+                                        $value = strstr($value, '.', true);
+                                    }
+                                    $EqLogics->setConfiguration($para_Config_eq[$fieldname], $value);
+                                    $EqLogics->save(true);
+                                    log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . (__('Mise à jour de la configuratuon de l\'équipement', __FILE__)) . ' ::/fg: ' . $para_Config_eq[$fieldname] . ' avec la valeur ' . $value);
                                 }
                             }
                             break;

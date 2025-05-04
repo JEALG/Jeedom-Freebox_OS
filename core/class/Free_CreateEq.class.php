@@ -23,7 +23,7 @@ require_once __DIR__  . '/../../../../core/php/core.inc.php';
 
 class Free_CreateEq
 {
-    public static function createEq($create = 'default', $IsVisible = true)
+    public static function createEq($create = 'default', $IsVisible = true, $type_Log = 'info')
     {
         $date = time();
         $date = date("d/m/Y H:i:s", $date);
@@ -44,7 +44,7 @@ class Free_CreateEq
                 Free_CreateEq::createEq_airmedia($logicalinfo, $templatecore_V4, $order);
                 break;
             case 'box':
-                Free_CreateEq::createEq_Type_Box();
+                Free_CreateEq::createEq_Type_Box($type_Log);
                 break;
             case 'connexion':
                 Free_CreateEq::createEq_connexion($logicalinfo, $templatecore_V4, $order);
@@ -166,9 +166,9 @@ class Free_CreateEq
                 break;
         }
     }
-    private static function createEq_Type_Box()
+    private static function createEq_Type_Box($type_Log = 'info')
     {
-        log::add('Freebox_OS', 'info', '┌── :fg-success: ' . (__('Vérification de la compatibilité de la box avec certaines options', __FILE__)) . ' :/fg:──');
+        log::add('Freebox_OS', $type_Log, '┌── :fg-success: ' . (__('Vérification de la compatibilité de la box avec certaines options', __FILE__)) . ' :/fg:──');
         $Free_API = new Free_API();
         $result = $Free_API->universal_get('system', null, null);
         if (isset($result['disk_status'])) {
@@ -178,57 +178,57 @@ class Free_CreateEq
             $disk_status_description = str_ireplace('initializing', __('Le disque est en cours d\'initialisation', __FILE__), $disk_status_description);
             $disk_status_description = str_ireplace('error', __('Le disque n\'a pas pu être monté', __FILE__), $disk_status_description);
             $disk_status_description = str_ireplace('active', __('Le disque est prêt', __FILE__), $disk_status_description);
-            log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Etat du disque', __FILE__)) . ' ::/fg: ' . $result['disk_status'] . ' / ' . $disk_status_description);
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Etat du disque', __FILE__)) . ' ::/fg: ' . $result['disk_status'] . ' / ' . $disk_status_description);
             $disk_status = $result['disk_status'];
         }
 
         // Compatibilité VM
         if (isset($result['model_info']['has_vm'])) {
-            log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Box compatible avec les VM', __FILE__)) . ' ::/fg: ' . $result['model_info']['has_vm']);
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Box compatible avec les VM', __FILE__)) . ' ::/fg: ' . $result['model_info']['has_vm']);
             $has_vm = $result['model_info']['has_vm'];
         } else {
             $has_vm = false;
-            log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Box compatible avec les VM', __FILE__)) . '::/fg: ' . (__('Non', __FILE__)));
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Box compatible avec les VM', __FILE__)) . '::/fg: ' . (__('Non', __FILE__)));
         }
         config::save('FREEBOX_VM', $has_vm, 'Freebox_OS');
 
         // Compatibilité LED Rouges
         if (isset($result['model_info']['has_led_strip'])) {
-            log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Box compatible avec les LED rouges', __FILE__)) . ' ::/fg: ' . $result['model_info']['has_led_strip']);
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Box compatible avec les LED rouges', __FILE__)) . ' ::/fg: ' . $result['model_info']['has_led_strip']);
             $has_led_strip = $result['model_info']['has_led_strip'];
         } else {
             $has_led_strip = '0';
-            log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Box compatible avec les LED rouges', __FILE__)) . '::/fg: ' . (__('Non', __FILE__)));
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Box compatible avec les LED rouges', __FILE__)) . '::/fg: ' . (__('Non', __FILE__)));
         }
         config::save('FREEBOX_LED_RD', $has_led_strip, 'Freebox_OS');
 
         // Compatibilité mode Eco Wfi
         if (isset($result['model_info']['has_eco_wifi'])) {
             $has_eco_wifi = 1;
-            log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Box compatible avec le mode Eco Wifi', __FILE__)) . ' ::/fg: ' . $result['model_info']['has_eco_wifi']);
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Box compatible avec le mode Eco Wifi', __FILE__)) . ' ::/fg: ' . $result['model_info']['has_eco_wifi']);
         } else {
             $has_eco_wifi = '0';
-            log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Box compatible avec le mode Eco Wifi', __FILE__)) . ' ::/fg: ' . (__('Non', __FILE__)));
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Box compatible avec le mode Eco Wifi', __FILE__)) . ' ::/fg: ' . (__('Non', __FILE__)));
         }
         config::save('FREEBOX_HAS_ECO_WFI', $has_eco_wifi, 'Freebox_OS');
 
         // Compatibilité oritentation texte
         if (isset($result['model_info']['has_lcd_orientation'])) {
-            log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Box compatible avec l\'orientation du texte sur l\'afficheur', __FILE__)) . ' ::/fg: ' . $result['model_info']['has_lcd_orientation']);
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Box compatible avec l\'orientation du texte sur l\'afficheur', __FILE__)) . ' ::/fg: ' . $result['model_info']['has_lcd_orientation']);
             $has_lcd_orientation = $result['model_info']['has_lcd_orientation'];
         } else {
             $has_lcd_orientation = false;
-            log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Box compatible avec l\'orientation du texte sur l\'afficheur', __FILE__)) . '::/fg: ' . (__('Non', __FILE__)));
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Box compatible avec l\'orientation du texte sur l\'afficheur', __FILE__)) . '::/fg: ' . (__('Non', __FILE__)));
         }
         config::save('FREEBOX_LCD_TEXTE', $has_lcd_orientation, 'Freebox_OS');
 
         // Compatibilité Domotique
         if (isset($result['model_info']['has_home_automation'])) {
-            log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Module domotique', __FILE__)) . ' ::/fg: ' . $result['model_info']['has_vm']);
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Module domotique', __FILE__)) . ' ::/fg: ' . $result['model_info']['has_vm']);
             $has_home_automation = $result['model_info']['has_home_automation'];
         } else {
             $has_home_automation = false;
-            log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Module domotique', __FILE__)) . ': :/fg: ' . (__('Non présent', __FILE__)));
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Module domotique', __FILE__)) . ': :/fg: ' . (__('Non présent', __FILE__)));
         }
         if ($result['board_name'] == 'fbxgw7r') {
             $has_home_box = 'OK';
@@ -239,11 +239,11 @@ class Free_CreateEq
             if (is_object($cron)) {
                 $cron->stop();
                 $cron->remove();
-                log::add('Freebox_OS', 'info', '| [  OK  ] - ' . (__('SUPPRESSION CRON DOMOTIQUE', __FILE__)));
+                log::add('Freebox_OS', $type_Log, '| [  OK  ] - ' . (__('SUPPRESSION CRON DOMOTIQUE', __FILE__)));
             }
-            log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Etat CRON Domotique', __FILE__)) . ' ::/fg: ' . config::byKey('FREEBOX_TILES_CRON', 'Freebox_OS'));
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Etat CRON Domotique', __FILE__)) . ' ::/fg: ' . config::byKey('FREEBOX_TILES_CRON', 'Freebox_OS'));
         }
-        log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Box compatible avec la domotique', __FILE__)) . ' ::/fg: ' . config::byKey('TYPE_FREEBOX_TILES', 'Freebox_OS'));
+        log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Box compatible avec la domotique', __FILE__)) . ' ::/fg: ' . config::byKey('TYPE_FREEBOX_TILES', 'Freebox_OS'));
 
         // Ecriture variable
         $Setting = array(
@@ -258,14 +258,14 @@ class Free_CreateEq
         );
         // board_Name
         config::save('TYPE_FREEBOX', $result['board_name'], 'Freebox_OS');
-        log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ Board name ::/fg: ' . config::byKey('TYPE_FREEBOX', 'Freebox_OS'));
+        log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ Board name ::/fg: ' . config::byKey('TYPE_FREEBOX', 'Freebox_OS'));
         // pretty_name
         config::save('TYPE_FREEBOX_NAME', $result['model_info']['pretty_name'], 'Freebox_OS');
-        log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Type de box', __FILE__)) . '  ::/fg: ' . config::byKey('TYPE_FREEBOX_NAME', 'Freebox_OS'));
+        log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Type de box', __FILE__)) . '  ::/fg: ' . config::byKey('TYPE_FREEBOX_NAME', 'Freebox_OS'));
         // Titles
         config::save('TYPE_FREEBOX_TILES', $Setting['has_home_box'], 'Freebox_OS');
 
-        log::add('Freebox_OS', 'info', '└────────────────────');
+        log::add('Freebox_OS', $type_Log, '└────────────────────');
         return $Setting;
     }
     private static function createEq_airmedia($logicalinfo, $templatecore_V4, $order = 0)
@@ -552,11 +552,15 @@ class Free_CreateEq
         $result = $Free_API->universal_get('universalAPI', null, null, 'freeplug', true, true, false);
         if (isset($result['result'])) {
             foreach ($result['result'] as $freeplugs) {
+                $order = 0;
                 foreach ($freeplugs['members'] as $freeplug) {
                     log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('Création Freeplug', __FILE__)) . ' : ' . $freeplug['id']);
                     $FreePlug = Freebox_OS::AddEqLogic($logicalinfo['freeplugName'] . ' - ' . $freeplug['id'], $freeplug['id'], 'default', true, $logicalinfo['freeplugID'], null, null, '*/5 * * * *', null, null, 'system');
-                    $FreePlug->AddCommand(__('Rôle', __FILE__), 'net_role', 'info', 'string',  $templatecore_V4 . 'line', null, 'default', 0, 'default', 'default', 0, 'default', 0, 'default', 'default', 10, '0', $updateicon, false, false, true);
-                    $FreePlug->AddCommand(__('Redémarrer', __FILE__), 'reset', 'action', 'other',  $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, $iconReboot, 0, 'default', 'default',  1, '0', true, false, null, true);
+                    $FreePlug->AddCommand(__('Redémarrer', __FILE__), 'reset', 'action', 'other',  $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, $iconReboot, 0, 'default', 'default',  $order++, '0', true, false, null, true);
+                    $FreePlug->AddCommand(__('Rôle', __FILE__), 'net_role', 'info', 'string',  $templatecore_V4 . 'line', null, 'default', 0, 'default', 'default', 0, 'default', 0, 'default', 'default', $order++, '0', $updateicon, false, false, true);
+                    $FreePlug->AddCommand(__('Modèle', __FILE__), 'model', 'info', 'string',  $templatecore_V4 . 'line', null, 'default', 0, 'default', 'default', 0, 'default', 0, 'default', 'default', $order++, '0', $updateicon, false, false, true);
+                    $FreePlug->AddCommand(__('Statut Ethernet', __FILE__), 'eth_port_status', 'info', 'string',  $templatecore_V4 . 'line', null, 'default', 0, 'default', 'default', 0, 'default', 0, 'default', 'default', $order++, '0', $updateicon, false, false, true);
+                    $FreePlug->AddCommand(__('Freeplug connecté', __FILE__), 'has_network', 'info', 'string',  $templatecore_V4 . 'line', null, 'default', 0, 'default', 'default', 0, 'default', 0, 'default', 'default', $order++, '0', $updateicon, false, false, true);
                 }
             }
         }
@@ -756,15 +760,14 @@ class Free_CreateEq
     private static function createEq_netshare($logicalinfo, $templatecore_V4)
     {
         log::add('Freebox_OS', 'debug', '┌── :fg-success:' . (__('Début de création des commandes pour', __FILE__)) . ' ::/fg: '  . $logicalinfo['netshareName'] . ' ──');
-        $order = 1;
         $color_on = ' icon_green';
         $color_off = ' icon_red';
         $updateicon = false;
 
         $netshare = Freebox_OS::AddEqLogic($logicalinfo['netshareName'], $logicalinfo['netshareID'], 'multimedia', false, null, null, null, '5 */12 * * *', null, null, 'system', true);
         $boucle_num = 1; // 1 = Partage Imprimante - 2 = Partage de fichiers Windows - 3 = Partage Fichier Mac - 4 = Partage Fichier FTP
-        $order = 1;
-        while ($boucle_num <= 5) {
+
+        while ($boucle_num <= 7) {
             if ($boucle_num == 1) {
                 $name = __('Partage Imprimante', __FILE__);
                 $Logical_ID = 'print_share_enabled';
@@ -786,17 +789,32 @@ class Free_CreateEq
                 $icon = 'fas fa-handshake';
                 $template = 'Freebox_OS::Partage FTP';
             } else if ($boucle_num == 5) {
-                $name = __('SMBv2', __FILE__);
+                $name = __('Activer SMB2 - SMB3', __FILE__);
                 $Logical_ID = 'smbv2_enabled';
                 $icon = 'fab fa-creative-commons-share';
                 $template = 'Freebox_OS::Activer SMBv2';
+            } else if ($boucle_num == 6) {
+                $name = __('Mot de passe', __FILE__);
+                $Logical_ID = 'logon_enabled';
+                $icon = 'fas fa-key';
+                $template = 'Freebox_OS::Activer Mot de passe';
+            } else if ($boucle_num == 7) {
+                $name = __('Autoriser les accès invité', __FILE__);
+                $Logical_ID = 'guest_allow';
+                $icon = 'fab fa-slideshare';
+                $template = 'Freebox_OS::Autoriser Invité';
             }
+            $order = $boucle_num  + 20;
             log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('Boucle pour Création des commandes', __FILE__)) . ' : ' . $name);
-            $netshareSTATUS = $netshare->AddCommand($name, $Logical_ID, "info", 'binary', null, null, 'SWITCH_STATE', 0, '', '', '', $icon, 0, 'default', 'default', '0', $order, $updateicon, true);
-            $netshare->AddCommand(__('Activer', __FILE__) . ' ' . $name, $Logical_ID . 'On', 'action', 'other', $template, null, 'SWITCH_ON', 1, $netshareSTATUS, '', 0, $icon . $color_on, 0, 'default', 'default', $order++, '0', $updateicon, false);
+            $netshareSTATUS = $netshare->AddCommand($name, $Logical_ID, "info", 'binary', null, null, 'SWITCH_STATE', 0, '', '', '', $icon, 0, 'default', 'default', '0', $boucle_num, $updateicon, true);
+            $netshare->AddCommand(__('Activer', __FILE__) . ' ' . $name, $Logical_ID . 'On', 'action', 'other', $template, null, 'SWITCH_ON', 1, $netshareSTATUS, '', 0, $icon . $color_on, 0, 'default', 'default', $order, '0', $updateicon, false);
             $netshare->AddCommand(__('Désactiver', __FILE__) . ' ' . $name, $Logical_ID  . 'Off', 'action', 'other', $template, null, 'SWITCH_OFF', 1, $netshareSTATUS, '', 0, $icon . $color_off, 0, 'default', 'default', $order++, '0', $updateicon, false);
             $boucle_num++;
         }
+        $order = 200;
+        $netshare->AddCommand('Workgroup', 'workgroup', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
+        $netshare->AddCommand(__('Nom Utilisateur', __FILE__), 'logon_user', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
+        $netshare->AddCommand('Icône finder', 'server_type', 'info', 'string', null, null, null, 0, 'default', 'default', 0, null, 0, 'default', 'default', $order++, '0', false, false);
         log::add('Freebox_OS', 'debug', '└────────────────────');
     }
     private static function createEq_network_interface($logicalinfo, $templatecore_V4, $order = 0)
@@ -1022,10 +1040,10 @@ class Free_CreateEq
     }*/
     private static function createEq_system_standby($logicalinfo, $templatecore_V4, $order = 1, $system = null)
     {
-        log::add('Freebox_OS', 'debug', '|:fg-success:───▶︎ ' . (__('Ajout des commandes spécifiques pour l\'équipement', __FILE__)) . ' ::/fg: ' .  $logicalinfo['systemName'] . ' - Mode Standby Disponible');
         if ($system != null) {
             $Free_API = new Free_API();
             $result = $Free_API->universal_get('system', null, null, null, true, true, null);
+            log::add('Freebox_OS', 'debug', '|:fg-success:───▶︎ ' . (__('Ajout des commandes spécifiques pour l\'équipement', __FILE__)) . ' ::/fg: ' .  $logicalinfo['systemName'] . ' - Mode Standby Disponible');
             if (isset($result['model_info']['has_standby'])) {
                 $system->AddCommand(__('Mode Standby disponible', __FILE__), 'has_standby', 'info', 'binary',  $templatecore_V4 . 'line', null, null, 0, 'default', 'model_info',  0, null, 0, 'default', 'default',  $order++, '0', null, true, null, null, null, null, null, null, null, null, null, true, null, null, null, null, null, null, null, null, null, null);
             } else {
@@ -1035,6 +1053,12 @@ class Free_CreateEq
                 $system->AddCommand(__('Mode Veille Wifi', __FILE__), 'has_eco_wifi', 'info', 'binary',  $templatecore_V4 . 'line', null, null, 0, 'default', 'model_info',  0, null, 0, 'default', 'default',  $order++, '0', null, true, null, null, null, null, null, null, null, null, null, true, null, null, null, null, null, null, null, null, null, null);
             } else {
                 log::add('Freebox_OS', 'debug', '|:fg-success:───▶︎ ' . (__('Mode Veille Wifi pas disponible', __FILE__)) . ':/fg:');
+            }
+            log::add('Freebox_OS', 'debug', '|:fg-success:───▶︎ ' . (__('Ajout des commandes spécifiques pour l\'équipement', __FILE__)) . ' ::/fg: ' .  $logicalinfo['systemName'] . ' - USB3');
+            if (isset($result['usb3_enable'])) {
+                $system->AddCommand(__('Support USB3', __FILE__), 'usb3_enable', 'info', 'string',  $templatecore_V4 . 'line', null, null, 1, 'default', null, 0,  'default', 0, 'default', 'default',  $order++, '0', null, true, null, true, null, null, null, null, null, null, null, true, null, null, null, null, null, null, null, null, null, null);
+            } else {
+                log::add('Freebox_OS', 'debug', '|:fg-success:───▶︎ ' . (__('Support USB3 disponible', __FILE__)) . ':/fg:');
             }
         }
     }
@@ -1078,14 +1102,14 @@ class Free_CreateEq
                 $result_SP = $Free_API->universal_get('system', null, $boucle_update, null, true, true, false);
                 if ($boucle_num == 3) {
                     if (isset(($result_SP['has_expansions']))) {
-                        log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Module expansions disponible', __FILE__)) . ':/fg:');
+                        log::add('Freebox_OS', 'info', '|:fg-info:───▶︎ ' . (__('Module expansions disponible', __FILE__)) . ':/fg:');
                     } else {
-                        log::add('Freebox_OS', 'info', '| :fg-info:───▶︎ ' . (__('Module expansions non disponible', __FILE__)) . ':/fg:');
+                        log::add('Freebox_OS', 'info', '|:fg-info:───▶︎ ' . (__('Module expansions non disponible', __FILE__)) . ':/fg:');
                         break;
                     }
                 }
                 if ($result_SP != false) {
-                    log::add('Freebox_OS', 'debug', '|:fg-warning: ───▶︎ ' . (__('Boucle pour la mise à jour', __FILE__)) . ' ::/fg: ' . $boucle_update);
+                    log::add('Freebox_OS', 'debug', '|:fg-warning:───▶︎ ' . (__('Boucle pour la mise à jour', __FILE__)) . ' ::/fg: ' . $boucle_update);
 
                     foreach ($result_SP  as $Equipement) {
                         if ($Equipement != null) {

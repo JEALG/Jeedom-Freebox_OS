@@ -26,7 +26,7 @@ function Freebox_OS_install()
 		$cron->setTimeout('1440');
 		$cron->save();
 	}
-	$cron = cron::byClassAndFunction('Freebox_OS', 'FreeboxAPI');
+	/*$cron = cron::byClassAndFunction('Freebox_OS', 'FreeboxAPI');
 	if (!is_object($cron)) {
 		$cron = new cron();
 		$cron->setClass('Freebox_OS');
@@ -37,9 +37,8 @@ function Freebox_OS_install()
 		//$cron->setDeamonSleepTime(1);
 		$cron->setTimeout('15');
 		$cron->save();
-	}
+	}*/
 	updateConfig();
-	config::save('FREEBOX_API', 'v13', 'Freebox_OS');
 }
 function Freebox_OS_update()
 {
@@ -65,17 +64,10 @@ function Freebox_OS_update()
 		$cron->save();
 	}
 	$cron = cron::byClassAndFunction('Freebox_OS', 'FreeboxAPI');
-	if (!is_object($cron)) {
-		$cron = new cron();
-		$cron->setClass('Freebox_OS');
-		$cron->setFunction('FreeboxAPI');
-		$cron->setEnable(1);
-		$cron->setSchedule('0 0 * * 1');
-		$cron->setTimeout('15');
-		$cron->save();
+	if (is_object($cron)) {
+		$cron->stop();
+		$cron->remove();
 	}
-	updateConfig();
-
 
 	try {
 		$plugin = plugin::byId('Freebox_OS');
@@ -154,16 +146,8 @@ function Freebox_OS_update()
 				config::save('FREEBOX_TILES_CmdbyCmd', '1', 'Freebox_OS');
 			}*/
 		}
-		log::add('Freebox_OS', 'debug', '│ Etape 4/4 : ' . (__('Création API', __FILE__)));
-		$Config_KEY = config::byKey('FREEBOX_API', 'Freebox_OS');
-		if (empty($Config_KEY)) {
-			config::save('FREEBOX_API', 'v13', 'Freebox_OS');
-			log::add('Freebox_OS', 'debug', '│ ' . (__('Mise à jour de la version API en V13', __FILE__)));
-		}
-		$Config_KEY = config::byKey('FREEBOX_REBOOT_DEAMON', 'Freebox_OS');
-		if (empty($Config_KEY)) {
-			config::save('FREEBOX_REBOOT_DEAMON', FALSE, 'Freebox_OS');
-		}
+		log::add('Freebox_OS', 'debug', '│ Etape 4/4 : ' . (__('Création ou mise à jour des variables nécessaire pour le plugin', __FILE__)));
+		updateConfig();
 
 		//message::add('Freebox_OS', '{{Cette mise nécessite de lancer les divers Scans afin de bénéficier des nouveautés et surtout des correctifs}}');
 	} catch (Exception $e) {
@@ -230,13 +214,52 @@ function removeLogicId($cmdDel)
 
 function updateConfig()
 {
-	config::save('FREEBOX_SERVER_IP', config::byKey('FREEBOX_SERVER_IP', 'Freebox_OS', "mafreebox.freebox.fr"), 'Freebox_OS');
-	//config::save('FREEBOX_SERVER_APP_VERSION', config::byKey('FREEBOX_SERVER_APP_VERSION', 'Freebox_OS', "v5.0.0"), 'Freebox_OS');
-	config::save('FREEBOX_SERVER_APP_NAME', config::byKey('FREEBOX_SERVER_APP_NAME', 'Freebox_OS', "Plugin Freebox OS"), 'Freebox_OS');
-	config::save('FREEBOX_SERVER_APP_ID', config::byKey('FREEBOX_SERVER_APP_ID', 'Freebox_OS', "plugin.freebox.jeedom"), 'Freebox_OS');
-	config::save('FREEBOX_SERVER_DEVICE_NAME', config::byKey('FREEBOX_SERVER_DEVICE_NAME', 'Freebox_OS', config::byKey("name")), 'Freebox_OS');
-	config::save('FREEBOX_REBOOT_DEAMON', config::byKey('FREEBOX_REBOOT_DEAMON', 'Freebox_OS', FALSE), 'Freebox_OS');
-
+	$FREEBOX_API = 'v13';
+	$Config_KEY = 'FREEBOX_SERVER_IP';
+	$Config_value = 'mafreebox.freebox.fr';
+	$Config = config::byKey($Config_KEY, 'Freebox_OS');
+	if (empty($Config)) {
+		config::byKey($Config, 'Freebox_OS', $Config_value);
+	}
+	$Config_KEY = 'FREEBOX_SERVER_APP_NAME';
+	$Config_value = 'Plugin Freebox OS';
+	$Config = config::byKey($Config_KEY, 'Freebox_OS');
+	if (empty($Config)) {
+		config::byKey($Config, 'Freebox_OS', $Config_value);
+	}
+	$Config_KEY = 'FREEBOX_SERVER_APP_ID';
+	$Config_value = 'plugin.freebox.jeedom';
+	$Config = config::byKey($Config_KEY, 'Freebox_OS');
+	if (empty($Config)) {
+		config::byKey($Config, 'Freebox_OS', $Config_value);
+	}
+	$Config_KEY = 'FREEBOX_API';
+	$Config_value = $FREEBOX_API;
+	$Config = config::byKey($Config_KEY, 'Freebox_OS');
+	if (empty($Config)) {
+		config::byKey($Config, 'Freebox_OS', $Config_value);
+	}
+	$Config_KEY = 'FREEBOX_API_DEFAUT';
+	$Config_value = $FREEBOX_API;
+	$Config = config::byKey($Config_KEY, 'Freebox_OS');
+	if (empty($Config)) {
+		config::byKey($Config, 'Freebox_OS', $Config_value);
+	}
+	if (config::byKey($Config, 'Freebox_OS', 0) != $$Config_value) {
+		config::byKey($Config, 'Freebox_OS', $Config_value);
+	}
+	$Config_KEY = 'FREEBOX_SERVER_DEVICE_NAME';
+	$Config_value = config::byKey("name");
+	$Config = config::byKey($Config_KEY, 'Freebox_OS');
+	if (empty($Config)) {
+		config::byKey($Config, 'Freebox_OS', $Config_value);
+	}
+	$Config_KEY = 'FREEBOX_REBOOT_DEAMON';
+	$Config_value = FALSE;
+	$Config = config::byKey($Config_KEY, 'Freebox_OS');
+	if (empty($Config)) {
+		config::byKey($Config, 'Freebox_OS', $Config_value);
+	}
 	$version = 1;
 	if (config::byKey('FREEBOX_CONFIG_V', 'Freebox_OS', 0) != $version) {
 		Freebox_OS::resetConfig();
