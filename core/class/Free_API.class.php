@@ -283,7 +283,7 @@ class Free_API
     {
         $msg_box2 = null;
         $return_result = false;
-        if (str_contains($api_url, '/player/') && $error_code == 'invalid_api_version') {
+        if (strpos($api_url, '/player/') && $error_code == 'invalid_api_version') {
             $type_log = 'Debug';
             log::add('Freebox_OS', 'debug', ':fg-warning: ───▶︎ ' . (__('Annulation du message d\'erreur pour le Player avec la version de l\'API', __FILE__))  .  ':/fg:' . ' : ' . $api_url);
         } else {
