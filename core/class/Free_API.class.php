@@ -341,6 +341,10 @@ class Free_API
                 $type_log = 'Debug';
                 $msg_box1 = (__('Pas d\'appareil connecté avec cette adresse MAC', __FILE__));
                 break;
+            case "nodev":
+                $type_log = 'Debug';
+                $msg_box1 = (__('Aucun appareil trouvé avec ce nom', __FILE__));
+                break;
             default:
                 $msg_box1 = (__('[Message inconnue]', __FILE__));
                 break;

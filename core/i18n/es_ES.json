@@ -6,6 +6,7 @@
     "plugins\/Freebox_OS\/core\/class\/Free_API.class.php": {
         "AUCUN APPEL": "SIN LLAMADA",
         "Annulation du message d\\'erreur pour le Player avec la version de l\\'API": "Cancelar mensaje de error para Player con versión API",
+        "Aucun appareil trouvé avec ce nom": "No se han encontrado dispositivos con este nombre",
         "Aucune donnée": "Sin datos",
         "Erreur : Le Token que vous essayez d\\'utiliser est non valide ou a été révoqué": "Error : El token que intenta utilizar no es válido o ha sido revocado",
         "Erreur : Le Token que vous essayez d\\'utiliser n\\'a pas encore été validé par l\\'utilisateur": "Error : El token que intenta utilizar aún no ha sido validado por el usuario",
