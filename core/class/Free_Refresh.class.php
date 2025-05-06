@@ -972,7 +972,7 @@ class Free_Refresh
                 if ($EqLogics->getConfiguration('player_MAC') == 'MAC') {
                     $list = 'mac,stb_type,device_model,api_version,api_available,reachable,last_time_reachable,uid';
                 } else {
-                    $list = 'mac,api_available,reachable';
+                    $list = 'mac,api_available,reachable,api_version,reachable,last_time_reachable,uid';
                     // $results_player_ID = $results_player['id'];
                 }
                 $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
@@ -984,7 +984,13 @@ class Free_Refresh
                 $IP_update = true;
             }
         }
-        $player_API_VERSION = $EqLogics->getConfiguration('player_API_VERSION');
+        if ($EqLogics->getConfiguration('player_API_VERSION') != '') {
+            $player_API_VERSION = $EqLogics->getConfiguration('player_API_VERSION');
+            log::add('Freebox_OS', 'debug', ':fg-success:───▶︎ ' . (__('La version API du player est disponible', __FILE__)) . ':/fg: : ' . $player_API_VERSION);
+        } else {
+            $player_API_VERSION = 'v8';
+            log::add('Freebox_OS', 'debug', ':fg-warning:───▶︎ ' . (__('La version API du player n\'est disponible, utilisation API par défaut', __FILE__)) . ':/fg: : ' . $player_API_VERSION);
+        }
         if ($EqLogics->getConfiguration('player') == 'OK' && $EqLogics->getConfiguration('player_MAC') != 'MAC') {
             $results_playerID = $Free_API->universal_get('universalAPI', null, null, 'player/' . $EqLogics->getConfiguration('action') . '/api/' . $player_API_VERSION . '/status', true, true, false);
             if (isset($results_playerID['power_state'])) {

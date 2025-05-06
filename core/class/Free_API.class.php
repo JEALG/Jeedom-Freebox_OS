@@ -347,7 +347,10 @@ class Free_API
                 break;
             case "noent":
                 $type_log = 'Debug';
-                $msg_box1 = (__('ID invalide ou ID de règle invalide', __FILE__));
+                if ($msg == 'Aucun module 4G détecté') {
+                } else {
+                    $msg_box1 = (__('Aucun module 4G détecté', __FILE__));
+                }
                 break;
             case "internal_error":
                 $type_log = 'Debug';
