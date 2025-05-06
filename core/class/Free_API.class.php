@@ -349,6 +349,10 @@ class Free_API
                 $type_log = 'Debug';
                 $msg_box1 = (__('ID invalide ou ID de règle invalide', __FILE__));
                 break;
+            case "internal_error":
+                $type_log = 'Debug';
+                $msg_box1 = (__('Erreur interne', __FILE__));
+                break;
             default:
                 $msg_box1 = (__('[Message inconnue]', __FILE__));
                 break;
