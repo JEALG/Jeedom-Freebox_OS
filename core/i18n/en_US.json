@@ -18,6 +18,7 @@
         "Erreur Freeplug : Pas de Plug avec cet identifiant": "Freeplug error: No Plug with this identifier",
         "Erreur VM : La VM n\\'existe pas ou l\\'application n\\'ai pas comptatible avec la BOX": "VM error : The VM does not exist or the application is not compatible with the BOX",
         "Erreur de connexion cURL vers": "CURL connection error to",
+        "Erreur interne": "Internal error",
         "Etat Contrôle Parental": "Parental Control status",
         "Etat des notifications": "Notification status",
         "FONCTION": "FUNCTION",
