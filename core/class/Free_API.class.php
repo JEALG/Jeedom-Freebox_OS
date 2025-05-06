@@ -345,6 +345,10 @@ class Free_API
                 $type_log = 'Debug';
                 $msg_box1 = (__('Aucun appareil trouvé avec ce nom', __FILE__));
                 break;
+            case "noent":
+                $type_log = 'Debug';
+                $msg_box1 = (__('ID invalide ou ID de règle invalide', __FILE__));
+                break;
             default:
                 $msg_box1 = (__('[Message inconnue]', __FILE__));
                 break;
