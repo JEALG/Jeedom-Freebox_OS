@@ -260,13 +260,19 @@ class Free_API
                 if (isset($result['success']) || isset($result['error_code'])) {
                     if (!$result['success']) {
                         $msg = $this->msg_box($result['error_code'], $result['msg'], $api_url);
-                        log::add('Freebox_OS', $msg['type_log'], $msg['msg_box1'] . ' : ' . $result['error_code']);
+                        $log_level_color_start = '';
+                        $log_level_color_end = '';
+                        if ($msg['log_level'] === 'Debug') {
+                            $log_level_color_start = ':fg-warning: ───▶︎ ';
+                            $log_level_color_end = ':/fg:';
+                        }
+                        log::add('Freebox_OS', $msg['log_level'],  $log_level_color_start . $msg['msg_box1'] . ' ───▶︎ ' . $log_level_color_end . (__('Code Erreur', __FILE__)) . ' = ' . $result['error_code']);
                         if ($msg['return_result'] == false) {
                             return false;
                         } else if ($msg['return_result'] == 'auth_required') {
                             $this->close_session();
                             $this->getFreeboxOpenSessionData();
-                            log::add('Freebox_OS', $msg['type_log'], $msg['msg_box2'] . ' : ' . $result['error_code']);
+                            log::add('Freebox_OS', $msg['log_level'], $msg['msg_box2'] . ' : ' . $result['error_code']);
                             $result = 'auth_required';
                         } else if ($msg['return_result'] == 'result') {
                             return $result;
@@ -284,10 +290,10 @@ class Free_API
         $msg_box2 = null;
         $return_result = false;
         if (strpos($api_url, '/player/') !== false     && $error_code == 'invalid_api_version') {
-            $type_log = 'Debug';
+            $log_level = 'Debug';
             log::add('Freebox_OS', 'debug', ':fg-warning: ───▶︎ ' . (__('Annulation du message d\'erreur pour le Player avec la version de l\'API', __FILE__))  .  ':/fg:' . ' : ' . $api_url);
         } else {
-            $type_log = 'Error';
+            $log_level = 'Error';
         }
 
         switch ($error_code) {
@@ -299,15 +305,15 @@ class Free_API
                 $msg_box1 = (__('[Redémarrage session à cause de l\'erreur]', __FILE__));
                 $msg_box2 = (__('[Redémarrage session Terminée à cause de l\'erreur]', __FILE__));
                 $return_result = 'auth_required';
-                $type_log = 'Debug';
+                $log_level = 'Debug';
                 break;
             case "denied_from_external_ip":
                 $msg_box1 = (__('Erreur Accès : Vous essayez d\'obtenir un Token d\'application depuis une adresse IP distante', __FILE__));
                 break;
             case "nosta":
                 if ($msg == 'Erreur freeplug : Pas de plug avec cet identifiant') {
-                    $type_log = 'Debug';
-                    $msg_box1 = (__('Erreur Freeplug : Pas de Plug avec cet identifiant', __FILE__));
+                    $log_level = 'Debug';
+                    $msg_box1 = (__('Pas de Freeplug avec cet identifiant', __FILE__));
                 } else {
                     $msg_box1 = (__('[Message inconnue]', __FILE__));
                 }
@@ -338,23 +344,25 @@ class Free_API
                 $msg_box1 = (__('Erreur VM : La VM n\'existe pas ou l\'application n\'ai pas comptatible avec la BOX', __FILE__));
                 break;
             case "nohost":
-                $type_log = 'Debug';
+                $log_level = 'Debug';
                 $msg_box1 = (__('Pas d\'appareil connecté avec cette adresse MAC', __FILE__));
                 break;
             case "nodev":
-                $type_log = 'Debug';
+                $log_level = 'Debug';
                 $msg_box1 = (__('Aucun appareil trouvé avec ce nom', __FILE__));
                 break;
             case "noent":
-                $type_log = 'Debug';
+                $log_level = 'Debug';
                 if ($msg == 'Aucun module 4G détecté') {
                     $msg_box1 = (__('Aucun module 4G détecté', __FILE__));
+                } else if ($msg = 'Impossible de récupérer le network control : Pas de contrôle de reseau existant avec ce profil') {
+                    $msg_box1 = (__('Pas de contrôle de parental existant avec ce profil', __FILE__));
                 } else {
                     $msg_box1 = (__('ID invalide ou ID de règle invalide', __FILE__));
                 }
                 break;
             case "internal_error":
-                $type_log = 'Debug';
+                $log_level = 'Debug';
                 $msg_box1 = (__('Erreur interne', __FILE__));
                 break;
             default:
@@ -365,7 +373,7 @@ class Free_API
             'msg_box1' => $msg_box1,
             'msg_box2' => $msg_box2,
             'return_result' => $return_result,
-            'type_log' => $type_log
+            'log_level' => $log_level
         );
         return $msgbox;
     }
