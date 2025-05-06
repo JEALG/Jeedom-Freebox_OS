@@ -809,7 +809,7 @@ class Freebox_OS extends eqLogic
 	{
 		if ($this->getConfiguration('eq_group') === 'tiles') {
 			if ($this->getConfiguration('type') === 'alarm_control') {
-				log::add('Freebox_OS', 'debug', '──────────▶︎ :fg-warning: ' . (__('SAUVEGARDE : Mise à jour des paramètrages spécifiques pour Homebridge', __FILE__))  . $this->getName() . '/' . $this->getConfiguration('type')  . ':/fg: ◀︎───────────');
+				log::add('Freebox_OS', 'debug', '──────────▶︎ :fg-warning: ' . (__('SAUVEGARDE : Mise à jour des paramètrages spécifiques pour Homebridge', __FILE__))  . ' ::/fg: ' . $this->getName() . '/' . $this->getConfiguration('type'));
 				foreach ($this->getCmd('action') as $Cmd) {
 					if (is_object($Cmd)) {
 						switch ($Cmd->getLogicalId()) {

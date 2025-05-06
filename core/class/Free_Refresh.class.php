@@ -167,7 +167,6 @@ class Free_Refresh
             $Value_calcul = array('cdayranges' => $cdayranges, 'macs' => $macs);
             Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultP, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul, $Value_calcul);
         } else {
-            log::add('Freebox_OS', 'debug', ':fg-warning: ───▶︎ ' . (__('Pas de contrôle de réseau existant avec ce profil', __FILE__)) .  ':/fg:');
             Freebox_OS::DisableEqLogic($EqLogics, false);
         }
     }
@@ -1059,16 +1058,12 @@ class Free_Refresh
     private static function refresh_freeplug($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null)
     {
         $list = 'net_role,rx_rate,tx_rate,model,net_id,eth_port_status,has_network';
-        $log_Erreur =  (__('Erreur freeplug : Pas de plug avec cet identifiant', __FILE__));
         $para_Value = array('net_role__cco' => (__('Coordinateur', __FILE__)), 'net_role__sta' => (__('Station', __FILE__)));
         $result = $Free_API->universal_get('universalAPI', $EqLogics->getLogicalId(), null, 'freeplug', true, true, false);
         $para_resultFPL = array('nb' => 1, 1 => 'result', 2 => null, 3 => null);
         if (isset($result['result']['id'])) {
             Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultFPL, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
-        } else {
-            log::add('Freebox_OS', 'debug', ':fg-warning: ───▶︎ ' . $log_Erreur .  ':/fg:');
         }
-        $log_Erreur = null;
         $para_Value = null;
     }
     private static function refresh_VM($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null)

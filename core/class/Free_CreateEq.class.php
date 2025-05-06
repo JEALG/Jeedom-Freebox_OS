@@ -328,17 +328,15 @@ class Free_CreateEq
         log::add('Freebox_OS', 'debug', '┌── :fg-success:' . (__('Début de création des commandes pour', __FILE__)) . ' ::/fg: '  . $logicalinfo['connexionName'] . ' ──');
         $updateicon = false;
         $iconspeed = 'fas fa-tachometer-alt icon_blue';
-
         $Free_API = new Free_API();
         $result = $Free_API->universal_get('connexion', null, null, 'ftth', true, true, false);
         if ($result['sfp_present'] == null) {
-            $_modul = 'Module Fibre : Non Présent';
+            $_modul =  (__('Non Présent', __FILE__));
             $_bandwidth_value_down = '#value# / 1000000';
             $_bandwidth_down_unit = 'Mb/s';
             $_bandwidth_value_up = '#value#  / 1000000';
             $_bandwidth_up_unit = 'Mb/s';
         } else {
-            $_modul = 'Module Fibre : Présent';
             $_bandwidth_value_down = '#value#  / 1000000000';
             $_bandwidth_down_unit = 'Gb/s';
             $_bandwidth_value_up = '#value#  / 1000000';
@@ -362,8 +360,10 @@ class Free_CreateEq
         if ($result['sfp_present'] != null) {
             $order = 19;
             Free_CreateEq::createEq_connexion_FTTH($logicalinfo, $templatecore_V4, $order, $result);
+        } else {
+            log::add('Freebox_OS', 'debug', '| :fg-warning:───▶︎ ' . (__('Module fibre', __FILE__)) . ' ::/fg: '  . $_modul);
         }
-        log::add('Freebox_OS', 'debug', '| ───▶︎ ' . $_modul);
+
 
         log::add('Freebox_OS', 'debug', '└────────────────────');
     }
@@ -375,7 +375,7 @@ class Free_CreateEq
             if (isset($result['link_type'])) {
                 $Connexion->AddCommand(__('Type de connexion Fibre', __FILE__), 'link_type', 'info', 'string', $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, null, null, null, null, null, null, true);
             } else {
-                log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('Fonction type de connexion Fibre non présent', __FILE__)));
+                log::add('Freebox_OS', 'debug', '| :fg-warning:───▶︎ ' . (__('Fonction type de connexion Fibre non présent', __FILE__)) . ':/fg:');
             }
             log::add('Freebox_OS', 'debug', '| :fg-success:───▶︎ ' . (__('Ajout des commandes spécifiques pour la fibre', __FILE__)) . ' ::/fg: ' . $logicalinfo['connexionName']);
             $Connexion->AddCommand(__('Module Fibre présent', __FILE__), 'sfp_present', 'info', 'binary', $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, null, null, null, null, null, null, true);
@@ -402,9 +402,6 @@ class Free_CreateEq
             $Connexion->AddCommand(__('Débit xDSL Descendant (max)', __FILE__), 'tx_max_rate_xdsl', 'info', 'numeric', $templatecore_V4 . 'badge', 'ko/s', null, 0, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', null, true, null, null, null, '#value# / 1000', '2', null, null, null, null, true);
             $Connexion->AddCommand(__('Débit xDSL Montant (max)', __FILE__), 'rx_max_rate_xdsl', 'info', 'numeric', $templatecore_V4 . 'badge', 'ko/s', null, 0, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', null, true, null, null, null, '#value# / 1000', '2', null, null, null, null, true);
             $Connexion->AddCommand(__('Etat de la connexion xDSL 4G', __FILE__), 'state', 'info', 'string', $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', null, true);
-        } else {
-            $_modul = (__('Module 4G : Non Présent', __FILE__));
-            log::add('Freebox_OS', 'debug', '| ───▶︎ ' . $_modul);
         }
 
         log::add('Freebox_OS', 'debug', '└────────────────────');
