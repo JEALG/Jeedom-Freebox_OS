@@ -23,6 +23,7 @@
         "FONCTION": "FUNCTION",
         "Fonction": "Function",
         "Fonction 2": "Function 2",
+        "ID invalide ou ID de règle invalide": "Invalid ID or invalid rule ID",
         "La version API est nulle mise en place version provisoire": "The API version is null and void, provisional version in place",
         "La version de l\\'API n\\'est pas compatible": "API version is not compatible",
         "Lecture des Ports l\\'adresse Mac": "Reading Mac Address Ports",
