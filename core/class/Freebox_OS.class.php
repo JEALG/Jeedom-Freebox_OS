@@ -459,9 +459,7 @@ class Freebox_OS extends eqLogic
 				if ($Player_CONFIG['player_ID_MAC'] != null) {
 					$EqLogic->setConfiguration('player_MAC', $Player_CONFIG['player_ID_MAC']);
 				}
-				if ($Player_CONFIG['player_API_VERSION'] != null) {
-					$EqLogic->setConfiguration('player_API_VERSION', $Player_CONFIG['player_API_VERSION']);
-				}
+				$EqLogic->setConfiguration('player_API_VERSION', $Player_CONFIG['player_API_VERSION']);
 				if ($Player_CONFIG['player_ID_MAC'] !=  $eq_action) {
 					if ($eq_action != null) {
 						$EqLogic->setConfiguration('action', $eq_action);

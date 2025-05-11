@@ -492,13 +492,6 @@ class Free_API
             case 'parentalprofile':
                 $config = 'api/' . $API_version . '/profile';
                 break;
-            case 'player':
-                $config = 'api/' . $API_version . '/player';
-                break;
-            case 'player_ID':
-                $config = 'api/' . $API_version . '/player' . $id . '/api/v6/status';
-                $config_log = (__('Traitement de la Mise à jour de l\'ID', __FILE__)) . ' ';
-                break;
             case 'network':
                 $config = 'api/' . $API_version . '/' . $update_type;
                 break;
@@ -688,18 +681,6 @@ class Free_API
                 }
                 $parametre = $jsontestprofile;
                 $config = "api/" . $API_version . "/network_control/" . $id;
-                break;
-            case 'player_ID_ctrl':
-                $config = 'api/' . $API_version . '/player' . $id . '/api/v6/control/mediactrl';
-                $config_log = (__('Traitement de la Mise à jour de l\'ID ', __FILE__));
-                $cmd_config = 'name';
-                $fonction = "POST";
-                break;
-            case 'player_ID_open':
-                $config = 'api/' . $API_version . '/player' . $id . '/api/v6/control/open';
-                $config_log =  (__('Traitement de la Mise à jour de l\'ID ', __FILE__));
-                $cmd_config = 'url';
-                $fonction = "POST";
                 break;
             case 'reboot':
                 $config = 'api/' . $API_version . '/system/reboot';
