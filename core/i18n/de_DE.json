@@ -411,6 +411,7 @@
         "Appareil(s) connecté(s)": "Angeschlossene(s) Gerät(e)",
         "Appareil(s) connecté(s) avec IP Fixe": "Angeschlossene(s) Gerät(e) mit fester IP",
         "Appareil(s) non connecté(s)": "Nicht angeschlossene(s) Gerät(e)",
+        "Arrêter ou  non disponible": "Anhalten oder nicht verfügbar",
         "Aucun port USB de connecté": "Kein USB-Anschluss angeschlossen",
         "Aucune periode de Vacances associées au profil": "Keine dem Profil zugeordneten Ferienzeiten",
         "Autres": "Andere",
@@ -459,8 +460,10 @@
         "Organique": "Organisch",
         "PLAYER TROUVE": "PLAYER FINDET",
         "Pas de fonction rafraichir pour cet équipement": "Keine Auffrischungsfunktion für dieses Gerät",
+        "Pause": "Unterbrechung",
         "Planning": "Planung",
         "Planning Mode": "Planning Mode",
+        "Play \/ Pause": "Wiedergabe \/ Pause",
         "Pluie": "Regen",
         "RESULTAT Requête pas correct ou Pas d\\'appareil trouvé": "RESULTAT Abfrage nicht korrekt oder Kein Gerät gefunden",
         "Respiration": "Atmung",
@@ -479,7 +482,8 @@
         "avec les valeurs": "mit den Werten",
         "de l\\'Etat": "des Staates",
         "de la configuration": "der Konfiguration",
-        "langue": "sprache"
+        "langue": "sprache",
+        "stop": "stop"
     },
     "plugins\/Freebox_OS\/core\/class\/Free_Update.class.php": {
         "Adresse IP vide": "Leere IP-Adresse",

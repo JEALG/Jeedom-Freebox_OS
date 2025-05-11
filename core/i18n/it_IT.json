@@ -411,6 +411,7 @@
         "Appareil(s) connecté(s)": "Dispositivo\/i collegato\/i",
         "Appareil(s) connecté(s) avec IP Fixe": "Dispositivo\/i collegato\/i con IP fisso",
         "Appareil(s) non connecté(s)": "Dispositivo\/i non collegato\/i",
+        "Arrêter ou  non disponible": "Arresto o non disponibile",
         "Aucun port USB de connecté": "Nessuna porta USB collegata",
         "Aucune periode de Vacances associées au profil": "Nessun periodo di vacanza associato al profilo",
         "Autres": "Altri",
@@ -459,8 +460,10 @@
         "Organique": "Organico",
         "PLAYER TROUVE": "GIOCATORE TROVATO",
         "Pas de fonction rafraichir pour cet équipement": "Nessuna funzione di aggiornamento per questa apparecchiatura",
+        "Pause": "Pausa",
         "Planning": "Pianificazione",
         "Planning Mode": "Modalità di pianificazione",
+        "Play \/ Pause": "Riproduzione \/ Pausa",
         "Pluie": "Pioggia",
         "RESULTAT Requête pas correct ou Pas d\\'appareil trouvé": "RISULTATO Query non corretta o Nessun dispositivo trovato",
         "Respiration": "Respirazione",
@@ -479,7 +482,8 @@
         "avec les valeurs": "con i valori",
         "de l\\'Etat": "dello Stato",
         "de la configuration": "configurazione",
-        "langue": "lingua"
+        "langue": "lingua",
+        "stop": "arresto"
     },
     "plugins\/Freebox_OS\/core\/class\/Free_Update.class.php": {
         "Adresse IP vide": "Indirizzo IP vuoto",
