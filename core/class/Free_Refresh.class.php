@@ -1006,12 +1006,14 @@ class Free_Refresh
                     Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
                 }
                 if (isset($results_playerID['player']['state'])) {
-                    $list = 'playback_state';
-                    $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
-                    $para_Value = array('playback_state__paused' => 'pause', 'playback_state__stopped' => 'stop', 'playback_state__playing' => 'play_pause');
                     $resultTV = $results_playerID['player']['state'];
-                    Free_Refresh::refresh_VALUE($EqLogics, $resultTV, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
+                } else {
+                    $resultTV = array('playback_state' => (__('Arrêter ou  non disponible', __FILE__)));
                 }
+                $list = 'playback_state';
+                $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
+                $para_Value = array('playback_state__paused' => (__('Pause', __FILE__)), 'playback_state__stopped' => (__('stop', __FILE__)), 'playback_state__playing' => (__('Play / Pause', __FILE__)));
+                Free_Refresh::refresh_VALUE($EqLogics, $resultTV, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
                 if (isset($results_playerID['foreground_app']['context']['channel'])) {
                     $list = 'channelNumber,channelName';
                     $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
