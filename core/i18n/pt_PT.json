@@ -411,6 +411,7 @@
         "Appareil(s) connecté(s)": "Dispositivo(s) ligado(s)",
         "Appareil(s) connecté(s) avec IP Fixe": "Dispositivo(s) ligado(s) com IP fixo",
         "Appareil(s) non connecté(s)": "Dispositivo(s) não ligado(s)",
+        "Arrêter ou  non disponible": "Parar ou não disponível",
         "Aucun port USB de connecté": "Sem porta USB ligada",
         "Aucune periode de Vacances associées au profil": "Não há períodos de férias associados ao perfil",
         "Autres": "Outro",
@@ -459,8 +460,10 @@
         "Organique": "Orgânica",
         "PLAYER TROUVE": "LEITOR ENCONTRADO",
         "Pas de fonction rafraichir pour cet équipement": "Não há função de atualização para este equipamento",
+        "Pause": "Pausa",
         "Planning": "Planeamento",
         "Planning Mode": "Modo de planeamento",
+        "Play \/ Pause": "Reproduzir \/ Pausa",
         "Pluie": "Chuva",
         "RESULTAT Requête pas correct ou Pas d\\'appareil trouvé": "RESULTADO A consulta não está correta ou Nenhum dispositivo encontrado",
         "Respiration": "Respiração",
@@ -479,7 +482,8 @@
         "avec les valeurs": "com os valores",
         "de l\\'Etat": "do Estado",
         "de la configuration": "configuração",
-        "langue": "língua"
+        "langue": "língua",
+        "stop": "parar"
     },
     "plugins\/Freebox_OS\/core\/class\/Free_Update.class.php": {
         "Adresse IP vide": "Endereço IP vazio",

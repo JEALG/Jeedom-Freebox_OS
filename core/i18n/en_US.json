@@ -411,6 +411,7 @@
         "Appareil(s) connecté(s)": "Connected device(s)",
         "Appareil(s) connecté(s) avec IP Fixe": "Connected device(s) with Fixed IP",
         "Appareil(s) non connecté(s)": "Device(s) not connected",
+        "Arrêter ou  non disponible": "Stop or not available",
         "Aucun port USB de connecté": "No USB port connected",
         "Aucune periode de Vacances associées au profil": "No vacation periods associated with the profile",
         "Autres": "Others",
@@ -459,8 +460,10 @@
         "Organique": "Organic",
         "PLAYER TROUVE": "PLAYER FIND",
         "Pas de fonction rafraichir pour cet équipement": "No refresh function for this equipment",
+        "Pause": "Break",
         "Planning": "Planning",
         "Planning Mode": "Planning Mode",
+        "Play \/ Pause": "Play \/ Pause",
         "Pluie": "Rain",
         "RESULTAT Requête pas correct ou Pas d\\'appareil trouvé": "RESULT Query not correct or No device found",
         "Respiration": "Breathing",
@@ -479,7 +482,8 @@
         "avec les valeurs": "with the values",
         "de l\\'Etat": "state",
         "de la configuration": "configuration",
-        "langue": "language"
+        "langue": "language",
+        "stop": "stop"
     },
     "plugins\/Freebox_OS\/core\/class\/Free_Update.class.php": {
         "Adresse IP vide": "IP address empty",
