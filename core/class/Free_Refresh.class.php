@@ -1008,7 +1008,8 @@ class Free_Refresh
                 if (isset($results_playerID['player']['state'])) {
                     $resultTV = $results_playerID['player']['state'];
                 } else {
-                    $resultTV = array('playback_state' => (__('Arrêter ou  non disponible', __FILE__)));
+                    $resultTV = array('playback_state' => (__('Arrêter ou non disponible', __FILE__)));
+                    log::add('Freebox_OS', 'debug', ':fg-warning:' . (__('Il n\'est pas possible de l\'état du player, forçage de la valeur', __FILE__)) . ' ::/fg: ' . $resultTV['playback_state']);
                 }
                 $list = 'playback_state';
                 $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
@@ -1020,7 +1021,7 @@ class Free_Refresh
                     $resultTV = $results_playerID['foreground_app']['context']['channel'];
                     Free_Refresh::refresh_VALUE($EqLogics, $resultTV, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
                 } else {
-                    log::add('Freebox_OS', 'debug', ':fg-warning:' . (__('Il n\'est pas possible de récupérer le numéro de la chaîne et son nom', __FILE__)) . ':/fg:');
+                    log::add('Freebox_OS', 'debug', ':fg-warning:' . (__('Il n\'est pas possible de récupérer', __FILE__)) . ' ::/fg: ' . 'Le numéro de la chaîne et son nom');
                 }
                 $results_player_info = $Free_API->universal_get('universalAPI', null, null, 'player/' . $EqLogics->getConfiguration('action') . '/api/' . $player_API_VERSION . '/control/volume', true, true, false);
                 $list = 'volume,mute';
