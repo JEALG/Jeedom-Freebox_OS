@@ -623,7 +623,7 @@ class Free_CreateEq
     {
         log::add('Freebox_OS', 'debug', '┌── :fg-success:' . (__('Début de création des commandes pour', __FILE__)) . ' ::/fg: '  . $logicalinfo['parentalName'] . ' ──');
         $Free_API = new Free_API();
-        $result = $Free_API->universal_get('parentalprofile', null, null, true, true, true, false);
+        $result = $Free_API->universal_get('universalAPI', null, null, 'network_control', true, true, true, true);
         if (isset($result['result'])) {
             $result =  $result['result'];
             foreach ($result  as $Equipement) {
@@ -634,9 +634,9 @@ class Free_CreateEq
                 $iconparent_temp = 'fas fa-user-clock icon_blue';
 
                 $category = 'default';
-                $Equipement['name'] = preg_replace('/\'+/', ' ', $Equipement['name']); // Suppression '
-                log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('Nom du controle parental', __FILE__)) . ' : ' . $Equipement['name']);
-                $parental = Freebox_OS::AddEqLogic($Equipement['name'], 'parental_' . $Equipement['id'], $category, true, 'parental', null, $Equipement['id'], '*/5 * * * *', null, null, 'parental_controls');
+                $Equipement['name'] = preg_replace('/\'+/', ' ', $Equipement['profile_name']); // Suppression '
+                log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('Nom du controle parental', __FILE__)) . ' : ' . $Equipement['profile_name']);
+                $parental = Freebox_OS::AddEqLogic($Equipement['profile_name'], 'parental_' . $Equipement['id'], $category, true, 'parental', null, $Equipement['id'], '*/5 * * * *', null, null, 'parental_controls');
                 $StatusParental = $parental->AddCommand(__('Etat', __FILE__), 'current_mode', "info", 'string', $Templateparent, null, null, 1, '', '', '', '', 0, 'default', 'default', $order++, '0', false, true, null, true, null, null, null, null, null, null, null, true);
                 $parental->AddCommand(__('Autoriser', __FILE__), 'allowed', 'action', 'other', null, null, null, 1, $StatusParental, 'parentalStatus', 0, $iconparent_allowed, 0, 'default', 'default', $order++, '0', false, false, null, true);
                 $parental->AddCommand(__('Bloquer', __FILE__), 'denied', 'action', 'other', null, null, null, 1, $StatusParental, 'parentalStatus', 0, $iconparent_denied, 0, 'default', 'default', $order++, '0', false, false, null, true);

@@ -131,15 +131,25 @@ class Free_Refresh
     }
     private static function refresh_parental($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null,  $para_Value_calcul = null, $para_Config_eq = null)
     {
-        $list = 'current_mode,cdayranges,macs';
-        $result = $Free_API->universal_get('parental', $EqLogics->getConfiguration('action'));
-        if (isset($result['profile_id'])) {
+        $result = $Free_API->universal_get('universalAPI', null, null, 'network_control/' . $EqLogics->getConfiguration('action'), true, true, true);
+        if (isset($result['result']['profile_id'])) {
+            $list = 'current_mode';
+            // Traduction a faire
+            $para_Value = array('current_mode__denied' => __('l\'accès est refusé', __FILE__), 'current_mode__allowed' =>  __('l\'accès est autorisé', __FILE__), 'current_mode__webonly' =>  __('l\'accès est autorisé - Période vacances scolaires', __FILE__));
+            $para_result = array('nb' => 1, 1 => 'result', 2 => null, 3 => null);
+            Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_result, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
+            $para_Value = null;
+            //_________
+            //Export des données Macs et Vacances
+            $resultPA = $result['result'];
             $para_resultP = array('nb' => 0, 1 => null, 2 => null, 3 => null);
+            $list = 'cdayranges,macs';
+            // --> Vacances
             $cdayranges = null;
             $holiday = (__('Vacances scolaires - Zone', __FILE__));
-            if (isset($result['cdayranges'])) {
-                if ($result['cdayranges'] != null) {
-                    foreach ($result['cdayranges'] as $cdayrange) {
+            if (isset($resultPA['cdayranges'])) {
+                if ($resultPA['cdayranges'] != null) {
+                    foreach ($resultPA['cdayranges'] as $cdayrange) {
                         if ($cdayrange === ':fr_school_holidays_a') {
                             $holiday  = $holiday . ' A';
                         } elseif ($cdayrange === ':fr_school_holidays_b') {
@@ -159,11 +169,11 @@ class Free_Refresh
                     $cdayranges =  (__('Aucune periode de Vacances associées au profil', __FILE__));
                 }
             }
-            log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . (__('Vacances', __FILE__)) . ' : ' . $cdayranges . ':/fg:');
+            // --> MAC
             $macs = null;
-            if (isset($result['macs'])) {
-                if ($result['macs'] != null) {
-                    foreach ($result['macs'] as $MAC) {
+            if (isset($resultPA['macs'])) {
+                if ($resultPA['macs'] != null) {
+                    foreach ($resultPA['macs'] as $MAC) {
                         if ($macs == null) {
                             $macs = $MAC;
                         } else {
@@ -171,19 +181,15 @@ class Free_Refresh
                         }
                     }
                 } else {
-                    $macs = 'Aucun appareil associé au profil';
+                    $macs =  (__('Aucun appareil associé au profil', __FILE__));
                 }
             }
             $Value_calcul = array('cdayranges' => $cdayranges, 'macs' => $macs);
-            $para_Value = array('current_mode__allowed' =>  __('l\'accès est autorisé', __FILE__), 'current_mode__denied' =>  __('l\'accès est refusé', __FILE__), 'current_webonly' =>  __('l\'accès est autorisé - Période vacances scolaires', __FILE__));
-            Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultP, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul, $Value_calcul);
+            Free_Refresh::refresh_VALUE($EqLogics, $resultPA, $list, $para_resultP, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul, $Value_calcul);
         } else {
             Freebox_OS::DisableEqLogic($EqLogics, false);
         }
     }
-
-
-
     private static function refresh_airmedia($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null,  $para_Value_calcul = null, $para_Config_eq = null)
     {
         foreach ($EqLogics->getCmd('info') as $Command) {
@@ -1128,7 +1134,7 @@ class Free_Refresh
 
         log::add('Freebox_OS', 'debug', '──────────▶︎ :fg-success:' . (__('Mise à jour', __FILE__)) . ' ::/fg: ' . (__('Planning Mode', __FILE__)));
         $list = 'planning_mode';
-        $para_Value = array('planning_mode__suspend' => 'Veille totale', 'planning_mode__wifi_off' => 'Veille WiFi');
+        $para_Value = array('planning_mode__suspend' => __('Veille totale', __FILE__), 'planning_mode__wifi_off' => __('Veille WiFi', __FILE__));
         $result = $Free_API->universal_get('universalAPI', null, null, 'standby/status', true, true, true);
         $para_resultWI = array('nb' => 1, 1 => 'result', 2 => null, 3 => null);
         Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultWI, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);

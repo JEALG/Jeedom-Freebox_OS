@@ -485,13 +485,6 @@ class Free_API
                 $config = 'api/' . $API_version . '/notif/targets' . $id;
                 $config_log = (__('Etat des notifications', __FILE__));
                 break;
-            case 'parental':
-                $config = 'api/' . $API_version . '/network_control' . $id;
-                $config_log = (__('Etat Contrôle Parental', __FILE__));
-                break;
-            case 'parentalprofile':
-                $config = 'api/' . $API_version . '/profile';
-                break;
             case 'network':
                 $config = 'api/' . $API_version . '/' . $update_type;
                 break;
