@@ -136,13 +136,23 @@ class Free_Refresh
         if (isset($result['profile_id'])) {
             $para_resultP = array('nb' => 0, 1 => null, 2 => null, 3 => null);
             $cdayranges = null;
+            $holiday = (__('Vacances scolaires - Zone', __FILE__));
             if (isset($result['cdayranges'])) {
                 if ($result['cdayranges'] != null) {
                     foreach ($result['cdayranges'] as $cdayrange) {
-                        if ($cdayrange == null) {
-                            $cdayranges = $cdayrange;
+                        if ($cdayrange === ':fr_school_holidays_a') {
+                            $holiday  = $holiday . ' A';
+                        } elseif ($cdayrange === ':fr_school_holidays_b') {
+                            $holiday  = $holiday . ' B';
+                        } elseif ($cdayrange === ':fr_school_holidays_c') {
+                            $holiday  = $holiday . ' C';
+                        } elseif ($cdayrange === ':fr_school_holidays_corse') {
+                            $holiday  = $holiday . ' Corse';
+                        }
+                        if ($cdayrange != null) {
+                            $cdayranges = $holiday;
                         } else {
-                            $cdayranges .= '<br>' . $cdayrange;
+                            $cdayranges .= '<br>' . $holiday;
                         }
                     }
                 } else {
@@ -165,6 +175,7 @@ class Free_Refresh
                 }
             }
             $Value_calcul = array('cdayranges' => $cdayranges, 'macs' => $macs);
+            $para_Value = array('current_mode__allowed' =>  __('l\'accès est autorisé', __FILE__), 'current_mode__denied' =>  __('l\'accès est refusé', __FILE__), 'current_webonly' =>  __('l\'accès est autorisé - Période vacances scolaires', __FILE__));
             Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultP, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul, $Value_calcul);
         } else {
             Freebox_OS::DisableEqLogic($EqLogics, false);
