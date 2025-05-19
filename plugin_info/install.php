@@ -236,9 +236,11 @@ function updateConfig()
 	$Config_KEY = 'FREEBOX_API';
 	$Config_value = $FREEBOX_API;
 	$Config = config::byKey($Config_KEY, 'Freebox_OS');
+
 	if (empty($Config)) {
 		config::byKey($Config, 'Freebox_OS', $Config_value);
 	}
+	log::add('Freebox_OS', 'debug', '│ Etape 4/4 : ' . (__('Test', __FILE__)));
 	$Config_KEY = 'FREEBOX_API_DEFAUT';
 	$FREEBOX_API = 'v13';
 	$Config_value = $FREEBOX_API;
@@ -246,6 +248,7 @@ function updateConfig()
 	if (empty($Config)) {
 		config::byKey($Config, 'Freebox_OS', $Config_value);
 	}
+	log::add('Freebox_OS', 'debug', '│ Etape 4/4 : ' . (__('Fin Test', __FILE__)));
 	if (config::byKey($Config, 'Freebox_OS', 0) != $$Config_value) {
 		config::byKey($Config, 'Freebox_OS', $Config_value);
 	}
