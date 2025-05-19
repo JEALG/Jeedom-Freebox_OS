@@ -240,6 +240,7 @@ function updateConfig()
 		config::byKey($Config, 'Freebox_OS', $Config_value);
 	}
 	$Config_KEY = 'FREEBOX_API_DEFAUT';
+	$FREEBOX_API = 'v13';
 	$Config_value = $FREEBOX_API;
 	$Config = config::byKey($Config_KEY, 'Freebox_OS');
 	if (empty($Config)) {

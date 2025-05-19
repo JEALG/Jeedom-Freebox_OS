@@ -25,8 +25,8 @@ class Free_API
         // Gestion API
         $Config_KEY = config::byKey('FREEBOX_API', 'Freebox_OS');
         if (empty($Config_KEY)) {
-            log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('Version API Non Défini Compatible avec la Freebox', __FILE__)) . ' : ' . $this->API_version);
             $this->API_version = config::byKey('FREEBOX_API_DEFAUT', 'Freebox_OS');
+            log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('Version API Non Défini Compatible avec la Freebox', __FILE__)) . ' : ' . $this->API_version);
         } else {
             $this->API_version = config::byKey('FREEBOX_API', 'Freebox_OS');
         }
