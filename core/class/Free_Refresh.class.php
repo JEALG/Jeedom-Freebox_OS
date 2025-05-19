@@ -135,7 +135,7 @@ class Free_Refresh
         if (isset($result['result']['profile_id'])) {
             $list = 'current_mode';
             // Traduction a faire
-            $para_Value = array('current_mode__denied' => __('l\'accès est refusé', __FILE__), 'current_mode__allowed' =>  __('l\'accès est autorisé', __FILE__), 'current_mode__webonly' =>  __('l\'accès est autorisé - Période vacances scolaires', __FILE__));
+            //$para_Value = array('current_mode__denied' => __('l\'accès est refusé', __FILE__), 'current_mode__allowed' =>  __('l\'accès est autorisé', __FILE__), 'current_mode__webonly' =>  __('l\'accès est autorisé - Période vacances scolaires', __FILE__));
             $para_result = array('nb' => 1, 1 => 'result', 2 => null, 3 => null);
             Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_result, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
             $para_Value = null;
@@ -627,7 +627,7 @@ class Free_Refresh
         log::add('Freebox_OS', 'debug', '──────────▶︎ :fg-success: ' . (__('Mise à jour', __FILE__)) . ' : ' . (__('Autres', __FILE__)) .  ':/fg:');
         $list = 'name,pretty_name,wifi_type,has_standby,has_eco_wifi';
         $para_LogicalId = array('name' => 'model_name');
-        $result = $Free_API->universal_get('system', null, null, null, true, true, null);
+        $result = $Free_API->universal_get('universalAPI', null, null, 'system', true, true, null);
         $para_Config = array('has_eco_wifi' => 'FREEBOX_HAS_ECO_WFI');
         $para_resultSY = array('nb' => 1, 1 => 'model_info', 2 => null, 3 => null);
         Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultSY, $para_LogicalId, $para_Value, $para_Config, $log_Erreur,  $para_Value_calcul, $para_Config_eq = null);
@@ -1127,7 +1127,7 @@ class Free_Refresh
         Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultWI, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
 
         log::add('Freebox_OS', 'debug', '──────────▶︎ :fg-success:' . (__('Mise à jour', __FILE__)) . ' ::/fg: ' . (__('Economie Energie', __FILE__)));
-        $result = $Free_API->universal_get('system', null, null, null, true, true, null);
+        $result = $Free_API->universal_get('universalAPI', null, null, 'system', true, true, null);
         $list = 'has_eco_wifi';
         $para_resultWI = array('nb' => 1, 1 => 'model_info', 2 => null, 3 => null);
         Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultWI, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);

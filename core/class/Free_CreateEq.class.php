@@ -170,7 +170,7 @@ class Free_CreateEq
     {
         log::add('Freebox_OS', $type_Log, '┌── :fg-success: ' . (__('Vérification de la compatibilité de la box avec certaines options', __FILE__)) . ' :/fg:──');
         $Free_API = new Free_API();
-        $result = $Free_API->universal_get('system', null, null);
+        $result = $Free_API->universal_get('universalAPI', null, null, 'system', true, true, null);
         if (isset($result['disk_status'])) {
             $disk_status_description = $result['disk_status'];
             $disk_status_description = str_ireplace('not_detected', __('Le disque n\'a pas été détecté', __FILE__), $disk_status_description);
@@ -1039,7 +1039,7 @@ class Free_CreateEq
     {
         if ($system != null) {
             $Free_API = new Free_API();
-            $result = $Free_API->universal_get('system', null, null, null, true, true, null);
+            $result = $Free_API->universal_get('universalAPI', null, null, 'system', true, true, null);
             log::add('Freebox_OS', 'debug', '|:fg-success:───▶︎ ' . (__('Ajout des commandes spécifiques pour l\'équipement', __FILE__)) . ' ::/fg: ' .  $logicalinfo['systemName'] . ' - Mode Standby Disponible');
             if (isset($result['model_info']['has_standby'])) {
                 $system->AddCommand(__('Mode Standby disponible', __FILE__), 'has_standby', 'info', 'binary',  $templatecore_V4 . 'line', null, null, 0, 'default', 'model_info',  0, null, 0, 'default', 'default',  $order++, '0', null, true, null, null, null, null, null, null, null, null, null, true, null, null, null, null, null, null, null, null, null, null);
@@ -1096,18 +1096,15 @@ class Free_CreateEq
                 } else if ($boucle_num == 3) {
                     $boucle_update = 'expansions';
                 }
-                $result_SP = $Free_API->universal_get('system', null, $boucle_update, null, true, true, false);
-                if ($boucle_num == 3) {
-                    if (isset(($result_SP['has_expansions']))) {
-                        log::add('Freebox_OS', 'info', '|:fg-info:───▶︎ ' . (__('Module expansions disponible', __FILE__)) . ':/fg:');
-                    } else {
-                        log::add('Freebox_OS', 'info', '|:fg-info:───▶︎ ' . (__('Module expansions non disponible', __FILE__)) . ':/fg:');
-                        break;
-                    }
+                $result_SP = $Free_API->universal_get('universalAPI', null, null, 'system', true, true, true);
+                if (isset(($result_SP['result'][$boucle_update]))) {
+                    $result_SP = $result_SP['result'][$boucle_update];
+                    log::add('Freebox_OS', 'debug', '|:fg-warning:───▶︎ ' . (__('Boucle pour la mise à jour du module', __FILE__)) . ' ::/fg: ' . $boucle_update);
+                } else {
+                    log::add('Freebox_OS', 'info', '|:fg-warning:───▶︎ ' . (__('Module', __FILE__)) . ' :/fg::fg-info:' . $boucle_update . ' :/fg:: ' . (__('non disponible', __FILE__)));
+                    break;
                 }
                 if ($result_SP != false) {
-                    log::add('Freebox_OS', 'debug', '|:fg-warning:───▶︎ ' . (__('Boucle pour la mise à jour', __FILE__)) . ' ::/fg: ' . $boucle_update);
-
                     foreach ($result_SP  as $Equipement) {
                         if ($Equipement != null) {
                             $icon = null;
@@ -1313,8 +1310,7 @@ class Free_CreateEq
             $iconWifiOff = 'fas fa-wifi icon_red';
             $TemplateEcoWifi = 'Freebox_OS::Mode Eco Wifi';
             $Free_API = new Free_API();
-            $result = $Free_API->universal_get('system', null, null, null, true, true, null);
-
+            $result = $Free_API->universal_get('universalAPI', null, null, 'system', true, true, null);
             if (isset($result['model_info']['has_eco_wifi'])) {
                 $Wifi->AddCommand(__('Support Mode Éco-WiFi', __FILE__), 'has_eco_wifi', 'info', 'binary',  $templatecore_V4 . 'line', null, null, 0, 'default', 'default',  0, $iconWifi, 0, 'default', 'default',  $order++, '0', false, true, null, null, null, null, null, null, null, null, null, true, null, null, null, null, null, null, null, null, null, null);
                 $power_saving = $Wifi->AddCommand(__('Etat Mode Éco-WiFi', __FILE__), 'power_saving', 'info', 'binary',  $templatecore_V4 . 'line', null, null, 0, 'default', 'default',  0, $iconpower_saving, 1, 'default', 'default',  $order++, true, false, true, null, true, null, null, null, null, null, null, null, true, null, null, null, null, null, null, null, null, null, null);
