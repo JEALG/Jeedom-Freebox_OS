@@ -887,9 +887,11 @@
         "DEBUT DE NETTOYAGE LORS MIGRATION DE BOX": "INÍCIO DA LIMPEZA DURANTE A MIGRAÇÃO DE CAIXAS",
         "Etat Mode de veille planning": "Estado Planeamento do modo de espera",
         "FIN DE NETTOYAGE LORS MIGRATION DE BOX": "FIM DA LIMPEZA DURANTE A MIGRAÇÃO DE CAIXAS",
+        "Fin Test": "Teste final",
         "Mise à jour Plugin": "Atualização de plugins",
         "Mise à jour des nouveautées + corrections des commandes": "Atualização de novos produtos + correcções de comandos",
         "Mise à jour du paramétrage Plugin tiles": "Atualizar definições Mosaicos de plugins",
-        "Support Mode Éco-WiFi": "Suporte do modo Eco-WiFi"
+        "Support Mode Éco-WiFi": "Suporte do modo Eco-WiFi",
+        "Test": "Teste"
     }
 }

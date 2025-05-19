@@ -887,9 +887,11 @@
         "DEBUT DE NETTOYAGE LORS MIGRATION DE BOX": "INIZIO DELLA PULIZIA DURANTE LA MIGRAZIONE DEI BOX",
         "Etat Mode de veille planning": "Stato Pianificazione della modalità standby",
         "FIN DE NETTOYAGE LORS MIGRATION DE BOX": "FINE DELLA PULIZIA DURANTE LA MIGRAZIONE DEI BOX",
+        "Fin Test": "Test finale",
         "Mise à jour Plugin": "Aggiornamento dei plugin",
         "Mise à jour des nouveautées + corrections des commandes": "Aggiornamento dei nuovi prodotti + correzioni dei comandi",
         "Mise à jour du paramétrage Plugin tiles": "Aggiornamento delle impostazioni Tessere del plugin",
-        "Support Mode Éco-WiFi": "Supporto della modalità Eco-WiFi"
+        "Support Mode Éco-WiFi": "Supporto della modalità Eco-WiFi",
+        "Test": "Prova"
     }
 }
