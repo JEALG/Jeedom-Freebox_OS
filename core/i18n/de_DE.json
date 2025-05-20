@@ -34,6 +34,7 @@
         "Pas d\\'appareil connecté avec cette adresse MAC": "Kein Gerät mit dieser MAC-Adresse verbunden",
         "Pas de Freeplug avec cet identifiant": "Kein Freeplug mit diesem Benutzernamen",
         "Pas de contrôle de parental existant avec ce profil": "Keine bestehende Elternkontrolle mit diesem Profil",
+        "Pas de disque ou de partition avec cet ID": "Kein Laufwerk oder keine Partition mit dieser ID",
         "Redirection de port": "Port-Weiterleitung",
         "Requête": "Abfrage",
         "Requête non valide : Impossible d\\'analyser JSON": "Ungültige Anfrage: JSON kann nicht analysiert werden",
