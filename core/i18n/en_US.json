@@ -32,6 +32,8 @@
         "Mise à jour de : Etat du Wifi": "Update of : Wifi status",
         "Mise à jour du : Contrôle Parental": "Update of : Parental Control",
         "Pas d\\'appareil connecté avec cette adresse MAC": "No device connected with this MAC address",
+        "Pas d\\'équipement avec cet ID": "No equipment with this ID",
+        "Pas d\\'équipement domotique avec cet ID": "No home automation equipment with this ID",
         "Pas de Freeplug avec cet identifiant": "No Freeplug with this login",
         "Pas de contrôle de parental existant avec ce profil": "No existing parental control with this profile",
         "Pas de disque ou de partition avec cet ID": "No disk or partition with this ID",

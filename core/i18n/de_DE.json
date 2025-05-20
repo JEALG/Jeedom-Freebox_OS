@@ -32,6 +32,8 @@
         "Mise à jour de : Etat du Wifi": "Aktualisiert von : Wifi-Status",
         "Mise à jour du : Contrôle Parental": "Aktualisierung der : Parental Control",
         "Pas d\\'appareil connecté avec cette adresse MAC": "Kein Gerät mit dieser MAC-Adresse verbunden",
+        "Pas d\\'équipement avec cet ID": "Keine Geräte mit dieser ID",
+        "Pas d\\'équipement domotique avec cet ID": "Keine Hausautomatisierung mit dieser ID",
         "Pas de Freeplug avec cet identifiant": "Kein Freeplug mit diesem Benutzernamen",
         "Pas de contrôle de parental existant avec ce profil": "Keine bestehende Elternkontrolle mit diesem Profil",
         "Pas de disque ou de partition avec cet ID": "Kein Laufwerk oder keine Partition mit dieser ID",
