@@ -349,7 +349,15 @@ class Free_API
                 break;
             case "not_found":
                 $log_level = 'Debug';
-                $msg_box1 = (__('Pas de disque ou de partition avec cet ID', __FILE__));
+                if (strpos($api_url, '/home/nodes/') || $api_url == strpos($api_url, '/home/tileset/')) {
+                    $msg_box1 = (__('Pas d\'équipement domotique avec cet ID', __FILE__));
+                    $log_level = 'Error';
+                } else if (strpos($api_url, '/storage/')) {
+                    $msg_box1 = (__('Pas de disque ou de partition avec cet ID', __FILE__));
+                    $log_level = 'Error';
+                } else {
+                    $msg_box1 = (__('Pas d\'équipement avec cet ID', __FILE__));
+                }
                 break;
             case "nodev":
                 $log_level = 'Debug';
