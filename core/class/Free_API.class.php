@@ -347,6 +347,10 @@ class Free_API
                 $log_level = 'Debug';
                 $msg_box1 = (__('Pas d\'appareil connecté avec cette adresse MAC', __FILE__));
                 break;
+            case "not_found":
+                $log_level = 'Debug';
+                $msg_box1 = (__('Pas de disque ou de partition avec cet ID', __FILE__));
+                break;
             case "nodev":
                 $log_level = 'Debug';
                 $msg_box1 = (__('Aucun appareil trouvé avec ce nom', __FILE__));
