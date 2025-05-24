@@ -200,6 +200,14 @@ class Free_CreateEq
             $has_led_strip = '0';
             log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Box compatible avec les LED rouges', __FILE__)) . '::/fg: ' . (__('Non', __FILE__)));
         }
+        // Compatibilité Eteindre la LED sur la Box
+        if (isset($result['model_info']['has_status_led'])) {
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Box compatible avec éteindre la LED', __FILE__)) . ' ::/fg: ' . $result['model_info']['has_status_led']);
+            $has_status_led = $result['model_info']['has_status_led'];
+        } else {
+            $has_status_led = '0';
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Box compatible avec éteindre la LED', __FILE__)) . '::/fg: ' . (__('Non', __FILE__)));
+        }
         config::save('FREEBOX_LED_RD', $has_led_strip, 'Freebox_OS');
 
         // Compatibilité mode Eco Wfi
@@ -252,6 +260,7 @@ class Free_CreateEq
             'has_home_box' => $has_home_box,
             'has_eco_wifi' => $has_eco_wifi,
             'has_led_strip' => $has_led_strip,
+            'has_status_led' => $has_status_led,
             'has_lcd_orientation' => $has_lcd_orientation,
             'disk_status_description' => $disk_status_description,
             'disk_status' => $disk_status
@@ -570,6 +579,7 @@ class Free_CreateEq
         $iconled_strip_animation = 'fas fa-highlighter icon_red';
         $iconled_strip = 'fas fa-traffic-light icon_green';
         $iconwifi = 'fas fa-wifi icon_orange';
+        $iconhide_status_led = 'icon fas fa-highlighter icon_blue';
         $updateicon = false;
         $StatusLCD = $LCD->AddCommand(__('Etat Lumininosité écran LCD', __FILE__), 'brightness', "info", 'numeric', null, '%', null, 0, '', '', '', $iconbrightness, 0, '0', 100, $order++, 2, $updateicon, true, false, true);
         $LCD->AddCommand(__('Lumininosité écran LCD', __FILE__), 'brightness_action', 'action', 'slider', null, '%', null, 1, $StatusLCD, 'default', 0, $iconbrightness, 0, 1, 100, $order++, '0', $updateicon, false, null, true, null, 'floor(#value#)');
@@ -593,6 +603,15 @@ class Free_CreateEq
                 $LCD->AddCommand(__('Forcer Orientation Off', __FILE__), 'orientation_forcedOff', 'action', 'other', 'core::toggleLine', null, 'SWITCH_OFF', 1, $Orientation, 'orientation_forced', 0, $iconorientationF, 0, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
             } else {
                 log::add('Freebox_OS', 'info', '| :fg-success:───▶︎ ' . (__('Box compatible avec l\'orientation du texte sur l\'afficheur', __FILE__)) . '::/fg: ' . (__('Non', __FILE__)));
+            }
+            // Eteindre la LED en facade
+            if ($Setting['has_status_led'] == 1) {
+                log::add('Freebox_OS', 'info', '| :fg-success:───▶︎ ' . (__('Box compatible avec éteindre la LED', __FILE__)) . ':/fg:');
+                $hide_status_led = $LCD->AddCommand(__('Bandeau LED Eteint', __FILE__), 'hide_status_led', 'info', 'binary', null, null, 'SWITCH_STATE', 0, null, null, 0, $iconhide_status_led, 0, null, null, $order++, 1, true, 'never', null, true, null, null, null, null, null, null, null, null);
+                $LCD->AddCommand(__('Eteindre LED On', __FILE__), 'hide_status_ledOn', 'action', 'other', 'core::toggleLine', null, 'SWITCH_ON', 1, $hide_status_led, 'hide_status_led', 0, $iconhide_status_led, 0, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
+                $LCD->AddCommand(__('Allumer LED Off', __FILE__), 'hide_status_ledOff', 'action', 'other', 'core::toggleLine', null, 'SWITCH_OFF', 1, $hide_status_led, 'hide_status_led', 0, $iconhide_status_led, 0, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
+            } else {
+                log::add('Freebox_OS', 'info', '| :fg-success:───▶︎ ' . (__('Box compatible avec éteindre la LED', __FILE__)) . '::/fg: ' . (__('Non', __FILE__)));
             }
 
             // LED Box      
@@ -1190,8 +1209,8 @@ class Free_CreateEq
             }
 
             // Ajout Commande
-            $avalaible = $system->AddCommand(__('langue de la Box', __FILE__), 'lang', 'info', 'string', 'default', null, 'default', 1, 'default', 'LANG', 0, $iconLang, 1, 'default', 'default', $order++, '0', false, false, null, true, null, null, null, null, null, null, null, true, null, null, null, null, null, null, null, null, null, null);
-            //$system->AddCommand('Choix Langue', 'avalaible', 'action', 'select', null, null, null, 1, $avalaible, 'default', 0, null, 0, null, null, $order++, '0', null, false, null, true, null, null, null, null, null, null, null, null, $avalaibleList);
+            $changelang = $system->AddCommand(__('langue de la Box', __FILE__), 'lang', 'info', 'string', 'default', null, 'default', 1, 'default', 'LANG', 0, $iconLang, 1, 'default', 'default', $order++, '0', false, false, null, true, null, null, null, null, null, null, null, true, null, null, null, null, null, null, null, null, null, null);
+            //$system->AddCommand('Choix Langue', 'avalaible', 'action', 'select', null, null, null, 1, $changelang, 'default', 0, null, 0, null, null, $order++, '0', null, false, null, true, null, null, null, null, null, null, null, null, $avalaibleList);
         }
     }
     private static function createEq_VM($logicalinfo, $templatecore_V4, $order = 0)
@@ -1199,7 +1218,7 @@ class Free_CreateEq
         log::add('Freebox_OS', 'debug', '| ──────▶︎ :fg-success:' . (__('Début de création des commandes pour', __FILE__)) . ' ::/fg: '  . $logicalinfo['VMName'] . ' ──');
         $updateicon = true;
         $Free_API = new Free_API();
-        $result = $Free_API->universal_get('universalAPI', null, null, 'vm', false, false, false);
+        $result = $Free_API->universal_get('universalAPI', null, null, 'vm', true, true, false);
         if ($result != null) {
             $VMmemory = 'fas fa-memory';
             $VMCPU = 'fas fa-microchip';

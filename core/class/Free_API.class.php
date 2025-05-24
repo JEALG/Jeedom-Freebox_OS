@@ -498,9 +498,6 @@ class Free_API
                 } else {
                     $config = 'api/' . $API_version . '/' . $update_type . $id;
                 }
-                if ($update_type != 'vm/') {
-                    $config_log = (__('Traitement de la Mise à jour de l\'ID', __FILE__)) . ' ';
-                }
                 break;
             case 'network_ID':
                 $config = 'api/' . $API_version . '/lan/browser/' . $update_type  . $id;
@@ -544,20 +541,11 @@ class Free_API
             return false;
         }
         if (isset($result['success'])) {
-
             $value = 0;
             if ($update_type == 'freeplug') {
                 $update = 'freeplug';
             }
             switch ($update) {
-                case 'connexion':
-                    return $result['result'];
-                    break;
-                case 'notification':
-                case 'freeplug':
-                    //case 'wifi':
-                    return $result;
-                    break;
                 default:
                     if ($config_log != null && $id != null && $id != '/all') {
                         if ($log_request == true) {

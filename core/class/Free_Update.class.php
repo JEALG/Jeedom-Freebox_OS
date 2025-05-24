@@ -243,6 +243,10 @@ class Free_Update
             case 'brightness_action':
                 $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('brightness' => $_options['slider']));
                 break;
+            case 'hide_status_ledOn':
+            case 'hide_status_ledOff':
+                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('hide_status_led' => $_enabled));
+                break;
             case 'orientation_forcedOn':
             case 'orientation_forcedOff':
                 $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('orientation_forced' => $_enabled));

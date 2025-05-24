@@ -407,7 +407,7 @@ class Free_Refresh
     }
     private static function refresh_LCD($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null)
     {
-        $list = 'orientation,orientation_forced,brightness,hide_wifi_key,led_strip_animation,led_strip_brightness,led_strip_enabled';
+        $list = 'orientation,orientation_forced,brightness,hide_wifi_key,led_strip_animation,led_strip_brightness,led_strip_enabled,hide_status_led';
         $result = $Free_API->universal_get('universalAPI', null, null, 'lcd/config/', true, true, null);
         $para_Value = array('orientation__0' =>  __('Horizontal', __FILE__), 'orientation__90' => __('90 degrés', __FILE__), 'orientation__180' => __('280 degrés', __FILE__), 'orientation__270' => __('270 degrés', __FILE__), 'led_strip_animation__organic' => __('Organique', __FILE__), 'led_strip_animation__static' => __('Statique', __FILE__), 'led_strip_animation__breathing' => __('Respiration', __FILE__), 'led_strip_animation__rain' => __('Pluie', __FILE__), 'led_strip_animation__trail' => __('Chenillard', __FILE__), 'led_strip_animation__wave' => __('Vague', __FILE__));
         $para_resultDO = array('nb' => 0, 1 => null, 2 => null, 3 => null);
@@ -1077,7 +1077,7 @@ class Free_Refresh
     {
         $list = 'net_role,rx_rate,tx_rate,model,net_id,eth_port_status,has_network';
         $para_Value = array('net_role__cco' => (__('Coordinateur', __FILE__)), 'net_role__sta' => (__('Station', __FILE__)));
-        $result = $Free_API->universal_get('universalAPI', $EqLogics->getLogicalId(), null, 'freeplug', true, true, false);
+        $result = $Free_API->universal_get('universalAPI', $EqLogics->getLogicalId(), null, 'freeplug', true, true, true);
         $para_resultFPL = array('nb' => 1, 1 => 'result', 2 => null, 3 => null);
         if (isset($result['result']['id'])) {
             Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultFPL, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
@@ -1112,10 +1112,6 @@ class Free_Refresh
             Freebox_OS::DisableEqLogic($EqLogics, false);
         }
         $log_Erreur = null;
-    }
-    private static function refresh_WebSocket($EqLogics, $Free_API)
-    {
-        $result = $Free_API->universal_get('WebSocket', null, null, null);
     }
     private static function refresh_wifi($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null)
     {
