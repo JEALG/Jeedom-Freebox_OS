@@ -489,14 +489,6 @@ class Free_API
             $id = '/all';
         }
         switch ($update) {
-            case 'connexion':
-                $config = 'api/' . $API_version . '/connection/' . $update_type;
-                $config_log =  (__('Traitement de la Mise à jour de', __FILE__)) . ' ' . $update_type . ' avec la valeur';
-                break;
-            case 'notification_ID':
-                $config = 'api/' . $API_version . '/notif/targets' . $id;
-                $config_log = (__('Etat des notifications', __FILE__));
-                break;
             case 'network':
                 $config = 'api/' . $API_version . '/' . $update_type;
                 break;
@@ -512,12 +504,6 @@ class Free_API
                 break;
             case 'network_ID':
                 $config = 'api/' . $API_version . '/lan/browser/' . $update_type  . $id;
-                break;
-            case 'system':
-                $config = 'api/' . $API_version . '/system';
-                break;
-            case 'switch':
-                $config = 'api/' . $API_version . '/switch/status';
                 break;
             case 'tiles':
                 $config = 'api/' . $API_version . '/home/tileset' . $id;
@@ -572,25 +558,12 @@ class Free_API
                     //case 'wifi':
                     return $result;
                     break;
-                case 'system':
-                    if ($boucle != null) {
-                        if (isset($result['result'][$boucle])) {
-                            return $result['result'][$boucle];
-                        } else {
-                            $result = null;
-                            return $result;
-                        }
-                    } else {
-                        return $result['result'];
-                    }
-                    break;
                 default:
                     if ($config_log != null && $id != null && $id != '/all') {
                         if ($log_request == true) {
                             log::add('Freebox_OS', 'debug', '───▶︎ ' . $config_log . ' : ' . $id);
                         }
                     }
-
                     if (isset($result['result'])) {
                         if ($_onlyresult == false) {
                             return $result['result'];

@@ -329,7 +329,7 @@ class Free_CreateEq
         $updateicon = false;
         $iconspeed = 'fas fa-tachometer-alt icon_blue';
         $Free_API = new Free_API();
-        $result = $Free_API->universal_get('connexion', null, null, 'ftth', true, true, false);
+        $result =  $Free_API->universal_get('universalAPI', null, null, 'connection/ftth/', true, true, false);
         if ($result['sfp_present'] == null) {
             $_modul =  (__('Non Présent', __FILE__));
             $_bandwidth_value_down = '#value# / 1000000';
@@ -357,34 +357,31 @@ class Free_CreateEq
         $Connexion->AddCommand(__('Proxy Wake on Lan', __FILE__), 'wol', 'info', 'binary', $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, null, null, null, null, null, null, true);
 
         //log::add('Freebox_OS', 'debug', '[  OK  ] - FIN CREATION : ' . $logicalinfo['connexionName']);
+        $link_type = null;
         if ($result['sfp_present'] != null) {
+            if (isset($result['link_type'])) {
+                $link_type = true;
+            }
             $order = 19;
-            Free_CreateEq::createEq_connexion_FTTH($logicalinfo, $templatecore_V4, $order, $result);
+            Free_CreateEq::createEq_connexion_FTTH($logicalinfo, $templatecore_V4, $order, $link_type, $Connexion);
         } else {
             log::add('Freebox_OS', 'debug', '| :fg-warning:───▶︎ ' . (__('Module fibre', __FILE__)) . ' ::/fg: '  . $_modul);
         }
-
-
-        log::add('Freebox_OS', 'debug', '└────────────────────');
     }
-    private static function createEq_connexion_FTTH($logicalinfo, $templatecore_V4, $order = 19, $result = null)
+    private static function createEq_connexion_FTTH($logicalinfo, $templatecore_V4, $order = 19, $link_type = null, $Connexion = null)
     {
         $updateicon = false;
-        if ($result = ! null) {
-            $Connexion = Freebox_OS::AddEqLogic($logicalinfo['connexionName'], $logicalinfo['connexionID'], 'default', false, null, null, '*/15 * * * *', null, null, 'system', true);
-            if (isset($result['link_type'])) {
-                $Connexion->AddCommand(__('Type de connexion Fibre', __FILE__), 'link_type', 'info', 'string', $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, null, null, null, null, null, null, true);
-            } else {
-                log::add('Freebox_OS', 'debug', '| :fg-warning:───▶︎ ' . (__('Fonction type de connexion Fibre non présent', __FILE__)) . ':/fg:');
-            }
-            log::add('Freebox_OS', 'debug', '| :fg-success:───▶︎ ' . (__('Ajout des commandes spécifiques pour la fibre', __FILE__)) . ' ::/fg: ' . $logicalinfo['connexionName']);
-            $Connexion->AddCommand(__('Module Fibre présent', __FILE__), 'sfp_present', 'info', 'binary', $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, null, null, null, null, null, null, true);
-            $Connexion->AddCommand(__('Signal Fibre présent', __FILE__), 'sfp_has_signal', 'info', 'binary', $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, null, null, null, null, null, null, true);
-            $Connexion->AddCommand(__('Etat Alimentation', __FILE__), 'sfp_alim_ok', 'info', 'binary', $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, null, null, null, null, null, null, true);
-            $Connexion->AddCommand(__('Puissance transmise', __FILE__), 'sfp_pwr_tx', 'info', 'numeric', $templatecore_V4 . 'badge', 'dBm', null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, '#value# / 100', '2', null, null, null, null, false);
-            $Connexion->AddCommand(__('Puissance reçue', __FILE__), 'sfp_pwr_rx', 'info', 'numeric', $templatecore_V4 . 'badge', 'dBm', null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, '#value# / 100', '2', null, null, null, null, true);
-            log::add('Freebox_OS', 'debug', '└────────────────────');
+        if ($link_type == true) {
+            $Connexion->AddCommand(__('Type de connexion Fibre', __FILE__), 'link_type', 'info', 'string', $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, null, null, null, null, null, null, true);
+        } else {
+            log::add('Freebox_OS', 'debug', '| :fg-warning:───▶︎ ' . (__('Fonction type de connexion Fibre non présent', __FILE__)) . ':/fg:');
         }
+        log::add('Freebox_OS', 'debug', '| :fg-success:───▶︎ ' . (__('Ajout des commandes spécifiques pour la fibre', __FILE__)) . ' ::/fg: ' . $logicalinfo['connexionName']);
+        $Connexion->AddCommand(__('Module Fibre présent', __FILE__), 'sfp_present', 'info', 'binary', $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, null, null, null, null, null, null, true);
+        $Connexion->AddCommand(__('Signal Fibre présent', __FILE__), 'sfp_has_signal', 'info', 'binary', $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, null, null, null, null, null, null, true);
+        $Connexion->AddCommand(__('Etat Alimentation', __FILE__), 'sfp_alim_ok', 'info', 'binary', $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, null, null, null, null, null, null, true);
+        $Connexion->AddCommand(__('Puissance transmise', __FILE__), 'sfp_pwr_tx', 'info', 'numeric', $templatecore_V4 . 'badge', 'dBm', null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, '#value# / 100', '2', null, null, null, null, false);
+        $Connexion->AddCommand(__('Puissance reçue', __FILE__), 'sfp_pwr_rx', 'info', 'numeric', $templatecore_V4 . 'badge', 'dBm', null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, '#value# / 100', '2', null, null, null, null, true);
     }
     private static function createEq_connexion_4G($logicalinfo, $templatecore_V4, $order = 19)
     {

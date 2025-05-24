@@ -266,10 +266,9 @@ class Free_Refresh
     private static function refresh_connexion($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null)
     {
         $list = 'bandwidth_down,bandwidth_up,bytes_down,bytes_up,ipv4,ipv6,media,rate_down,rate_up,state';
-        $result = $Free_API->universal_get('connexion', null, null, null);
+        $result = $Free_API->universal_get('universalAPI', null, null, 'connection/', true, true, null);
         $para_resultC = array('nb' => 0, 1 => null, 2 => null, 3 => null);
         Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultC, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
-        //$result = $Free_API->universal_get('connexion', null, null, null);
         if ($result != false) {
             foreach ($EqLogics->getCmd('info') as $Command) {
                 if (is_object($Command)) {
@@ -318,7 +317,7 @@ class Free_Refresh
     {
         log::add('Freebox_OS', 'debug', '──────────▶︎ :fg-success: ' . (__('Mise à jour', __FILE__)) . ' ::/fg: ' . (__('Configuration PING', __FILE__)));
         $list = 'ping,wol';
-        $result =  $Free_API->universal_get('connexion', null, null, 'config', true, true, null);
+        $result =  $Free_API->universal_get('universalAPI', null, null, 'connection/config/', true, true, null);
         $para_resultCO = array('nb' => 0, 1 => null, 2 => null, 3 => null);
         Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultCO, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
     }
@@ -327,7 +326,7 @@ class Free_Refresh
     {
         log::add('Freebox_OS', 'debug', '──────────▶︎ :fg-success: ' . (__('Mise à jour', __FILE__)) . ' ::/fg: ' . (__('Connexion FTTH', __FILE__)));
         $list = 'link_type,sfp_present,sfp_has_signal,sfp_alim_ok,sfp_pwr_tx,sfp_pwr_rx';
-        $result = $Free_API->universal_get('connexion', null, null, 'ftth', true, true, null);
+        $result =  $Free_API->universal_get('universalAPI', null, null, 'connection/ftth/', true, true, null);
         $para_resultFT = array('nb' => 0, 1 => null, 2 => null, 3 => null);
         Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultFT, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
     }
