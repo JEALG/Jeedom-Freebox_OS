@@ -225,7 +225,7 @@ class Free_Update
         $option = array(
             'status' => $parametre
         );
-        log::add('Freebox_OS', 'debug', '│ Récupération ID : ' . $ID_logicalID);
+        log::add('Freebox_OS', 'debug', '│ ' . (__('Récupération ID', __FILE__)) . ' : ' . $ID_logicalID);
         $Free_API->universal_put('default', 'universal_put', $ID_logicalID, null, 'home/adapters/', 'PUT', $option);
     }
     private static function update_freeplug($logicalId, $logicalId_type, $logicalId_eq, $Free_API, $_options)
@@ -236,28 +236,18 @@ class Free_Update
     {
         $_enabled = true;
         $_OFF = substr($logicalId, -3);
+        $_ON = substr($logicalId, -2);
         if ($_OFF == "Off") {
             $_enabled = FALSE;
+            $param = substr($logicalId, 0, -3);
+            // log::add('Freebox_OS', 'debug', '│' . (__('Récupération du nom de la commande', __FILE__)) . ' : '  . $param);
+        } else if ($_ON == "On") {
+            $param = substr($logicalId, 0, -2);
+            // log::add('Freebox_OS', 'debug', '│' . (__('Récupération du nom de la commande', __FILE__)) . ' : '  . $param);
         }
         switch ($logicalId) {
             case 'brightness_action':
                 $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('brightness' => $_options['slider']));
-                break;
-            case 'hide_status_ledOn':
-            case 'hide_status_ledOff':
-                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('hide_status_led' => $_enabled));
-                break;
-            case 'orientation_forcedOn':
-            case 'orientation_forcedOff':
-                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('orientation_forced' => $_enabled));
-                break;
-            case 'hide_wifi_keyOn':
-            case 'hide_wifi_keyOff':
-                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('hide_wifi_key' => $_enabled));
-                break;
-            case 'led_strip_enabledOn':
-            case 'led_strip_enabledOff':
-                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('led_strip_enabled' => $_enabled));
                 break;
             case 'led_strip_animation_action':
                 if ($_options['select'] != null) {
@@ -278,14 +268,26 @@ class Free_Update
                 }
                 $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', array('orientation' => $_options['select'], 'orientation_forced' => $orientation_forced));
                 break;
+            default:
+                $option = array(
+                    $param =>  $_enabled
+                );
+                $Free_API->universal_put(1, 'universal_put', null, null, 'lcd/config', 'PUT', $option);
+                break;
         }
     }
     private static function update_netshare($logicalId, $logicalId_type, $logicalId_eq, $Free_API, $_options)
     {
         $_enabled = true;
         $_OFF = substr($logicalId, -3);
+        $_ON = substr($logicalId, -2);
         if ($_OFF == "Off") {
             $_enabled = FALSE;
+            $param = substr($logicalId, 0, -3);
+            //log::add('Freebox_OS', 'debug', '│' . (__('Récupération du nom de la commande', __FILE__)) . ' : '  . $param);
+        } else if ($_ON == "On") {
+            $param = substr($logicalId, 0, -2);
+            //log::add('Freebox_OS', 'debug', '│' . (__('Récupération du nom de la commande', __FILE__)) . ' : '  . $param);
         }
         switch ($logicalId) {
             case "FTP_enabledOn":
