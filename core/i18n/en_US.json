@@ -515,6 +515,8 @@
         "Média type": "Media type",
         "Player": "Player",
         "Redémarrer": "Restart",
+        "Récupération ID": "ID recovery",
+        "Récupération du nom de la commande": "Command name retrieval",
         "Volume": "Volume"
     },
     "plugins\/Freebox_OS\/core\/class\/Freebox_OS.class.php": {
