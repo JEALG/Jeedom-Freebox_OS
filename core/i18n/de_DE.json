@@ -515,6 +515,8 @@
         "Média type": "Medientyp",
         "Player": "Player",
         "Redémarrer": "Neu starten",
+        "Récupération ID": "ID abrufen",
+        "Récupération du nom de la commande": "Abrufen des Befehlsnamens",
         "Volume": "Lautstärke"
     },
     "plugins\/Freebox_OS\/core\/class\/Freebox_OS.class.php": {
