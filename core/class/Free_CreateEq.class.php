@@ -147,7 +147,6 @@ class Free_CreateEq
                     Free_CreateEq::createEq_network($logicalinfo, $templatecore_V4, $order, 'LAN');
                     Free_CreateEq::createEq_network($logicalinfo, $templatecore_V4, $order, 'WIFIGUEST');
                     Free_CreateEq::createEq_wifi($logicalinfo, $templatecore_V4, $order);
-                    //Free_CreateEq::createEq_notification($logicalinfo, $templatecore_V4);
                 } else {
                     log::add('Freebox_OS', 'debug', '|:fg-warning: ───▶︎ ' . (__('BOX EN MODE BRIDGE : LES ÉQUIPEMENTS SUIVANTS NE SONT PAS CRÉER', __FILE__)) . ':/fg:');
                     log::add('Freebox_OS', 'debug', '| ───▶︎ ' . $logicalinfo['airmediaName']);
@@ -163,6 +162,7 @@ class Free_CreateEq
                 }
                 log::add('Freebox_OS', 'debug', '└────────────────────');
                 config::save('SEARCH_EQ', $date, 'Freebox_OS');
+                //Free_CreateEq::createEq_TESTd($logicalinfo, $templatecore_V4, $order);
                 break;
         }
     }
@@ -986,14 +986,6 @@ class Free_CreateEq
         }
         log::add('Freebox_OS', 'debug', '└────────────────────');
     }
-
-    private static function createEq_notification($logicalinfo, $templatecore_V4, $order = 0)
-    {
-        log::add('Freebox_OS', 'debug', '┌── :fg-success:' . (__('Début de création des commandes pour', __FILE__)) . ' ::/fg: '    . $logicalinfo['notificationName'] . ' ──');
-        $Free_API = new Free_API();
-        $Free_API->universal_get('universalAPI', null, null, '/notif/targets', true, true, false);
-        log::add('Freebox_OS', 'debug', '└────────────────────');
-    }
     private static function createEq_system_full($logicalinfo, $templatecore_V4, $order = 0)
     {
         log::add('Freebox_OS', 'debug', '┌── :fg-success:' . (__('Début de création des commandes pour', __FILE__)) . ' ::/fg: '    .  $logicalinfo['systemName'] . ' ──');
@@ -1394,11 +1386,13 @@ class Free_CreateEq
         }
     }
 
-    private static function createEq_upload($logicalinfo, $templatecore_V4)
+    private static function createEq_TEST($logicalinfo, $templatecore_V4)
     {
         log::add('Freebox_OS', 'debug', '┌── :fg-success:' . (__('Début de création des commandes pour', __FILE__)) . ' ::/fg: ' . $logicalinfo['notificationName'] . ' ──');
         $Free_API = new Free_API();
-        $Free_API->universal_get('upload', null, null, null, null, null);
+        $result = $Free_API->universal_get('universalAPI', null, null, 'ws', true, true, true);
+        $result = $Free_API->universal_get('universalAPI', null, null, 'ws/', true, true, null);
+        $result = $Free_API->universal_get('universalAPI', null, null, 'notif/targets', true, true, true);
         log::add('Freebox_OS', 'debug', '└────────────────────');
     }
 }

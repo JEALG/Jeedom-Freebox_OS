@@ -520,10 +520,6 @@ class Free_API
                 $config = '/api/' . $API_version . '/fw/redir/';
                 $config_log = (__('Redirection de port', __FILE__));
                 break;
-            case 'upload':
-                $config = 'api/' . $API_version . '/ws/';
-                $config_log = 'Upload Progress tracking API';
-                break;
         }
         $Type_log = array(
             "log_request" =>  $log_request,
