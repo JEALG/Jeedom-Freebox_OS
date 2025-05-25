@@ -166,7 +166,7 @@ class Free_Refresh
                         }
                     }
                 } else {
-                    $cdayranges =  (__('Aucune periode de Vacances associées au profil', __FILE__));
+                    $cdayranges =  (__('Aucune période de Vacances associées au profil', __FILE__));
                 }
             }
             // --> MAC
