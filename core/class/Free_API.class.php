@@ -875,7 +875,7 @@ class Free_API
                 return false;
             }
         } else {
-            log::add('Freebox_OS', 'debug', ':fg-warning: ───▶︎ ' .  (__('AUCUN APPEL', __FILE__))  .  ':/fg:');
+            log::add('Freebox_OS', 'debug', ':fg-warning:───▶︎ ' .  (__('AUCUN APPEL', __FILE__))  .  ':/fg:');
             return $retourFbx;
         }
     }

@@ -586,8 +586,8 @@ class Free_CreateEq
 
         // Afficher Clef Wifi
         $StatusWifi = $LCD->AddCommand(__('Cacher Clef Wifi', __FILE__), 'hide_wifi_key', 'info', 'binary', null, null, 'SWITCH_STATE', 0, null, null, 0, $iconwifi, 0, null, null, $order++, 1, true, 'never', null, true, null, null, null, null, null, null, null, null);
-        $LCD->AddCommand(__('Cacher Clef Wifi On', __FILE__), 'hide_wifi_keyOn', 'action', 'other', 'core::toggleLine', null, 'SWITCH_ON', 1, $StatusWifi, 'hide_wifi_key', 0, $iconwifi, 0, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
-        $LCD->AddCommand(__('Cacher Clef Wifi Off', __FILE__), 'hide_wifi_keyOff', 'action', 'other', 'core::toggleLine', null, 'SWITCH_OFF', 1, $StatusWifi, 'hide_wifi_key', 0, $iconwifi, 0, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
+        $LCD->AddCommand(__('Cacher Clef Wifi On', __FILE__), 'hide_wifi_keyOn', 'action', 'other', 'core::toggleLine', null, 'SWITCH_ON', 1, $StatusWifi, 'hide_wifi_key', 0, $iconwifi, 1, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
+        $LCD->AddCommand(__('Cacher Clef Wifi Off', __FILE__), 'hide_wifi_keyOff', 'action', 'other', 'core::toggleLine', null, 'SWITCH_OFF', 1, $StatusWifi, 'hide_wifi_key', 0, $iconwifi, 1, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
 
         if ($Setting != null) {
             // Gestion orientation de l'affichage sur la box
@@ -599,17 +599,17 @@ class Free_CreateEq
                 $LCD->AddCommand(__('Orientation', __FILE__), 'orientation', 'action', 'select', null, null, null, 1, $StatusLCD, 'default', 0, $iconorientation, 0, '0', 100, $order++, '0', $updateicon, false, null, true, null, null, null, null, null, null, null, null, $listValue);
                 // Forcer l'orientation
                 $Orientation = $LCD->AddCommand(__('Forcer Orientation', __FILE__), 'orientation_forced', 'info', 'binary', null, null, 'SWITCH_STATE', 0, null, null, 0, $iconorientationF, 0, null, null, $order++, 1, true, 'never', null, true, null, null, null, null, null, null, null, null);
-                $LCD->AddCommand(__('Forcer Orientation On', __FILE__), 'orientation_forcedOn', 'action', 'other', 'core::toggleLine', null, 'SWITCH_ON', 1, $Orientation, 'orientation_forced', 0, $iconorientationF, 0, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
-                $LCD->AddCommand(__('Forcer Orientation Off', __FILE__), 'orientation_forcedOff', 'action', 'other', 'core::toggleLine', null, 'SWITCH_OFF', 1, $Orientation, 'orientation_forced', 0, $iconorientationF, 0, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
+                $LCD->AddCommand(__('Forcer Orientation On', __FILE__), 'orientation_forcedOn', 'action', 'other', 'core::toggleLine', null, 'SWITCH_ON', 1, $Orientation, 'orientation_forced', 0, $iconorientationF, 1, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
+                $LCD->AddCommand(__('Forcer Orientation Off', __FILE__), 'orientation_forcedOff', 'action', 'other', 'core::toggleLine', null, 'SWITCH_OFF', 1, $Orientation, 'orientation_forced', 0, $iconorientationF, 1, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
             } else {
                 log::add('Freebox_OS', 'info', '| :fg-success:───▶︎ ' . (__('Box compatible avec l\'orientation du texte sur l\'afficheur', __FILE__)) . '::/fg: ' . (__('Non', __FILE__)));
             }
             // Eteindre la LED en facade
             if ($Setting['has_status_led'] == 1) {
                 log::add('Freebox_OS', 'info', '| :fg-success:───▶︎ ' . (__('Box compatible avec éteindre la LED', __FILE__)) . ':/fg:');
-                $hide_status_led = $LCD->AddCommand(__('Bandeau LED Eteint', __FILE__), 'hide_status_led', 'info', 'binary', null, null, 'SWITCH_STATE', 0, null, null, 0, $iconhide_status_led, 0, null, null, $order++, 1, true, 'never', null, true, null, null, null, null, null, null, null, null);
-                $LCD->AddCommand(__('Eteindre LED On', __FILE__), 'hide_status_ledOn', 'action', 'other', 'core::toggleLine', null, 'SWITCH_ON', 1, $hide_status_led, 'hide_status_led', 0, $iconhide_status_led, 0, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
-                $LCD->AddCommand(__('Allumer LED Off', __FILE__), 'hide_status_ledOff', 'action', 'other', 'core::toggleLine', null, 'SWITCH_OFF', 1, $hide_status_led, 'hide_status_led', 0, $iconhide_status_led, 0, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
+                $hide_status_led = $LCD->AddCommand(__('Bandeau LED Eteint', __FILE__), 'hide_status_led', 'info', 'binary', null, null, 'SWITCH_STATE', 0, null, null, 0, $iconhide_status_led, 1, null, null, $order++, 1, true, 'never', null, true, null, null, null, null, null, null, null, null);
+                $LCD->AddCommand(__('Eteindre LED On', __FILE__), 'hide_status_ledOn', 'action', 'other', 'core::toggleLine', null, 'SWITCH_ON', 1, $hide_status_led, 'hide_status_led', 0, $iconhide_status_led, 1, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
+                $LCD->AddCommand(__('Allumer LED Off', __FILE__), 'hide_status_ledOff', 'action', 'other', 'core::toggleLine', null, 'SWITCH_OFF', 1, $hide_status_led, 'hide_status_led', 0, $iconhide_status_led, 1, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
             } else {
                 log::add('Freebox_OS', 'info', '| :fg-success:───▶︎ ' . (__('Box compatible avec éteindre la LED', __FILE__)) . '::/fg: ' . (__('Non', __FILE__)));
             }
@@ -620,14 +620,14 @@ class Free_CreateEq
                 log::add('Freebox_OS', 'info', '| :fg-success:───▶︎ ' . (__('Box compatible avec les LED rouges', __FILE__)) . ':/fg:');
                 $listValue = "organic|" . __('Organique', __FILE__) . ";static|" . __('Statique', __FILE__) . ";breathing|" . __('Respiration', __FILE__) . ";rain|" . __('Pluie', __FILE__) . ";trail|" . __('Chenillard', __FILE__) . ";wave|" . __('Vague', __FILE__);
                 $led_strip_animation = $LCD->AddCommand(__('Animation du bandeau lumineux', __FILE__), 'led_strip_animation', "info", 'string', null, null, null, 0, '', '', '', $iconled_strip_animation, 0, '0', 100, $order++, 2, $updateicon, true, false, true);
-                $LCD->AddCommand(__('Choix animation du bandeau lumineux', __FILE__), 'led_strip_animation_action', 'action', 'select', null, null, null, 1, $led_strip_animation, 'default', 0, $iconled_strip_animation, 0, '0', 100, $order++, '0', $updateicon, false, null, true, null, null, null, null, null, null, null, null, $listValue);
+                $LCD->AddCommand(__('Choix animation du bandeau lumineux', __FILE__), 'led_strip_animation_action', 'action', 'select', null, null, null, 1, $led_strip_animation, 'default', 0, $iconled_strip_animation, 1, '0', 100, $order++, '0', $updateicon, false, null, true, null, null, null, null, null, null, null, null, $listValue);
                 // Luminosité du bandeau LED
-                $led_strip_brightness = $LCD->AddCommand(__('Etat Luninosité du bandeau LED', __FILE__), 'led_strip_brightness', "info", 'numeric', null, '%', null, 0, '', '', '', $iconbrightness, 0, '0', 100, $order++, 2, $updateicon, true, false, true);
-                $LCD->AddCommand(__('Luninosité du bandeau LED', __FILE__), 'led_strip_brightness_action', 'action', 'slider', null, '%', null, 1, $led_strip_brightness, 'default', 0, $iconbrightness, 0, '0', 100, $order++, '0', $updateicon, false, null, true, null, 'floor(#value#)');
+                $led_strip_brightness = $LCD->AddCommand(__('Etat Luninosité du bandeau LED', __FILE__), 'led_strip_brightness', "info", 'numeric', null, '%', null, 0, '', '', '', $iconbrightness, 1, '0', 100, $order++, 2, $updateicon, true, false, true);
+                $LCD->AddCommand(__('Luninosité du bandeau LED', __FILE__), 'led_strip_brightness_action', 'action', 'slider', null, '%', null, 1, $led_strip_brightness, 'default', 0, $iconbrightness, 1, '0', 100, $order++, '0', $updateicon, false, null, true, null, 'floor(#value#)');
                 // Activation du bandeau LED
                 $led_strip = $LCD->AddCommand(__('Etat du bandeau de LED', __FILE__), 'led_strip_enabled', 'info', 'binary', null, null, 'SWITCH_STATE', 0, null, null, 0, $iconled_strip, 0, null, null, $order++, 1, true, 'never', null, true, null, null, null, null, null, null, null, null);
-                $LCD->AddCommand(__('Bandeau LED On', __FILE__), 'led_strip_enabledOn', 'action', 'other', 'core::toggleLine', null, 'SWITCH_ON', 1, $led_strip, 'led_strip_enabled', 0, $iconled_strip, 0, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
-                $LCD->AddCommand(__('Bandeau LED Off', __FILE__), 'led_strip_enabledOff', 'action', 'other', 'core::toggleLine', null, 'SWITCH_OFF', 1, $led_strip, 'led_strip_enabled', 0, $iconled_strip, 0, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
+                $LCD->AddCommand(__('Bandeau LED On', __FILE__), 'led_strip_enabledOn', 'action', 'other', 'core::toggleLine', null, 'SWITCH_ON', 1, $led_strip, 'led_strip_enabled', 0, $iconled_strip, 1, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
+                $LCD->AddCommand(__('Bandeau LED Off', __FILE__), 'led_strip_enabledOff', 'action', 'other', 'core::toggleLine', null, 'SWITCH_OFF', 1, $led_strip, 'led_strip_enabled', 0, $iconled_strip, 1, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
             } else {
                 log::add('Freebox_OS', 'info', '| :fg-success:───▶︎ ' . (__('Box compatible avec les LED rouges', __FILE__)) . '::/fg: ' . (__('Non', __FILE__)));
             }
