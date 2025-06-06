@@ -105,7 +105,7 @@ class Free_API
         }
     }
 
-    public function getFreeboxOpenSession() //Doit correspondre a la donction session de freboxsession.js homebridge freebox
+    public function getFreeboxOpenSession() //Doit correspondre a la fonction session de freboxsession.js homebridge freebox
     {
         try {
             $challenge = cache::byKey('Freebox_OS::Challenge');
