@@ -359,6 +359,10 @@ class Free_API
                     $msg_box1 = (__('Pas d\'équipement avec cet ID', __FILE__));
                 }
                 break;
+            case "service_down":
+                $log_level = 'Debug';
+                $msg_box1 = (__('Pas d\'accès à internet', __FILE__));
+                break;
             case "nodev":
                 $log_level = 'Debug';
                 $msg_box1 = (__('Aucun appareil trouvé avec ce nom', __FILE__));
