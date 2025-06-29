@@ -20,7 +20,7 @@ require_once __DIR__  . '/../../../../core/php/core.inc.php';
 
 class Free_Refresh
 {
-    public static function RefreshInformation($_freeboxID)
+    public static function RefreshInformation($_freeboxID, $typerefresh = null)
     {
         $Free_API = new Free_API();
         $EqLogics = eqlogic::byId($_freeboxID);
@@ -33,7 +33,6 @@ class Free_Refresh
         if ($_freeboxID == 'Tiles_global') {
             Free_Refresh::refresh_titles_global($EqLogics, $Free_API);
         }
-
         if (is_object($EqLogics) && $EqLogics->getIsEnable()) {
             if ($_freeboxID != 'Tiles_global') {
                 log::add('Freebox_OS', 'debug', '──────────▶︎ :fg-success:' . (__('Mise à jour', __FILE__)) . ' : ' . $EqLogics->getName() . ' :/fg: ◀︎───────────');
@@ -45,7 +44,12 @@ class Free_Refresh
             }
             switch ($refresh) {
                 case 'management':
-                    log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('Pas de fonction rafraichir pour cet équipement', __FILE__)));
+                    if ($typerefresh != null) {
+                        log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('Reset des valeurs pour cet équipement', __FILE__)));
+                        Free_Refresh::refresh_management($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null,  $para_Value_calcul = null, $para_Config_eq = null, $typerefresh);
+                        //} else {
+                        // log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('Pas de fonction rafraichir pour cet équipement', __FILE__)));
+                    }
                     break;
                 case 'airmedia':
                     Free_Refresh::refresh_airmedia($EqLogics, $Free_API);
@@ -128,6 +132,19 @@ class Free_Refresh
                 log::add('Freebox_OS', 'debug', '───────────────────────────────────────────');
             }
         }
+    }
+    private static function refresh_management($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null,  $para_Value_calcul = null, $para_Config_eq = null, $typerefresh)
+    {
+        $list = $typerefresh;
+        $result = array(
+            "method_info" => '',
+            "host_type_info" => '',
+            "add_del_ip_info" => '',
+            "comment_info" => '',
+            "host_info" => ''
+        );
+        $para_resultC = array('nb' => 0, 1 => null, 2 => null, 3 => null);
+        Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultC, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
     }
     private static function refresh_parental($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null,  $para_Value_calcul = null, $para_Config_eq = null)
     {

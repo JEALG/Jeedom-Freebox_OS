@@ -89,7 +89,10 @@ class Free_Update
                 Free_Refresh::RefreshInformation($logicalId_eq->getId());
                 break;
             case 'management':
-                Free_Update::update_management($logicalId, $logicalId_type, $logicalId_eq, $Free_API, $_options);
+                $typerefresh = Free_Update::update_management($logicalId, $logicalId_type, $logicalId_eq, $Free_API, $_options);
+                if ($logicalId == 'start') {
+                    Free_Refresh::RefreshInformation($logicalId_eq->getId(), $typerefresh);
+                }
                 break;
             case 'netshare':
                 Free_Update::update_netshare($logicalId, $logicalId_type, $logicalId_eq, $Free_API, $_options);
@@ -385,38 +388,32 @@ class Free_Update
                     }
                 }
                 if ($logicalId == 'start') {
-
-                    $_networkinterface = 'pub';
+                    $list = null;
                     $update_TYPE = null;
-                    $update_IP = NULL;
-                    $update_WIFI = null;
-                    $update_WOL = null;
-
                     //Option par défaut
                     $option = array(
                         "mac" => $host_value_mac_ID,
                         "ip" => $add_del_ip_value,
                         "comment" => $comment_value
                     );
-
                     switch ($method_value) {
-                        case 'DEVICE':
+                        case 'DEVICE': // DEVICE
                             $update_TYPE = 'DEVICE';
+                            log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ Méthode : :/fg:' . $method_value);
                             //$update_IP = 'IP';
                             break;
-                        case 'NO_DHCP':
+                        case 'NO_DHCP': // AUCUNE ACTION ICI
                             break;
-                        case 'POST':
+                        case 'POST': //IP_DEVICE
                             //Ajout IP
-                            $update_IP = 'IP';
-                            $update_TYPE = 'DEVICE';
+                            $update_TYPE = 'IP_DEVICE';
                             // Contrôle Equipement
                             $result = $Free_API->universal_get('universalAPI', null, null, 'dhcp/static_lease/', true, true, true);
                             if (isset($result['result'])) {
                                 $result_network = $result['result'];
                                 foreach ($result_network as $result) {
                                     if ($result['id'] == $host_value_mac_ID) {
-                                        log::add('Freebox_OS', 'debug', '│ ' . (__('Equipement avec déjà un paramètrage IP', __FILE__)) . ' : ' . $result['mac']);
+                                        log::add('Freebox_OS', 'debug', ':fg-sucess:'  . (__('Equipement avec déjà un paramètrage IP', __FILE__)) . ' ::/fg: ' . $result['mac']);
                                         if ($method_value == 'POST' && $method_value != 'DELETE') {
                                             $method_value = 'PUT';
                                         }
@@ -425,152 +422,169 @@ class Free_Update
                                 }
                             }
                             break;
-                        case 'DELETE':
-                            $update_IP = 'IP';
+                        case 'DELETE': // IP
+                            $update_TYPE = 'IP';
                             break;
-                        case 'PUT':
-                            $update_TYPE = 'DEVICE';
-                            $update_IP = 'IP';
+                        case 'PUT': // IP_DEVICE
+                            $update_TYPE = 'IP_DEVICE';
                             break;
-                        case 'ADD_blacklist':
-                            $update_WIFI = 'WIFI';
-                            $mac_filter_value = 'blacklist';
+                        case 'ADD_blacklist': // WIFI
+                        case 'ADD_whitelist': // WIFI
+                            $result = $Free_API->universal_get('universalAPI', null, null, 'wifi/mac_filter/' . $mac_filter_value, true, true, true);
+                            $result = $result['result'];
+                            $exist = null;
+                            $host_value_mac = $host_value_mac_ID;
+                            foreach ($result as $resultwifi) {
+                                if ($resultwifi['mac'] == $host_value_mac_ID) {
+                                    $exist = true;
+                                    $host_value_mac_ID = $resultwifi['id'];
+                                }
+                            }
+                            $update_TYPE  = 'WIFI';
+                            if ($method_value === 'ADD_blacklist') {
+                                $mac_filter_value = 'blacklist';
+                            } else {
+                                $mac_filter_value = 'whitelist';
+                            }
                             $option = array(
-                                "mac" => $host_value_mac_ID,
+                                "comment" => $comment_value,
                                 "type" => $mac_filter_value,
-                                "comment" => $comment_value
+                                "mac" => $host_value_mac,
                             );
-                            //$host_value_mac_ID = null;
+                            if ($exist == true) {
+                                $method_value = 'PUT';
+                            } else {
+                                $host_value_mac_ID = null;
+                                $method_value = 'POST';
+                            }
+                            break;
+                        case 'DEL_blacklist': // WIFI
+                        case 'DEL_whitelist': // WIFI
+                            $result = $Free_API->universal_get('universalAPI', null, null, 'wifi/mac_filter/' . $mac_filter_value, true, true, true);
+                            $result = $result['result'];
+                            $exist = null;
+                            $host_value_mac = $host_value_mac_ID;
+                            foreach ($result as $resultwifi) {
+                                if ($resultwifi['mac'] == $host_value_mac_ID) {
+                                    $exist = true;
+                                    $host_value_mac_ID = $resultwifi['id'];
+                                }
+                            }
+                            if ($exist == true) {
+                                $update_TYPE  = 'WIFI';
+                                if ($method_value === 'DEL_blacklist') {
+                                    $mac_filter_value = 'blacklist';
+                                } else {
+                                    $mac_filter_value = 'whitelist';
+                                }
+                                $method_value = 'DELETE';
+                                $option = array(
+                                    "mac" => $host_value_mac_ID,
+                                    "type" => $mac_filter_value,
+                                    "comment" => $comment_value
+                                );
+                            };
+                            break;
+                        case 'POST_WOL': // POST_WOL
+                            $update_TYPE  = 'POST_WOL';
                             $method_value = 'POST';
                             break;
-                        case 'ADD_whitelist':
-                            $update_WIFI = 'WIFI';
-                            $mac_filter_value = 'whitelist';
-                            $option = array(
-                                "mac" => $host_value_mac_ID,
-                                "type" => 'whitelist',
-                                "comment" => $comment_value
-                            );
-                            //$host_value_mac_ID = null;
-                            $method_value = 'POST';
-                            break;
-                        case 'DEL_blacklist':
-                            $update_WIFI = 'WIFI';
-                            $method_value = 'DELETE';
-                            $mac_filter_value = 'blacklist';
-                            $option = array(
-                                "mac" => $host_value_mac_ID,
-                                "type" => $mac_filter_value,
-                                "comment" => $comment_value
-                            );
-                            $host_value_mac_ID = $host_value_mac_ID . '-' . $mac_filter_value;
-                            break;
-                        case 'DEL_whitelist':
-                            $update_WIFI = 'WIFI';
-                            $mac_filter_value = 'whitelist';
-                            $method_value = 'DELETE';
-                            $option = array(
-                                "mac" => $host_value_mac_ID,
-                                "type" => $mac_filter_value,
-                                "comment" => $comment_value
-                            );
-                            $host_value_mac_ID = $host_value_mac_ID . '-' . $mac_filter_value;
-                            break;
-                        case 'PUT_blacklist':
-                            $update_WIFI = 'WIFI';
-                            $mac_filter_value = 'blacklist';
-                            $method_value = 'PUT';
-                            $option = array(
-                                "mac" => $host_value_mac_ID,
-                                "type" => $mac_filter_value,
-                                "comment" => $comment_value
-                            );
-                            $host_value_mac_ID = $host_value_mac_ID . '-' . $mac_filter_value;
-                            break;
-                        case 'PUT_whitelist':
-                            $update_WIFI = 'WIFI';
-                            $mac_filter_value = 'whitelist';
-                            $method_value = 'PUT';
-                            $option = array(
-                                "mac" => $host_value_mac_ID,
-                                "type" => $mac_filter_value,
-                                "comment" => $comment_value
-                            );
-                            $host_value_mac_ID = $host_value_mac_ID . '-' . $mac_filter_value;
-                            break;
-                        case 'POST_WOL':
-                            $update_WOL = 'POST_WOL';
-                            $method_value = 'POST';
                         default:
                             break;
                     }
-                    if ($update_WIFI === 'WIFI') {
-                        log::add('Freebox_OS', 'debug', '│ Appareil/Nom : ' . $host_value . '/' . $primary_name_value . '/' . $mac_filter_value  . ' -- Action à faire : ' . $method_value . ' -- Commentaire : ' . $comment_value . ' -- ACTION : ' . $logicalId);
-                        if ($host_value === null || $add_del_ip_value === null || $mac_filter_value === null) {
-                            log::add('Freebox_OS', 'error', (__('Gestion réseau : IP  ou adresse mac vide', __FILE__)));
-                            break;
-                        }
-                    } else if ($update_TYPE === 'DEVICE') {
-                        log::add('Freebox_OS', 'debug', '│ Appareil/Nom : ' . $host_value . '/' . $primary_name_value . ' -- Type : ' . $host_type_value . ' -- Action à faire : ' . $method_value . ' -- Commentaire : ' . $comment_value . ' -- ACTION : ' . $logicalId);
-                        if ($primary_name_value === null || $host_value === null || $host_type_value === null) {
-                            log::add('Freebox_OS', 'error', (__('Gestion réseau : Les données sont incomplètes => Impossible de continuer', __FILE__)));
-                            break;
-                        }
-                    } else if ($update_IP === 'IP') {
-                        log::add('Freebox_OS', 'debug', '│ Appareil/Nom : ' . $host_value . '/' . $primary_name_value . ' -- IP : ' . $add_del_ip_value . ' -- Action à faire : ' . $method_value . ' -- Commentaire : ' . $comment_value . ' -- ACTION : ' . $logicalId);
-                        if ($host_value === '0' || $host_value === null || $add_del_ip_value === null) {
-                            log::add('Freebox_OS', 'error', (__('Gestion réseau : IP  ou adresse mac vide => Impossible de continuer', __FILE__)));
-                            break;
-                        }
-                    } else if ($update_WOL === 'POST_WOL') {
-                        log::add('Freebox_OS', 'debug', '│ Appareil/Nom : ' . $host_value . '/' . $primary_name_value . ' -- Action à faire : ' . $method_value . ' -- Commentaire : ' . $comment_value . ' -- ACTION : ' . $logicalId);
-                        if ($host_value === '0' || $host_value === null) {
-                            log::add('Freebox_OS', 'error', (__('Gestion réseau : Adresse mac vide => Impossible de continuer', __FILE__)));
-                            break;
-                        }
-                    }
+                    switch ($update_TYPE) {
+                        case 'IP_DEVICE':
+                        case 'DEVICE':
+                        case 'IP':
+                            $list = 'method_info,host_type_info,add_del_ip_info,comment_info,host_info,primary_name_info';
+                            if ($primary_name_value === '' || $primary_name_value === null || $host_type_value === null || $host_type_value === '' || $comment_value === null || $comment_value === '') {
+                                $result = $Free_API->universal_get('universalAPI', null, null, 'dhcp/static_lease/' . $host_value_mac_ID, true, true, false);
+                                if ($primary_name_value === '' || $primary_name_value === null) { // Récupération du nom de l'équipement
+                                    $primary_name_value = $result['hostname'];
+                                    log::add('Freebox_OS', 'debug', ':fg-warning:' . (__('Récupération du nom de l\'équipement => Pour éviter de bloquer', __FILE__)) . ' ::/fg: ' . $primary_name_value);
+                                }
+                                if ($host_type_value === '' || $host_type_value === null) { // Récupération du type de l'équipement
+                                    $host_type_value = $result['host']['host_type'];
+                                    log::add('Freebox_OS', 'debug', ':fg-warning:' . (__('Récupération du type de l\'équipement => Pour éviter de bloquer', __FILE__)) . ' ::/fg: ' . $host_type_value);
+                                }
+                                if ($comment_value === '' || $comment_value === null) { // Récupération du commentaire
+                                    $comment_value  = $result['comment'];
+                                    log::add('Freebox_OS', 'debug', ':fg-warning:' . (__('Récupération le commentaire de l\'équipement => Pour éviter de bloquer', __FILE__)) . ' ::/fg: ' . $comment_value);
+                                }
+                            }
+                            switch ($update_TYPE) {
+                                case 'DEVICE':
+                                case 'IP_DEVICE':
+                                    log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ Mise à jour:/fg: du Nom ou du type d\'équipement');
+                                    log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ Appareil/Nom : :/fg:' . $primary_name_value . ' -- Type : ' . $host_type_value . ' -- Action à faire : ' . $method_value . ' -- Commentaire : ' . $comment_value . ' -- ACTION : ' . $logicalId);
+                                    if ($primary_name_value === null || $host_value === null || $host_type_value === null || $primary_name_value === '' || $host_value === '') {
+                                        log::add('Freebox_OS', 'error', (__('Gestion réseau : Les données sont incomplètes', __FILE__)) . ' ───▶︎ ' . (__('Impossible de continuer', __FILE__)));
+                                        break;
+                                    }
+                                    $option = array(
+                                        "id" => $host_value,
+                                        "primary_name" => $primary_name_value,
+                                        'host_type'  => $host_type_value
+                                    );
+                                    if ($method_value === 'DEVICE') {
+                                        $host_value_mac_ID = null;
+                                    }
+                                    $Free_API->universal_put(null, 'universal_put', $host_value, null, 'lan/browser/pub/', 'PUT', $option);
+                                    if ($update_TYPE == 'DEVICE') {
+                                        break;
+                                    }
+                                case 'IP':
+                                case 'IP_DEVICE':
+                                    log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ Mise à jour:/fg: l\'IP et du commentaires');
+                                    log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ Appareil/Nom : :/fg:' . $host_value . '/' . $primary_name_value . ' -- IP : ' . $add_del_ip_value . ' -- Action à faire : ' . $method_value . ' -- Commentaire : ' . $comment_value . ' -- ACTION : ' . $logicalId);
+                                    if ($host_value === '0' || $host_value === null || $add_del_ip_value === null || $add_del_ip_value === '') {
+                                        log::add('Freebox_OS', 'error', (__('Gestion réseau : IP ou adresse mac vide', __FILE__)) . ' ───▶︎ ' . (__('Impossible de continuer', __FILE__)));
+                                        break;
+                                    }
+                                    $option = array(
+                                        "mac" => $host_value_mac_ID,
+                                        "ip" => $add_del_ip_value,
+                                        "comment" => $comment_value
+                                    );
+                                    if ($method_value == 'POST') {
+                                        $host_value_mac_ID = null;
+                                    }
+                                    $Free_API->universal_put(null, 'universal_put', null, null, 'dhcp/static_lease/' . $host_value_mac_ID, $method_value, $option);
+                                    if ($update_TYPE == 'IP') {
+                                        break;
+                                    }
+                            }
 
-                    // Action IP
-                    if ($update_IP == 'IP') {
-                        $option = array(
-                            "mac" => $host_value_mac_ID,
-                            "ip" => $add_del_ip_value,
-                            "comment" => $comment_value
-                        );
-                        if ($method_value == 'POST') {
-                            $host_value_mac_ID = null;
-                        }
-                        $Free_API->universal_put(null, 'universal_put', null, null, 'dhcp/static_lease/' . $host_value_mac_ID, $method_value, $option);
-                    }
-
-                    // Action Type de périphérique
-                    if ($update_TYPE == 'DEVICE') {
-                        $option = array(
-                            "id" => $host_value,
-                            "primary_name" => $primary_name_value,
-                            'host_type'  => $host_type_value
-                        );
-                        if ($method_value == 'DEVICE') {
-                            $host_value_mac_ID = null;
-                        }
-                        $Free_API->universal_put(null, 'universal_put', $host_value, null, 'lan/browser/pub/', 'PUT', $option);
-                    }
-
-                    // Action Filtrage WIFI
-                    if ($update_WIFI == 'WIFI') {
-                        $Free_API->universal_put(null, 'universal_put', null, null, 'wifi/mac_filter/' . $host_value_mac_ID, $method_value, $option);
-                    }
-
-                    // Action Wake on LAN
-                    if ($update_WOL == 'POST_WOL') {
-                        $option = array(
-                            "mac"  => $host_value_mac_ID,
-                            "password" => $comment_value
-                        );
-                        $Free_API->universal_put(null, 'universal_put', null, null, 'lan/wol/pub/', null, $option);
+                            break;
+                        case 'POST_WOL':
+                            $list = 'method_info,host_info,comment_info';
+                            log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ Appareil/Nom : :/fg:' . $host_value . '/' . $primary_name_value . ' -- Action à faire : ' . $method_value . ' -- Commentaire : ' . $comment_value . ' -- ACTION : ' . $logicalId);
+                            if ($host_value === '0' || $host_value === null) {
+                                log::add('Freebox_OS', 'error', (__('Gestion réseau : Adresse mac vide', __FILE__)) . ' ───▶︎ ' . (__('Impossible de continuer', __FILE__)));
+                                break;
+                            }
+                            $option = array(
+                                "mac"  => $host_value_mac_ID,
+                                "password" => $comment_value
+                            );
+                            $Free_API->universal_put(null, 'universal_put', null, null, 'lan/wol/pub/', null, $option);
+                            break;
+                        case 'WIFI':
+                            $list = 'method_info,host_info,comment_info';
+                            log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ Appareil/Nom : :/fg:' . $host_value . '/' . $primary_name_value . '/' . $mac_filter_value  . ' -- Action à faire : ' . $method_value . ' -- Commentaire : ' . $comment_value . ' -- ACTION : ' . $logicalId);
+                            if ($host_value === null || $add_del_ip_value === null || $mac_filter_value === null) {
+                                log::add('Freebox_OS', 'error', (__('Gestion réseau : IP ou adresse mac vide', __FILE__)) . ' ───▶︎ ' . (__('Impossible de continuer', __FILE__)));
+                                break;
+                            }
+                            if ($host_value_mac_ID == null) {
+                                $Free_API->universal_put(null, 'universal_put', null, null, 'wifi/mac_filter/', $method_value, $option);
+                            } else {
+                                $Free_API->universal_put(null, 'universal_put', null, null, 'wifi/mac_filter/' . $host_value_mac_ID, $method_value, $option);
+                            }
                     }
                 }
         }
+        return $list;
     }
     private static function update_network($logicalId, $logicalId_type, $logicalId_eq, $Free_API, $_options, $network)
     {
@@ -596,7 +610,7 @@ class Free_Update
                 // Commande a supprimer
                 log::add('Freebox_OS', 'ERROR', '│ ' . (__('METHODE OBSOLETE => MERCI DE REGARDER LA DOCUMENTATION', __FILE__)));
                 if ($_options['ip'] == null || $_options['mac_address'] == null) {
-                    log::add('Freebox_OS', 'error', 'IP  ou adresse mac vide');
+                    log::add('Freebox_OS', 'error', 'IP ou adresse mac vide');
                     break;
                 }
                 $option = array(

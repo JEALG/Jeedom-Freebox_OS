@@ -707,19 +707,18 @@ class Free_CreateEq
 
         $EqLogic = Freebox_OS::AddEqLogic($logicalinfo['managementName'], $logicalinfo['managementID'], 'default', false, null, null, null, '0 0 1 1 *', null, null, 'system', true, null);
         // Type de phériphérique
-        $host_type_list = "other|" . __('Autre', __FILE__) . ";ip_camera|" . __('Caméra IP', __FILE__) . ";vg_console|" . __('Console de jeux', __FILE__) . ";freebox_crystal|" . __('Freebox Crystal', __FILE__) . ";freebox_delta|" . __('Freebox Delta', __FILE__) . ";freebox_hd|" . __('Freebox HD', __FILE__) . ";freebox_mini|" . __('Freebox Mini', __FILE__) . ";freebox_one|" . __('Freebox One', __FILE__) . ";freebox_player|" . __('Freebox Player', __FILE__) . ";freebox_pop|" . __('Freebox Pop', __FILE__) . ";freebox_wifi|" . __('Freebox Wi-Fi Pop', __FILE__) . ";printer|" . __('Imprimante', __FILE__) . ";nas|" . __('NAS', __FILE__) . ";workstation|" . __('Ordinateur Fixe', __FILE__) . ";laptop|" . __('Ordinateur Portable', __FILE__) . ";multimedia_device|" . __('Périphérique multimédia', __FILE__) . ";networking_device|" . __('Périphérique réseau', __FILE__) . ";smartphone|" . __('Smartphone', __FILE__) . ";tablet|" . __('Tablette', __FILE__) . ";ip_phone|" . __('Téléphone IP', __FILE__) . ";television|" . __('Télévision', __FILE__) . ";car|" . __('Véhicule connecté', __FILE__);
+        $host_type_list = "other|" . __('Autre', __FILE__) . ";ip_camera|" . __('Caméra IP', __FILE__) . ";vg_console|" . __('Console de jeux', __FILE__) . ";freebox_crystal|" . __('Freebox Crystal', __FILE__) . ";freebox_delta|" . __('Freebox Delta', __FILE__) . ";freebox_hd|" . __('Freebox HD', __FILE__) . ";freebox_mini|" . __('Freebox Mini', __FILE__) . ";freebox_one|" . __('Freebox One', __FILE__) . ";freebox_player|" . __('Freebox Player', __FILE__) . ";freebox_pop|" . __('Freebox Pop', __FILE__) . ";freebox_wifi|" . __('Freebox Wi-Fi Pop', __FILE__) . ";printer|" . __('Imprimante', __FILE__) . ";nas|" . __('NAS', __FILE__) . ";workstation|" . __('Ordinateur Fixe', __FILE__) . ";laptop|" . __('Ordinateur Portable', __FILE__) . ";multimedia_device|" . __('Périphérique multimédia', __FILE__) . ";networking_device|" . __('Périphérique réseau', __FILE__) . ";smartphone|" . __('Smartphone', __FILE__) . ";tablet|" . __('Tablette', __FILE__) . ";ip_phone|" . __('Téléphone IP', __FILE__) . ";television|" . __('Télévision', __FILE__) . ";car|" . __('Véhicule connecté', __FILE__) . ";watch|" . __('Montre connectée', __FILE__) . ";light|" . __('Lumières', __FILE__) . ";outlet|" . __('Prise connectée', __FILE__) . ";appliances|" . __('Appareils électroménagers', __FILE__) . ";thermostat|" . __('Thermostat', __FILE__) . ";shutter|" . __('Volet électrique', __FILE__);
         $host_type = $EqLogic->AddCommand(__('Type de périphérique choisi', __FILE__), 'host_type_info', 'info', 'string', 'default', null, null, $_IsVisible, 'default', 'default', 0, $icon_host_type, 0, 'default', 'default', $order, '0', false, true, null, true);
         $EqLogic->AddCommand(__('Sélection Type de périphérique', __FILE__), 'host_type', 'action', 'select', null, null, null, $_IsVisible, $host_type, 'default', 0, $icon_host_type, 0, 'default', 'default', $order++, '0', false, true, null, true, null, null, null, null, null, null, null, null, $host_type_list, null, null);
 
         // Méthode de modification
-        $method_list = "POST|" . __('Ajouter IP fixe', __FILE__) . ";DELETE|" . __('Supprimer IP Fixe', __FILE__) . ";PUT|" . __('Modifier IP Equipement', __FILE__) . ";DEVICE|" . __('Modifier le type de Périphérique', __FILE__) . ";ADD_blacklist|" . __('Ajouter Liste Noire', __FILE__) . ";ADD_whitelist|" . __('Ajouter Liste Blanche', __FILE__) . ";DEL_blacklist|" . __('Supprimer Liste Noire', __FILE__) . ";DEL_whitelist|" . __('Supprimer Liste Blanche', __FILE__) . ";PUT_blacklist|" . __('Modifier Liste Noire', __FILE__) . ";PUT_whitelist|" . __('Modifier Liste Blanche', __FILE__) . ";POST_WOL|" . __('Wake on LAN', __FILE__);
+        $method_list = "POST|" . __('Ajouter IP fixe', __FILE__) . ";DELETE|" . __('Supprimer IP Fixe', __FILE__) . ";PUT|" . __('Modifier IP Equipement', __FILE__) . ";DEVICE|" . __('Modifier le type de Périphérique', __FILE__) . ";ADD_blacklist|" . __('Ajouter / Modifier Liste Noire', __FILE__) . ";ADD_whitelist|" . __('Ajouter / Modifier Liste Blanche', __FILE__) . ";DEL_blacklist|" . __('Supprimer Liste Noire / Blanche', __FILE__) . ";POST_WOL|" . __('Wake on LAN', __FILE__);
         $method = $EqLogic->AddCommand(__('Choix modification Appareil', __FILE__), 'method_info', 'info', 'string', 'default', null, null, $_IsVisible, 'default', 'default', 0, $icon_method, 0, 'default', 'default', $order++, '0', false, true, null, true);
         $EqLogic->AddCommand(__('Sélection modification Appareil', __FILE__), 'method', 'action', 'select', null, null, null, $_IsVisible, $method, 'default', 0, $icon_method, 0, 'default', 'default', $order++, '0', false, true, null, true, null, null, null, null, null, null, null, null, $method_list, null, null);
 
         $config_message = array(
             'title_disable' => 1,
             'message_placeholder' => (__('Adresse IP', __FILE__)),
-
         );
 
         $add_del_ip = $EqLogic->AddCommand(__('IP choisi', __FILE__), 'add_del_ip_info', 'info', 'string', 'default', null, null, $_IsVisible, 'default', 'default', 0, $icon_add_del_ip, 0, 'default', 'default', $order++, '0', false, false, null, true, null, null, null, null);
@@ -728,16 +727,13 @@ class Free_CreateEq
         $config_message = array(
             'title_disable' => 1,
             'message_placeholder' => (__('Nom Appareil', __FILE__)),
-
         );
         $primary_name = $EqLogic->AddCommand('Nom choisi', 'primary_name_info', 'info', 'string', 'default', null, null, $_IsVisible, 'default', 'default', 0, $icon_primary_name, 0, 'default', 'default', $order++, '0', false, false, null, true, null, null, null, null);
         $EqLogic->AddCommand('Nom Appareil', 'primary_name', 'action', 'message', 'default', null, null, $_IsVisible, $primary_name, 'default', 0, $icon_primary_name, 0, 'default', 'default', $order++, '0', false, true, null, true, null, null, null, null, null, null, null, null, null, null, null, null, $config_message);
 
         //Commentaires
         $config_message = array(
-            'title_disable' => 1,
-            'message_placeholder' => (__('Commentaire ou Mot de Passe (pour la fonction Wake on Lan)', __FILE__)),
-
+            'title_disable' => 1
         );
         $primary_name = $EqLogic->AddCommand(__('Commentaire choisi', __FILE__), 'comment_info', 'info', 'string', 'default', null, null, $_IsVisible, 'default', 'default', 0, $icon_comment, 0, 'default', 'default', $order++, '0', false, false, null, true, null, null, null, null);
         $EqLogic->AddCommand(__('Commentaire', __FILE__), 'comment', 'action', 'message', 'default', null, null, $_IsVisible, $primary_name, 'default', 0, $icon_comment, 0, 'default', 'default', $order++, '0', false, true, null, true, null, null, null, null, null, null, null, null, null, null, null, null, $config_message);

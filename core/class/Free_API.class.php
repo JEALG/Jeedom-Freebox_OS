@@ -359,6 +359,29 @@ class Free_API
                     $msg_box1 = (__('Pas d\'équipement avec cet ID', __FILE__));
                 }
                 break;
+            case "nodev":
+                if (strpos($api_url, '/lan/browser/') === true) {
+                    $msg_box1 = (__('Modification réseau : Interface invalide', __FILE__));
+                } else {
+                    $msg_box1 = (__('Erreur de la modification de l\’hôte', __FILE__));
+                }
+                break;
+            case "exist":
+                if (strpos($api_url, '/wifi/mac_filter/') === true) {
+                    $msg_box1 = (__('Impossible d’ajouter une entrée de filtrage MAC : Entrée déjà existante    ', __FILE__));
+                } else {
+                    $msg_box1 = (__('[Message inconnue]', __FILE__));
+                }
+                $msg_box1 = (__('Impossible d’ajouter une entrée de filtrage MAC : Entrée déjà existante    ', __FILE__));
+
+                break;
+            case "inval":
+                if (strpos($api_url, '/lan/browser/') === true) {
+                    $msg_box1 = (__('Modification réseau : Paramètre invalide', __FILE__));
+                } else {
+                    $msg_box1 = (__('Erreur de la modification de l\’hôte', __FILE__));
+                }
+                break;
             case "service_down":
                 $log_level = 'Debug';
                 $msg_box1 = (__('Pas d\'accès à internet', __FILE__));
@@ -665,7 +688,7 @@ class Free_API
                     $config = 'api/' . $API_version . '/' . $_options;
                     $fonction = "POST";
                 }
-                log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('Type de requête', __FILE__)) . ' : ' . $fonction);
+                log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . (__('Type de requête', __FILE__)) . ' ::/fg: ' . $fonction);
                 break;
             case 'VM':
                 $config = 'api/' . $API_version . '/vm/' . $id  . '/' . $_options_2;
