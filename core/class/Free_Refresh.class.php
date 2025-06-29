@@ -133,9 +133,8 @@ class Free_Refresh
             }
         }
     }
-    private static function refresh_management($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null,  $para_Value_calcul = null, $para_Config_eq = null, $typerefresh)
+    private static function refresh_management($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null,  $para_Value_calcul = null, $para_Config_eq = null, $list = null)
     {
-        $list = $typerefresh;
         $result = array(
             "method_info" => '',
             "host_type_info" => '',
