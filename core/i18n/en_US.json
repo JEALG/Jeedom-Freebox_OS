@@ -32,6 +32,7 @@
         "Mise à jour de": "Update of",
         "Mise à jour de : Etat du Wifi": "Update of : Wifi status",
         "Mise à jour du : Contrôle Parental": "Update of : Parental Control",
+        "Modification réseau : Impossible de récupérer la liste des baux statiques DHCP : Pas d\\’entrée avec cet identifiant": "Network modification: Unable to retrieve the list of static leases DHCP: No entry with this ID",
         "Modification réseau : Interface invalide": "Network modification: Invalid interface",
         "Modification réseau : Paramètre invalide": "Network modification: Invalid parameter",
         "Pas d\\'accès à internet": "No internet access",
