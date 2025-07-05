@@ -915,13 +915,14 @@ class Free_CreateEq
                                 }
                             }
                         }
-                        if (isset($result['l2ident'])) {
-                            $ident = $result['l2ident'];
-                            if ($ident['type'] == 'mac_address') {
-                                $mac_address = $ident['id'];
-                            }
+                    }
+                    if (isset($result['l2ident'])) {
+                        $ident = $result['l2ident'];
+                        if ($ident['type'] == 'mac_address') {
+                            $mac_address = $ident['id'];
                         }
                     }
+
 
                     if ($result['active'] == true) {
                         $order = $order_count_active++;
