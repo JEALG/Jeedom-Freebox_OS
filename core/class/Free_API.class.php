@@ -360,14 +360,14 @@ class Free_API
                 }
                 break;
             case "nodev":
-                if (strpos($api_url, '/lan/browser/') === true) {
+                if (strpos($api_url, '/lan/browser/') == true) {
                     $msg_box1 = (__('Modification réseau : Interface invalide', __FILE__));
                 } else {
                     $msg_box1 = (__('Erreur de la modification de l\’hôte', __FILE__));
                 }
                 break;
             case "exist":
-                if (strpos($api_url, '/wifi/mac_filter/') === true) {
+                if (strpos($api_url, '/wifi/mac_filter/') == true) {
                     $msg_box1 = (__('Impossible d’ajouter une entrée de filtrage MAC : Entrée déjà existante    ', __FILE__));
                 } else {
                     $msg_box1 = (__('[Message inconnue]', __FILE__));
@@ -391,13 +391,17 @@ class Free_API
                 $msg_box1 = (__('Aucun appareil trouvé avec ce nom', __FILE__));
                 break;
             case "noent":
-                $log_level = 'Debug';
-                if ($msg == 'Aucun module 4G détecté') {
-                    $msg_box1 = (__('Aucun module 4G détecté', __FILE__));
-                } else if ($msg = 'Impossible de récupérer le network control : Pas de contrôle de reseau existant avec ce profil') {
-                    $msg_box1 = (__('Pas de contrôle de parental existant avec ce profil', __FILE__));
+                if (strpos($api_url, '/dhcp/static_lease/') == true) {
+                    $msg_box1 = (__('Modification réseau : Impossible de récupérer la liste des baux statiques DHCP : Pas d\’entrée avec cet identifiant', __FILE__));
                 } else {
-                    $msg_box1 = (__('ID invalide ou ID de règle invalide', __FILE__));
+                    $log_level = 'Debug';
+                    if ($msg == 'Aucun module 4G détecté') {
+                        $msg_box1 = (__('Aucun module 4G détecté', __FILE__));
+                    } else if ($msg == 'Impossible de récupérer le network control : Pas de contrôle de reseau existant avec ce profil') {
+                        $msg_box1 = (__('Pas de contrôle de parental existant avec ce profil', __FILE__));
+                    } else {
+                        $msg_box1 = (__('ID invalide ou ID de règle invalide', __FILE__));
+                    }
                 }
                 break;
             case "internal_error":
