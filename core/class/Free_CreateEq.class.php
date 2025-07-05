@@ -921,51 +921,52 @@ class Free_CreateEq
                                 $mac_address = $ident['id'];
                             }
                         }
-
-                        if ($result['active'] == true) {
-                            $order = $order_count_active++;
-                            // Liste des actifs
-                            if ($active_list == null) {
-                                $active_list = $mac_address . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
-                            } else {
-                                $active_list .= ';' . $mac_address . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
-                            }
-                            // Liste des équipements 
-                            if ($network_list == null) {
-                                $network_list = $result['id'] . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
-                            } else {
-                                $network_list .= ';' . $result['id'] . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
-                            }
-                            $value = true;
-                        } else {
-                            $order = $order_count_noactive++;
-                            $value = 0;
-                            // Liste des non actifs
-                            if ($noactive_list == null) {
-                                $noactive_list = $mac_address . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
-                            } else {
-                                $noactive_list .= ';' . $mac_address . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
-                            }
-                            // Liste des équipements 
-                            if ($network_list == null) {
-                                $network_list = $result['id'] . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
-                            } else {
-                                $network_list .= ';' . $result['id'] . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
-                            }
-                        }
-
-                        $Parameter = array(
-                            "updatename" =>  $updatename,
-                            "host_type" => $result['host_type'],
-                            "IPV4" => $Ipv4,
-                            "IPV6" => $Ipv6,
-                            "mac_address" => $mac_address,
-                            "order" => $order,
-                            "repeat" => true,
-                        );
-
-                        $EqLogic->AddCommand($result['primary_name'], $result['id'], 'info', 'binary', 'Freebox_OS::Network', null, null, $_IsVisible, 'default', 'default', 0, null, 0, 'default', 'default', null, '0', $updateWidget, true, null, null, null, null, null, null, null, null, null, null, null, $Parameter, $name_connectivity_type);
                     }
+
+                    if ($result['active'] == true) {
+                        $order = $order_count_active++;
+                        // Liste des actifs
+                        if ($active_list == null) {
+                            $active_list = $mac_address . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
+                        } else {
+                            $active_list .= ';' . $mac_address . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
+                        }
+                        // Liste des équipements 
+                        if ($network_list == null) {
+                            $network_list = $result['id'] . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
+                        } else {
+                            $network_list .= ';' . $result['id'] . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
+                        }
+                        $value = true;
+                    } else {
+                        $order = $order_count_noactive++;
+                        $value = 0;
+                        // Liste des non actifs
+                        if ($noactive_list == null) {
+                            $noactive_list = $mac_address . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
+                        } else {
+                            $noactive_list .= ';' . $mac_address . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
+                        }
+                        // Liste des équipements 
+                        if ($network_list == null) {
+                            $network_list = $result['id'] . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
+                        } else {
+                            $network_list .= ';' . $result['id'] . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
+                        }
+                    }
+
+                    $Parameter = array(
+                        "updatename" =>  $updatename,
+                        "host_type" => $result['host_type'],
+                        "IPV4" => $Ipv4,
+                        "IPV6" => $Ipv6,
+                        "mac_address" => $mac_address,
+                        "order" => $order,
+                        "repeat" => true,
+                    );
+                    // Log pour test en cas de problème de gestion d'appareil
+                    //log::add('Freebox_OS', 'debug', '| ───▶︎ :fg-success:' . $result['primary_name'] . ':/fg:');
+                    $EqLogic->AddCommand($result['primary_name'], $result['id'], 'info', 'binary', 'Freebox_OS::Network', null, null, $_IsVisible, 'default', 'default', 0, null, 0, 'default', 'default', null, '0', $updateWidget, true, null, null, null, null, null, null, null, null, null, null, null, $Parameter, $name_connectivity_type);
                 }
             }
             log::add('Freebox_OS', 'debug', '| ───▶︎ :fg-success:' . (__('Appareil(s) connecté(s)', __FILE__)) . ' ::/fg: ' . $active_list);
