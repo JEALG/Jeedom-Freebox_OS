@@ -743,6 +743,9 @@ class Free_CreateEq
 
         // liste des baux statiques
         $add_del_ip = $EqLogic->AddCommand(__('Baux statiques', __FILE__), 'list_DHCP', 'info', 'string', 'default', null, null, $_IsVisible, 'default', 'default', 0, $icon_add_del_ip, 0, 'default', 'default', $order++, '0', false, false, null, true, null, null, null, null);
+        $add_del_ip = $EqLogic->AddCommand(__('Début plage adresse IP', __FILE__), 'ip_range_start', 'info', 'string', 'default', null, null, $_IsVisible, 'default', 'default', 0, $icon_add_del_ip, 0, 'default', 'default', $order++, '0', false, false, null, true, null, null, null, null);
+        $add_del_ip = $EqLogic->AddCommand(__('Fin plage adresse IP', __FILE__), 'ip_range_end', 'info', 'string', 'default', null, null, $_IsVisible, 'default', 'default', 0, $icon_add_del_ip, 0, 'default', 'default', $order++, '0', false, false, null, true, null, null, null, null);
+        $add_del_ip = $EqLogic->AddCommand(__('Gateway IP', __FILE__), 'gateway', 'info', 'string', 'default', null, null, $_IsVisible, 'default', 'default', 0, $icon_add_del_ip, 0, 'default', 'default', $order++, '0', false, false, null, true, null, null, null, null);
         log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('La commande "Appareil connecté choisi" sera créée par l\'équipement', __FILE__)) . ' : ' . $logicalinfo['networkName'] . ' et/ou ' . $logicalinfo['networkwifiguestName']);
         log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('La commande "Sélection appareil connecté" sera créée par l\'équipement', __FILE__)) . ' : ' . $logicalinfo['networkName'] . ' et/ou ' . $logicalinfo['networkwifiguestName']);
         log::add('Freebox_OS', 'debug', '└────────────────────');

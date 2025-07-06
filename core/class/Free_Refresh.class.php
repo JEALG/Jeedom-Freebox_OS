@@ -184,6 +184,10 @@ class Free_Refresh
             $list = 'list_DHCP';
             $para_resultC = array('nb' => 0, 1 => null, 2 => null, 3 => null);
             Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultC, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
+            $result = $Free_API->universal_get('universalAPI', null, null, 'dhcp/config/', true, true, false);
+            $list = 'ip_range_end,ip_range_start,gateway';
+            $para_resultC = array('nb' => 0, 1 => null, 2 => null, 3 => null);
+            Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultC, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
         }
     }
     private static function refresh_parental($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null,  $para_Value_calcul = null, $para_Config_eq = null)
