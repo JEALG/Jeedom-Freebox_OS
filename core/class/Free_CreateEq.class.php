@@ -712,7 +712,7 @@ class Free_CreateEq
         $EqLogic->AddCommand(__('Sélection Type de périphérique', __FILE__), 'host_type', 'action', 'select', null, null, null, $_IsVisible, $host_type, 'default', 0, $icon_host_type, 0, 'default', 'default', $order++, '0', false, true, null, true, null, null, null, null, null, null, null, null, $host_type_list, null, null);
 
         // Méthode de modification
-        $method_list = "POST|" . __('Ajouter IP fixe', __FILE__) . ";DELETE|" . __('Supprimer IP Fixe', __FILE__) . ";PUT|" . __('Modifier IP Equipement', __FILE__) . ";DEVICE|" . __('Modifier le type de Périphérique', __FILE__) . ";ADD_blacklist|" . __('Ajouter / Modifier Liste Noire', __FILE__) . ";ADD_whitelist|" . __('Ajouter / Modifier Liste Blanche', __FILE__) . ";DEL_blacklist|" . __('Supprimer Liste Noire / Blanche', __FILE__) . ";POST_WOL|" . __('Wake on LAN', __FILE__);
+        $method_list = "POST|" . __('Ajouter IP fixe', __FILE__) . ";DELETE|" . __('Supprimer IP Fixe', __FILE__) . ";PUT|" . __('Modifier IP Equipement', __FILE__) . ";DEVICE|" . __('Modifier le type de Périphérique', __FILE__) . ";IP_DEVICE|" . __('Modifier le type de Périphérique / IP', __FILE__) . ";ADD_blacklist|" . __('Ajouter / Modifier Liste Noire', __FILE__) . ";ADD_whitelist|" . __('Ajouter / Modifier Liste Blanche', __FILE__) . ";DEL_blacklist|" . __('Supprimer Liste Noire / Blanche', __FILE__) . ";POST_WOL|" . __('Wake on LAN', __FILE__);
         $method = $EqLogic->AddCommand(__('Choix modification Appareil', __FILE__), 'method_info', 'info', 'string', 'default', null, null, $_IsVisible, 'default', 'default', 0, $icon_method, 0, 'default', 'default', $order++, '0', false, true, null, true);
         $EqLogic->AddCommand(__('Sélection modification Appareil', __FILE__), 'method', 'action', 'select', null, null, null, $_IsVisible, $method, 'default', 0, $icon_method, 0, 'default', 'default', $order++, '0', false, true, null, true, null, null, null, null, null, null, null, null, $method_list, null, null);
 
@@ -741,6 +741,8 @@ class Free_CreateEq
         // Commande Action
         $EqLogic->AddCommand('Modifier Appareil', 'start', 'action', 'other',  'default', null, null, 0, 'default', 'default', 0, $icon_dhcp, 0, 'default', 'default',  $order++, '0', $updateWidget, false, null, true, null, null, null, null, null);
 
+        // liste des baux statiques
+        $add_del_ip = $EqLogic->AddCommand(__('Baux statiques', __FILE__), 'list_DHCP', 'info', 'string', 'default', null, null, $_IsVisible, 'default', 'default', 0, $icon_add_del_ip, 0, 'default', 'default', $order++, '0', false, false, null, true, null, null, null, null);
         log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('La commande "Appareil connecté choisi" sera créée par l\'équipement', __FILE__)) . ' : ' . $logicalinfo['networkName'] . ' et/ou ' . $logicalinfo['networkwifiguestName']);
         log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('La commande "Sélection appareil connecté" sera créée par l\'équipement', __FILE__)) . ' : ' . $logicalinfo['networkName'] . ' et/ou ' . $logicalinfo['networkwifiguestName']);
         log::add('Freebox_OS', 'debug', '└────────────────────');

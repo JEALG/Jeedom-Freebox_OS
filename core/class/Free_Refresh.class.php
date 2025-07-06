@@ -49,6 +49,8 @@ class Free_Refresh
                         Free_Refresh::refresh_management($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null,  $para_Value_calcul = null, $para_Config_eq = null, $typerefresh);
                         //} else {
                         // log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('Pas de fonction rafraichir pour cet équipement', __FILE__)));
+                    } else {
+                        Free_Refresh::refresh_management($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null,  $para_Value_calcul = null, $para_Config_eq = null, $typerefresh);
                     }
                     break;
                 case 'airmedia':
@@ -135,15 +137,54 @@ class Free_Refresh
     }
     private static function refresh_management($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null,  $para_Value_calcul = null, $para_Config_eq = null, $list = null)
     {
-        $result = array(
-            "method_info" => '',
-            "host_type_info" => '',
-            "add_del_ip_info" => '',
-            "comment_info" => '',
-            "host_info" => ''
-        );
-        $para_resultC = array('nb' => 0, 1 => null, 2 => null, 3 => null);
-        Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultC, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
+        if ($list != null) {
+            // Log de test pour vérifier
+            //log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ Nettoyage : :/fg:' . $list);
+            $result = array(
+                "method_info" => '',
+                "host_type_info" => '',
+                "add_del_ip_info" => '',
+                "comment_info" => '',
+                "primary_name_info" => '',
+                "host_info" => ''
+            );
+            $para_resultC = array('nb' => 0, 1 => null, 2 => null, 3 => null);
+            Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultC, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
+        } else {
+            $search = $Free_API->universal_get('universalAPI', null, null, 'dhcp/static_lease/', true, true, true);
+            $DHCP_list = null;
+            if (isset($search['result'])) {
+                //log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ Nettoyage : :/fg:');
+                foreach ($search['result'] as $searchs) {
+                    if ($DHCP_list == null) {
+                        $DHCP_list = $searchs['hostname'] . '(' . $searchs['ip'] . ')';
+                    } else {
+                        $DHCP_list .= '|' . $searchs['hostname'] . '(' . $searchs['ip'] . ')';
+                    }
+                }
+                // Étape 1: Convertir la chaîne en tableau en utilisant explode()
+                $tableau = explode('|', $DHCP_list);
+                // Étape 2: Trier le tableau
+                //sort($tableau, SORT_FLAG_CASE);
+                // Étape 2: Trier le tableau par ordre alphabétique, en prenant en compte les chiffres
+                // Étape 2: Trier le tableau en utilisant une fonction de comparaison personnalisée
+                usort($tableau, function ($a, $b) {
+                    // Comparer les chaînes de manière naturelle, y compris les caractères spéciaux
+                    return strcmp($a, $b);
+                });
+                // Étape 3: Convertir le tableau trié en une chaîne séparée par |
+                $$DHCP_list = implode('|', $tableau);
+                log::add('Freebox_OS', 'debug', '| ───▶︎ :fg-success:' . (__('Appareil(s) avec adresse IP fixe', __FILE__)) . ' ::/fg: ' . $DHCP_list);
+            } else {
+                log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ Liste des appareils avec adresse IP fixe vide:/fg:');
+            }
+            $result = array(
+                "list_DHCP" => $DHCP_list
+            );
+            $list = 'list_DHCP';
+            $para_resultC = array('nb' => 0, 1 => null, 2 => null, 3 => null);
+            Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultC, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul);
+        }
     }
     private static function refresh_parental($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null,  $para_Value_calcul = null, $para_Config_eq = null)
     {
@@ -576,8 +617,26 @@ class Free_Refresh
                     }
                 }
             }
+            // Étape 1: Convertir la chaîne en tableau en utilisant explode()
+            $tableau = explode('|', $active_list);
+            // Étape 2: Trier le tableau
+            sort($tableau);
+            // Étape 3: Convertir le tableau trié en une chaîne séparée par |
+            $active_list = implode('|', $tableau);
             log::add('Freebox_OS', 'debug', '| ───▶︎ :fg-success:' . (__('Appareil(s) connecté(s)', __FILE__)) . ' ::/fg: ' . $active_list);
+            // Étape 1: Convertir la chaîne en tableau en utilisant explode()
+            $tableau = explode('|', $active_listIP);
+            // Étape 2: Trier le tableau
+            sort($tableau);
+            // Étape 3: Convertir le tableau trié en une chaîne séparée par |
+            $active_listIP = implode('|', $tableau);
             log::add('Freebox_OS', 'debug', '| ───▶︎ :fg-success:' . (__('Appareil(s) connecté(s) avec IP Fixe', __FILE__)) . ' ::/fg: ' . $active_listIP);
+            // Étape 1: Convertir la chaîne en tableau en utilisant explode()
+            $tableau = explode('|', $noactive_list);
+            // Étape 2: Trier le tableau
+            sort($tableau);
+            // Étape 3: Convertir le tableau trié en une chaîne séparée par |
+            $noactive_list = implode('|', $tableau);
             log::add('Freebox_OS', 'debug', '| ───▶︎ :fg-success:' . (__('Appareil(s) non connecté(s)', __FILE__)) . ' ::/fg: ' . $noactive_list);
         }
     }

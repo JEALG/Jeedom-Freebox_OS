@@ -388,6 +388,7 @@ class Free_Update
                     }
                 }
                 if ($logicalId == 'start') {
+                    log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ Méthode :/fg:: ' . $method_value);
                     $list = null;
                     $update_TYPE = null;
                     //Option par défaut
@@ -399,7 +400,6 @@ class Free_Update
                     switch ($method_value) {
                         case 'DEVICE': // DEVICE
                             $update_TYPE = 'DEVICE';
-                            log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ Méthode : :/fg:' . $method_value);
                             //$update_IP = 'IP';
                             break;
                         case 'NO_DHCP': // AUCUNE ACTION ICI
@@ -425,8 +425,12 @@ class Free_Update
                         case 'DELETE': // IP
                             $update_TYPE = 'IP';
                             break;
-                        case 'PUT': // IP_DEVICE
+                        case 'IP_DEVICE': // IP_DEVICE
                             $update_TYPE = 'IP_DEVICE';
+                            $method_value = 'PUT';
+                            break;
+                        case 'PUT': // IP_DEVICE
+                            $update_TYPE = 'IP';
                             break;
                         case 'ADD_blacklist': // WIFI
                         case 'ADD_whitelist': // WIFI
@@ -492,6 +496,7 @@ class Free_Update
                         default:
                             break;
                     }
+                    $method_value_new = null;
                     switch ($update_TYPE) {
                         case 'IP_DEVICE':
                         case 'DEVICE':
@@ -499,17 +504,42 @@ class Free_Update
                             $list = 'method_info,host_type_info,add_del_ip_info,comment_info,host_info,primary_name_info';
                             if ($primary_name_value === '' || $primary_name_value === null || $host_type_value === null || $host_type_value === '' || $comment_value === null || $comment_value === '') {
                                 $result = $Free_API->universal_get('universalAPI', null, null, 'dhcp/static_lease/' . $host_value_mac_ID, true, true, false);
-                                if ($primary_name_value === '' || $primary_name_value === null) { // Récupération du nom de l'équipement
-                                    $primary_name_value = $result['hostname'];
-                                    log::add('Freebox_OS', 'debug', ':fg-warning:' . (__('Récupération du nom de l\'équipement => Pour éviter de bloquer', __FILE__)) . ' ::/fg: ' . $primary_name_value);
-                                }
-                                if ($host_type_value === '' || $host_type_value === null) { // Récupération du type de l'équipement
-                                    $host_type_value = $result['host']['host_type'];
-                                    log::add('Freebox_OS', 'debug', ':fg-warning:' . (__('Récupération du type de l\'équipement => Pour éviter de bloquer', __FILE__)) . ' ::/fg: ' . $host_type_value);
-                                }
-                                if ($comment_value === '' || $comment_value === null) { // Récupération du commentaire
-                                    $comment_value  = $result['comment'];
-                                    log::add('Freebox_OS', 'debug', ':fg-warning:' . (__('Récupération le commentaire de l\'équipement => Pour éviter de bloquer', __FILE__)) . ' ::/fg: ' . $comment_value);
+                                if (isset($result['mac'])) {
+                                    if ($primary_name_value === '' || $primary_name_value === null) { // Récupération du nom de l'équipement
+                                        $primary_name_value = $result['hostname'];
+                                        log::add('Freebox_OS', 'debug', ':fg-warning:' . (__('Récupération du nom de l\'équipement => Pour éviter de bloquer', __FILE__)) . ' ::/fg: ' . $primary_name_value);
+                                    }
+                                    if ($host_type_value === '' || $host_type_value === null) { // Récupération du type de l'équipement
+                                        $host_type_value = $result['host']['host_type'];
+                                        log::add('Freebox_OS', 'debug', ':fg-warning:' . (__('Récupération du type de l\'équipement => Pour éviter de bloquer', __FILE__)) . ' ::/fg: ' . $host_type_value);
+                                    }
+                                    if ($comment_value === '' || $comment_value === null) { // Récupération du commentaire
+                                        $comment_value  = $result['comment'];
+                                        log::add('Freebox_OS', 'debug', ':fg-warning:' . (__('Récupération le commentaire de l\'équipement => Pour éviter de bloquer', __FILE__)) . ' ::/fg: ' . $comment_value);
+                                    }
+                                    if ($update_TYPE == 'IP') {
+                                        if ($add_del_ip_value == $result['ip']) {
+                                            log::add('Freebox_OS', 'debug', ':fg-warning:' . (__('L\'équipement a déjà la même adresse IP affecté', __FILE__)) . ':/fg: : ' . $result['ip']);
+                                        } else {
+                                            log::add('Freebox_OS', 'debug', ':fg-warning:' . (__('L\'équipement a déjà une adresse IP affecté', __FILE__)) . ':/fg: : ' . $result['ip']);
+                                        }
+                                    }
+                                } else {
+                                    if ($update_TYPE == 'IP' || $update_TYPE == 'IP_DEVICE') {
+                                        $method_value_new = 'POST';
+                                        log::add('Freebox_OS', 'debug', ':fg-warning:' . (__('L\'équipement n\'a pas d\'adresse IP affecté', __FILE__)) . ':/fg: ' . $host_value_mac_ID);
+                                        $search = $Free_API->universal_get('universalAPI', null, null, 'lan/browser/pub/', true, true, true);
+                                        if (isset($search['result'])) {
+                                            foreach ($search['result'] as $searchs) {
+                                                if ($searchs['l2ident']['id'] == $host_value_mac_ID) {
+                                                    if ($primary_name_value === '' || $primary_name_value === null) { // Récupération du nom de l'équipement
+                                                        $primary_name_value = $searchs['primary_name'];
+                                                        //log::add('Freebox_OS', 'debug', '| ───▶︎ :fg-success:' . (__('Appareil(s) avec adresse IP fixe', __FILE__)) . ' ::/fg: ' . $primary_name_value);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                             switch ($update_TYPE) {
@@ -541,11 +571,15 @@ class Free_Update
                                         log::add('Freebox_OS', 'error', (__('Gestion réseau : IP ou adresse mac vide', __FILE__)) . ' ───▶︎ ' . (__('Impossible de continuer', __FILE__)));
                                         break;
                                     }
+
                                     $option = array(
                                         "mac" => $host_value_mac_ID,
                                         "ip" => $add_del_ip_value,
                                         "comment" => $comment_value
                                     );
+                                    if ($method_value_new === 'POST') {
+                                        $method_value = 'POST';
+                                    }
                                     if ($method_value == 'POST') {
                                         $host_value_mac_ID = null;
                                     }
