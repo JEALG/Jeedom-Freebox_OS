@@ -25,8 +25,8 @@ class Free_API
         // Gestion API
         $Config_KEY = config::byKey('FREEBOX_API', 'Freebox_OS');
         if (empty($Config_KEY)) {
-            log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('Version API Non Défini Compatible avec la Freebox', __FILE__)) . ' : ' . $this->API_version);
             $this->API_version = config::byKey('FREEBOX_API_DEFAUT', 'Freebox_OS');
+            log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('Version API Non Défini Compatible avec la Freebox', __FILE__)) . ' : ' . $this->API_version);
         } else {
             $this->API_version = config::byKey('FREEBOX_API', 'Freebox_OS');
         }
@@ -105,7 +105,7 @@ class Free_API
         }
     }
 
-    public function getFreeboxOpenSession() //Doit correspondre a la donction session de freboxsession.js homebridge freebox
+    public function getFreeboxOpenSession() //Doit correspondre a la fonction session de freboxsession.js homebridge freebox
     {
         try {
             $challenge = cache::byKey('Freebox_OS::Challenge');
@@ -347,18 +347,61 @@ class Free_API
                 $log_level = 'Debug';
                 $msg_box1 = (__('Pas d\'appareil connecté avec cette adresse MAC', __FILE__));
                 break;
+            case "not_found":
+                $log_level = 'Debug';
+                if (strpos($api_url, '/home/nodes/') || $api_url == strpos($api_url, '/home/tileset/')) {
+                    $msg_box1 = (__('Pas d\'équipement domotique avec cet ID', __FILE__));
+                    $log_level = 'Error';
+                } else if (strpos($api_url, '/storage/')) {
+                    $msg_box1 = (__('Pas de disque ou de partition avec cet ID', __FILE__));
+                    $log_level = 'Error';
+                } else {
+                    $msg_box1 = (__('Pas d\'équipement avec cet ID', __FILE__));
+                }
+                break;
+            case "nodev":
+                if (strpos($api_url, '/lan/browser/') == true) {
+                    $msg_box1 = (__('Modification réseau : Interface invalide', __FILE__));
+                } else {
+                    $msg_box1 = (__('Erreur de la modification de l\’hôte', __FILE__));
+                }
+                break;
+            case "exist":
+                if (strpos($api_url, '/wifi/mac_filter/') == true) {
+                    $msg_box1 = (__('Impossible d’ajouter une entrée de filtrage MAC : Entrée déjà existante    ', __FILE__));
+                } else {
+                    $msg_box1 = (__('[Message inconnue]', __FILE__));
+                }
+                $msg_box1 = (__('Impossible d’ajouter une entrée de filtrage MAC : Entrée déjà existante    ', __FILE__));
+
+                break;
+            case "inval":
+                if (strpos($api_url, '/lan/browser/') === true) {
+                    $msg_box1 = (__('Modification réseau : Paramètre invalide', __FILE__));
+                } else {
+                    $msg_box1 = (__('Erreur de la modification de l\’hôte', __FILE__));
+                }
+                break;
+            case "service_down":
+                $log_level = 'Debug';
+                $msg_box1 = (__('Pas d\'accès à internet', __FILE__));
+                break;
             case "nodev":
                 $log_level = 'Debug';
                 $msg_box1 = (__('Aucun appareil trouvé avec ce nom', __FILE__));
                 break;
             case "noent":
-                $log_level = 'Debug';
-                if ($msg == 'Aucun module 4G détecté') {
-                    $msg_box1 = (__('Aucun module 4G détecté', __FILE__));
-                } else if ($msg = 'Impossible de récupérer le network control : Pas de contrôle de reseau existant avec ce profil') {
-                    $msg_box1 = (__('Pas de contrôle de parental existant avec ce profil', __FILE__));
+                if (strpos($api_url, '/dhcp/static_lease/') == true) {
+                    $msg_box1 = (__('Modification réseau : Impossible de récupérer la liste des baux statiques DHCP : Pas d\’entrée avec cet identifiant', __FILE__));
                 } else {
-                    $msg_box1 = (__('ID invalide ou ID de règle invalide', __FILE__));
+                    $log_level = 'Debug';
+                    if ($msg == 'Aucun module 4G détecté') {
+                        $msg_box1 = (__('Aucun module 4G détecté', __FILE__));
+                    } else if ($msg == 'Impossible de récupérer le network control : Pas de contrôle de reseau existant avec ce profil') {
+                        $msg_box1 = (__('Pas de contrôle de parental existant avec ce profil', __FILE__));
+                    } else {
+                        $msg_box1 = (__('ID invalide ou ID de règle invalide', __FILE__));
+                    }
                 }
                 break;
             case "internal_error":
@@ -477,28 +520,6 @@ class Free_API
             $id = '/all';
         }
         switch ($update) {
-            case 'connexion':
-                $config = 'api/' . $API_version . '/connection/' . $update_type;
-                $config_log =  (__('Traitement de la Mise à jour de', __FILE__)) . ' ' . $update_type . ' avec la valeur';
-                break;
-            case 'notification_ID':
-                $config = 'api/' . $API_version . '/notif/targets' . $id;
-                $config_log = (__('Etat des notifications', __FILE__));
-                break;
-            case 'parental':
-                $config = 'api/' . $API_version . '/network_control' . $id;
-                $config_log = (__('Etat Contrôle Parental', __FILE__));
-                break;
-            case 'parentalprofile':
-                $config = 'api/' . $API_version . '/profile';
-                break;
-            case 'player':
-                $config = 'api/' . $API_version . '/player';
-                break;
-            case 'player_ID':
-                $config = 'api/' . $API_version . '/player' . $id . '/api/v6/status';
-                $config_log = (__('Traitement de la Mise à jour de l\'ID', __FILE__)) . ' ';
-                break;
             case 'network':
                 $config = 'api/' . $API_version . '/' . $update_type;
                 break;
@@ -508,18 +529,9 @@ class Free_API
                 } else {
                     $config = 'api/' . $API_version . '/' . $update_type . $id;
                 }
-                if ($update_type != 'vm/') {
-                    $config_log = (__('Traitement de la Mise à jour de l\'ID', __FILE__)) . ' ';
-                }
                 break;
             case 'network_ID':
                 $config = 'api/' . $API_version . '/lan/browser/' . $update_type  . $id;
-                break;
-            case 'system':
-                $config = 'api/' . $API_version . '/system';
-                break;
-            case 'switch':
-                $config = 'api/' . $API_version . '/switch/status';
                 break;
             case 'tiles':
                 $config = 'api/' . $API_version . '/home/tileset' . $id;
@@ -539,10 +551,6 @@ class Free_API
                 $config = '/api/' . $API_version . '/fw/redir/';
                 $config_log = (__('Redirection de port', __FILE__));
                 break;
-            case 'upload':
-                $config = 'api/' . $API_version . '/ws/';
-                $config_log = 'Upload Progress tracking API';
-                break;
         }
         $Type_log = array(
             "log_request" =>  $log_request,
@@ -560,39 +568,17 @@ class Free_API
             return false;
         }
         if (isset($result['success'])) {
-
             $value = 0;
             if ($update_type == 'freeplug') {
                 $update = 'freeplug';
             }
             switch ($update) {
-                case 'connexion':
-                    return $result['result'];
-                    break;
-                case 'notification':
-                case 'freeplug':
-                    //case 'wifi':
-                    return $result;
-                    break;
-                case 'system':
-                    if ($boucle != null) {
-                        if (isset($result['result'][$boucle])) {
-                            return $result['result'][$boucle];
-                        } else {
-                            $result = null;
-                            return $result;
-                        }
-                    } else {
-                        return $result['result'];
-                    }
-                    break;
                 default:
                     if ($config_log != null && $id != null && $id != '/all') {
                         if ($log_request == true) {
                             log::add('Freebox_OS', 'debug', '───▶︎ ' . $config_log . ' : ' . $id);
                         }
                     }
-
                     if (isset($result['result'])) {
                         if ($_onlyresult == false) {
                             return $result['result'];
@@ -689,18 +675,6 @@ class Free_API
                 $parametre = $jsontestprofile;
                 $config = "api/" . $API_version . "/network_control/" . $id;
                 break;
-            case 'player_ID_ctrl':
-                $config = 'api/' . $API_version . '/player' . $id . '/api/v6/control/mediactrl';
-                $config_log = (__('Traitement de la Mise à jour de l\'ID ', __FILE__));
-                $cmd_config = 'name';
-                $fonction = "POST";
-                break;
-            case 'player_ID_open':
-                $config = 'api/' . $API_version . '/player' . $id . '/api/v6/control/open';
-                $config_log =  (__('Traitement de la Mise à jour de l\'ID ', __FILE__));
-                $cmd_config = 'url';
-                $fonction = "POST";
-                break;
             case 'reboot':
                 $config = 'api/' . $API_version . '/system/reboot';
                 $fonction = "POST";
@@ -714,11 +688,11 @@ class Free_API
                     $config = 'api/' . $API_version . '/' . $_options  . $id;
                     $fonction = $_status_cmd;
                 } else {
-                    log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('Requête', __FILE__)) . ' : ' . $_options);
+                    //log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('Requête', __FILE__)) . ' : ' . $_options);
                     $config = 'api/' . $API_version . '/' . $_options;
                     $fonction = "POST";
                 }
-                log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('Type de requête', __FILE__)) . ' : ' . $fonction);
+                log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . (__('Type de requête', __FILE__)) . ' ::/fg: ' . $fonction);
                 break;
             case 'VM':
                 $config = 'api/' . $API_version . '/vm/' . $id  . '/' . $_options_2;
@@ -928,7 +902,7 @@ class Free_API
                 return false;
             }
         } else {
-            log::add('Freebox_OS', 'debug', ':fg-warning: ───▶︎ ' .  (__('AUCUN APPEL', __FILE__))  .  ':/fg:');
+            log::add('Freebox_OS', 'debug', ':fg-warning:───▶︎ ' .  (__('AUCUN APPEL', __FILE__))  .  ':/fg:');
             return $retourFbx;
         }
     }

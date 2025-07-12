@@ -147,7 +147,6 @@ class Free_CreateEq
                     Free_CreateEq::createEq_network($logicalinfo, $templatecore_V4, $order, 'LAN');
                     Free_CreateEq::createEq_network($logicalinfo, $templatecore_V4, $order, 'WIFIGUEST');
                     Free_CreateEq::createEq_wifi($logicalinfo, $templatecore_V4, $order);
-                    //Free_CreateEq::createEq_notification($logicalinfo, $templatecore_V4);
                 } else {
                     log::add('Freebox_OS', 'debug', '|:fg-warning: ───▶︎ ' . (__('BOX EN MODE BRIDGE : LES ÉQUIPEMENTS SUIVANTS NE SONT PAS CRÉER', __FILE__)) . ':/fg:');
                     log::add('Freebox_OS', 'debug', '| ───▶︎ ' . $logicalinfo['airmediaName']);
@@ -163,6 +162,7 @@ class Free_CreateEq
                 }
                 log::add('Freebox_OS', 'debug', '└────────────────────');
                 config::save('SEARCH_EQ', $date, 'Freebox_OS');
+                //Free_CreateEq::createEq_TESTd($logicalinfo, $templatecore_V4, $order);
                 break;
         }
     }
@@ -170,7 +170,7 @@ class Free_CreateEq
     {
         log::add('Freebox_OS', $type_Log, '┌── :fg-success: ' . (__('Vérification de la compatibilité de la box avec certaines options', __FILE__)) . ' :/fg:──');
         $Free_API = new Free_API();
-        $result = $Free_API->universal_get('system', null, null);
+        $result = $Free_API->universal_get('universalAPI', null, null, 'system', true, true, null);
         if (isset($result['disk_status'])) {
             $disk_status_description = $result['disk_status'];
             $disk_status_description = str_ireplace('not_detected', __('Le disque n\'a pas été détecté', __FILE__), $disk_status_description);
@@ -199,6 +199,14 @@ class Free_CreateEq
         } else {
             $has_led_strip = '0';
             log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Box compatible avec les LED rouges', __FILE__)) . '::/fg: ' . (__('Non', __FILE__)));
+        }
+        // Compatibilité Eteindre la LED sur la Box
+        if (isset($result['model_info']['has_status_led'])) {
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Box compatible avec éteindre la LED', __FILE__)) . ' ::/fg: ' . $result['model_info']['has_status_led']);
+            $has_status_led = $result['model_info']['has_status_led'];
+        } else {
+            $has_status_led = '0';
+            log::add('Freebox_OS', $type_Log, '| :fg-info:───▶︎ ' . (__('Box compatible avec éteindre la LED', __FILE__)) . '::/fg: ' . (__('Non', __FILE__)));
         }
         config::save('FREEBOX_LED_RD', $has_led_strip, 'Freebox_OS');
 
@@ -252,6 +260,7 @@ class Free_CreateEq
             'has_home_box' => $has_home_box,
             'has_eco_wifi' => $has_eco_wifi,
             'has_led_strip' => $has_led_strip,
+            'has_status_led' => $has_status_led,
             'has_lcd_orientation' => $has_lcd_orientation,
             'disk_status_description' => $disk_status_description,
             'disk_status' => $disk_status
@@ -329,7 +338,7 @@ class Free_CreateEq
         $updateicon = false;
         $iconspeed = 'fas fa-tachometer-alt icon_blue';
         $Free_API = new Free_API();
-        $result = $Free_API->universal_get('connexion', null, null, 'ftth', true, true, false);
+        $result =  $Free_API->universal_get('universalAPI', null, null, 'connection/ftth/', true, true, false);
         if ($result['sfp_present'] == null) {
             $_modul =  (__('Non Présent', __FILE__));
             $_bandwidth_value_down = '#value# / 1000000';
@@ -357,34 +366,31 @@ class Free_CreateEq
         $Connexion->AddCommand(__('Proxy Wake on Lan', __FILE__), 'wol', 'info', 'binary', $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, null, null, null, null, null, null, true);
 
         //log::add('Freebox_OS', 'debug', '[  OK  ] - FIN CREATION : ' . $logicalinfo['connexionName']);
+        $link_type = null;
         if ($result['sfp_present'] != null) {
+            if (isset($result['link_type'])) {
+                $link_type = true;
+            }
             $order = 19;
-            Free_CreateEq::createEq_connexion_FTTH($logicalinfo, $templatecore_V4, $order, $result);
+            Free_CreateEq::createEq_connexion_FTTH($logicalinfo, $templatecore_V4, $order, $link_type, $Connexion);
         } else {
             log::add('Freebox_OS', 'debug', '| :fg-warning:───▶︎ ' . (__('Module fibre', __FILE__)) . ' ::/fg: '  . $_modul);
         }
-
-
-        log::add('Freebox_OS', 'debug', '└────────────────────');
     }
-    private static function createEq_connexion_FTTH($logicalinfo, $templatecore_V4, $order = 19, $result = null)
+    private static function createEq_connexion_FTTH($logicalinfo, $templatecore_V4, $order = 19, $link_type = null, $Connexion = null)
     {
         $updateicon = false;
-        if ($result = ! null) {
-            $Connexion = Freebox_OS::AddEqLogic($logicalinfo['connexionName'], $logicalinfo['connexionID'], 'default', false, null, null, '*/15 * * * *', null, null, 'system', true);
-            if (isset($result['link_type'])) {
-                $Connexion->AddCommand(__('Type de connexion Fibre', __FILE__), 'link_type', 'info', 'string', $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, null, null, null, null, null, null, true);
-            } else {
-                log::add('Freebox_OS', 'debug', '| :fg-warning:───▶︎ ' . (__('Fonction type de connexion Fibre non présent', __FILE__)) . ':/fg:');
-            }
-            log::add('Freebox_OS', 'debug', '| :fg-success:───▶︎ ' . (__('Ajout des commandes spécifiques pour la fibre', __FILE__)) . ' ::/fg: ' . $logicalinfo['connexionName']);
-            $Connexion->AddCommand(__('Module Fibre présent', __FILE__), 'sfp_present', 'info', 'binary', $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, null, null, null, null, null, null, true);
-            $Connexion->AddCommand(__('Signal Fibre présent', __FILE__), 'sfp_has_signal', 'info', 'binary', $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, null, null, null, null, null, null, true);
-            $Connexion->AddCommand(__('Etat Alimentation', __FILE__), 'sfp_alim_ok', 'info', 'binary', $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, null, null, null, null, null, null, true);
-            $Connexion->AddCommand(__('Puissance transmise', __FILE__), 'sfp_pwr_tx', 'info', 'numeric', $templatecore_V4 . 'badge', 'dBm', null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, '#value# / 100', '2', null, null, null, null, false);
-            $Connexion->AddCommand(__('Puissance reçue', __FILE__), 'sfp_pwr_rx', 'info', 'numeric', $templatecore_V4 . 'badge', 'dBm', null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, '#value# / 100', '2', null, null, null, null, true);
-            log::add('Freebox_OS', 'debug', '└────────────────────');
+        if ($link_type == true) {
+            $Connexion->AddCommand(__('Type de connexion Fibre', __FILE__), 'link_type', 'info', 'string', $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, null, null, null, null, null, null, true);
+        } else {
+            log::add('Freebox_OS', 'debug', '| :fg-warning:───▶︎ ' . (__('Fonction type de connexion Fibre non présent', __FILE__)) . ':/fg:');
         }
+        log::add('Freebox_OS', 'debug', '| :fg-success:───▶︎ ' . (__('Ajout des commandes spécifiques pour la fibre', __FILE__)) . ' ::/fg: ' . $logicalinfo['connexionName']);
+        $Connexion->AddCommand(__('Module Fibre présent', __FILE__), 'sfp_present', 'info', 'binary', $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, null, null, null, null, null, null, true);
+        $Connexion->AddCommand(__('Signal Fibre présent', __FILE__), 'sfp_has_signal', 'info', 'binary', $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, null, null, null, null, null, null, true);
+        $Connexion->AddCommand(__('Etat Alimentation', __FILE__), 'sfp_alim_ok', 'info', 'binary', $templatecore_V4 . 'line', null, null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, null, null, null, null, null, null, true);
+        $Connexion->AddCommand(__('Puissance transmise', __FILE__), 'sfp_pwr_tx', 'info', 'numeric', $templatecore_V4 . 'badge', 'dBm', null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, '#value# / 100', '2', null, null, null, null, false);
+        $Connexion->AddCommand(__('Puissance reçue', __FILE__), 'sfp_pwr_rx', 'info', 'numeric', $templatecore_V4 . 'badge', 'dBm', null, 1, 'default', 'default', 0, null, 0, 'default', 'default',  $order++, '0', $updateicon, true, null, null, null, '#value# / 100', '2', null, null, null, null, true);
     }
     private static function createEq_connexion_4G($logicalinfo, $templatecore_V4, $order = 19)
     {
@@ -573,14 +579,15 @@ class Free_CreateEq
         $iconled_strip_animation = 'fas fa-highlighter icon_red';
         $iconled_strip = 'fas fa-traffic-light icon_green';
         $iconwifi = 'fas fa-wifi icon_orange';
+        $iconhide_status_led = 'icon fas fa-highlighter icon_blue';
         $updateicon = false;
         $StatusLCD = $LCD->AddCommand(__('Etat Lumininosité écran LCD', __FILE__), 'brightness', "info", 'numeric', null, '%', null, 0, '', '', '', $iconbrightness, 0, '0', 100, $order++, 2, $updateicon, true, false, true);
         $LCD->AddCommand(__('Lumininosité écran LCD', __FILE__), 'brightness_action', 'action', 'slider', null, '%', null, 1, $StatusLCD, 'default', 0, $iconbrightness, 0, 1, 100, $order++, '0', $updateicon, false, null, true, null, 'floor(#value#)');
 
         // Afficher Clef Wifi
         $StatusWifi = $LCD->AddCommand(__('Cacher Clef Wifi', __FILE__), 'hide_wifi_key', 'info', 'binary', null, null, 'SWITCH_STATE', 0, null, null, 0, $iconwifi, 0, null, null, $order++, 1, true, 'never', null, true, null, null, null, null, null, null, null, null);
-        $LCD->AddCommand(__('Cacher Clef Wifi On', __FILE__), 'hide_wifi_keyOn', 'action', 'other', 'core::toggleLine', null, 'SWITCH_ON', 1, $StatusWifi, 'hide_wifi_key', 0, $iconwifi, 0, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
-        $LCD->AddCommand(__('Cacher Clef Wifi Off', __FILE__), 'hide_wifi_keyOff', 'action', 'other', 'core::toggleLine', null, 'SWITCH_OFF', 1, $StatusWifi, 'hide_wifi_key', 0, $iconwifi, 0, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
+        $LCD->AddCommand(__('Cacher Clef Wifi On', __FILE__), 'hide_wifi_keyOn', 'action', 'other', 'core::toggleLine', null, 'SWITCH_ON', 1, $StatusWifi, 'hide_wifi_key', 0, $iconwifi, 1, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
+        $LCD->AddCommand(__('Cacher Clef Wifi Off', __FILE__), 'hide_wifi_keyOff', 'action', 'other', 'core::toggleLine', null, 'SWITCH_OFF', 1, $StatusWifi, 'hide_wifi_key', 0, $iconwifi, 1, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
 
         if ($Setting != null) {
             // Gestion orientation de l'affichage sur la box
@@ -592,10 +599,19 @@ class Free_CreateEq
                 $LCD->AddCommand(__('Orientation', __FILE__), 'orientation', 'action', 'select', null, null, null, 1, $StatusLCD, 'default', 0, $iconorientation, 0, '0', 100, $order++, '0', $updateicon, false, null, true, null, null, null, null, null, null, null, null, $listValue);
                 // Forcer l'orientation
                 $Orientation = $LCD->AddCommand(__('Forcer Orientation', __FILE__), 'orientation_forced', 'info', 'binary', null, null, 'SWITCH_STATE', 0, null, null, 0, $iconorientationF, 0, null, null, $order++, 1, true, 'never', null, true, null, null, null, null, null, null, null, null);
-                $LCD->AddCommand(__('Forcer Orientation On', __FILE__), 'orientation_forcedOn', 'action', 'other', 'core::toggleLine', null, 'SWITCH_ON', 1, $Orientation, 'orientation_forced', 0, $iconorientationF, 0, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
-                $LCD->AddCommand(__('Forcer Orientation Off', __FILE__), 'orientation_forcedOff', 'action', 'other', 'core::toggleLine', null, 'SWITCH_OFF', 1, $Orientation, 'orientation_forced', 0, $iconorientationF, 0, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
+                $LCD->AddCommand(__('Forcer Orientation On', __FILE__), 'orientation_forcedOn', 'action', 'other', 'core::toggleLine', null, 'SWITCH_ON', 1, $Orientation, 'orientation_forced', 0, $iconorientationF, 1, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
+                $LCD->AddCommand(__('Forcer Orientation Off', __FILE__), 'orientation_forcedOff', 'action', 'other', 'core::toggleLine', null, 'SWITCH_OFF', 1, $Orientation, 'orientation_forced', 0, $iconorientationF, 1, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
             } else {
                 log::add('Freebox_OS', 'info', '| :fg-success:───▶︎ ' . (__('Box compatible avec l\'orientation du texte sur l\'afficheur', __FILE__)) . '::/fg: ' . (__('Non', __FILE__)));
+            }
+            // Eteindre la LED en facade
+            if ($Setting['has_status_led'] == 1) {
+                log::add('Freebox_OS', 'info', '| :fg-success:───▶︎ ' . (__('Box compatible avec éteindre la LED', __FILE__)) . ':/fg:');
+                $hide_status_led = $LCD->AddCommand(__('Bandeau LED Eteint', __FILE__), 'hide_status_led', 'info', 'binary', null, null, 'SWITCH_STATE', 0, null, null, 0, $iconhide_status_led, 1, null, null, $order++, 1, true, 'never', null, true, null, null, null, null, null, null, null, null);
+                $LCD->AddCommand(__('Eteindre LED On', __FILE__), 'hide_status_ledOn', 'action', 'other', 'core::toggleLine', null, 'SWITCH_ON', 1, $hide_status_led, 'hide_status_led', 0, $iconhide_status_led, 1, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
+                $LCD->AddCommand(__('Allumer LED Off', __FILE__), 'hide_status_ledOff', 'action', 'other', 'core::toggleLine', null, 'SWITCH_OFF', 1, $hide_status_led, 'hide_status_led', 0, $iconhide_status_led, 1, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
+            } else {
+                log::add('Freebox_OS', 'info', '| :fg-success:───▶︎ ' . (__('Box compatible avec éteindre la LED', __FILE__)) . '::/fg: ' . (__('Non', __FILE__)));
             }
 
             // LED Box      
@@ -604,14 +620,14 @@ class Free_CreateEq
                 log::add('Freebox_OS', 'info', '| :fg-success:───▶︎ ' . (__('Box compatible avec les LED rouges', __FILE__)) . ':/fg:');
                 $listValue = "organic|" . __('Organique', __FILE__) . ";static|" . __('Statique', __FILE__) . ";breathing|" . __('Respiration', __FILE__) . ";rain|" . __('Pluie', __FILE__) . ";trail|" . __('Chenillard', __FILE__) . ";wave|" . __('Vague', __FILE__);
                 $led_strip_animation = $LCD->AddCommand(__('Animation du bandeau lumineux', __FILE__), 'led_strip_animation', "info", 'string', null, null, null, 0, '', '', '', $iconled_strip_animation, 0, '0', 100, $order++, 2, $updateicon, true, false, true);
-                $LCD->AddCommand(__('Choix animation du bandeau lumineux', __FILE__), 'led_strip_animation_action', 'action', 'select', null, null, null, 1, $led_strip_animation, 'default', 0, $iconled_strip_animation, 0, '0', 100, $order++, '0', $updateicon, false, null, true, null, null, null, null, null, null, null, null, $listValue);
+                $LCD->AddCommand(__('Choix animation du bandeau lumineux', __FILE__), 'led_strip_animation_action', 'action', 'select', null, null, null, 1, $led_strip_animation, 'default', 0, $iconled_strip_animation, 1, '0', 100, $order++, '0', $updateicon, false, null, true, null, null, null, null, null, null, null, null, $listValue);
                 // Luminosité du bandeau LED
-                $led_strip_brightness = $LCD->AddCommand(__('Etat Luninosité du bandeau LED', __FILE__), 'led_strip_brightness', "info", 'numeric', null, '%', null, 0, '', '', '', $iconbrightness, 0, '0', 100, $order++, 2, $updateicon, true, false, true);
-                $LCD->AddCommand(__('Luninosité du bandeau LED', __FILE__), 'led_strip_brightness_action', 'action', 'slider', null, '%', null, 1, $led_strip_brightness, 'default', 0, $iconbrightness, 0, '0', 100, $order++, '0', $updateicon, false, null, true, null, 'floor(#value#)');
+                $led_strip_brightness = $LCD->AddCommand(__('Etat Luninosité du bandeau LED', __FILE__), 'led_strip_brightness', "info", 'numeric', null, '%', null, 0, '', '', '', $iconbrightness, 1, '0', 100, $order++, 2, $updateicon, true, false, true);
+                $LCD->AddCommand(__('Luninosité du bandeau LED', __FILE__), 'led_strip_brightness_action', 'action', 'slider', null, '%', null, 1, $led_strip_brightness, 'default', 0, $iconbrightness, 1, '0', 100, $order++, '0', $updateicon, false, null, true, null, 'floor(#value#)');
                 // Activation du bandeau LED
                 $led_strip = $LCD->AddCommand(__('Etat du bandeau de LED', __FILE__), 'led_strip_enabled', 'info', 'binary', null, null, 'SWITCH_STATE', 0, null, null, 0, $iconled_strip, 0, null, null, $order++, 1, true, 'never', null, true, null, null, null, null, null, null, null, null);
-                $LCD->AddCommand(__('Bandeau LED On', __FILE__), 'led_strip_enabledOn', 'action', 'other', 'core::toggleLine', null, 'SWITCH_ON', 1, $led_strip, 'led_strip_enabled', 0, $iconled_strip, 0, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
-                $LCD->AddCommand(__('Bandeau LED Off', __FILE__), 'led_strip_enabledOff', 'action', 'other', 'core::toggleLine', null, 'SWITCH_OFF', 1, $led_strip, 'led_strip_enabled', 0, $iconled_strip, 0, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
+                $LCD->AddCommand(__('Bandeau LED On', __FILE__), 'led_strip_enabledOn', 'action', 'other', 'core::toggleLine', null, 'SWITCH_ON', 1, $led_strip, 'led_strip_enabled', 0, $iconled_strip, 1, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
+                $LCD->AddCommand(__('Bandeau LED Off', __FILE__), 'led_strip_enabledOff', 'action', 'other', 'core::toggleLine', null, 'SWITCH_OFF', 1, $led_strip, 'led_strip_enabled', 0, $iconled_strip, 1, null, null, $order++, '0', true, 'never', null, true, null, null, null, null, null, null, null, null);
             } else {
                 log::add('Freebox_OS', 'info', '| :fg-success:───▶︎ ' . (__('Box compatible avec les LED rouges', __FILE__)) . '::/fg: ' . (__('Non', __FILE__)));
             }
@@ -623,10 +639,9 @@ class Free_CreateEq
     {
         log::add('Freebox_OS', 'debug', '┌── :fg-success:' . (__('Début de création des commandes pour', __FILE__)) . ' ::/fg: '  . $logicalinfo['parentalName'] . ' ──');
         $Free_API = new Free_API();
-        $result = $Free_API->universal_get('parentalprofile', null, null, true, true, true, false);
+        $result = $Free_API->universal_get('universalAPI', null, null, 'network_control', true, true, true, true);
         if (isset($result['result'])) {
-            $result =  $result['result'];
-            foreach ($result  as $Equipement) {
+            foreach ($result['result']  as $Equipement) {
                 log::add('Freebox_OS', 'debug', '| :fg-success:───▶︎ ' . (__('Début de création des commandes spécifiques pour le contrôle parental', __FILE__)) . ' :/fg:');
                 $Templateparent = 'Freebox_OS::Parental';
                 $iconparent_allowed = 'fas fa-user-check icon_green';
@@ -634,9 +649,9 @@ class Free_CreateEq
                 $iconparent_temp = 'fas fa-user-clock icon_blue';
 
                 $category = 'default';
-                $Equipement['name'] = preg_replace('/\'+/', ' ', $Equipement['name']); // Suppression '
-                log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('Nom du controle parental', __FILE__)) . ' : ' . $Equipement['name']);
-                $parental = Freebox_OS::AddEqLogic($Equipement['name'], 'parental_' . $Equipement['id'], $category, true, 'parental', null, $Equipement['id'], '*/5 * * * *', null, null, 'parental_controls');
+                $Equipement['name'] = preg_replace('/\'+/', ' ', $Equipement['profile_name']); // Suppression '
+                log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('Nom du controle parental', __FILE__)) . ' : ' . $Equipement['profile_name']);
+                $parental = Freebox_OS::AddEqLogic($Equipement['profile_name'], 'parental_' . $Equipement['profile_id'], $category, true, 'parental', null, $Equipement['profile_id'], '*/5 * * * *', null, null, 'parental_controls');
                 $StatusParental = $parental->AddCommand(__('Etat', __FILE__), 'current_mode', "info", 'string', $Templateparent, null, null, 1, '', '', '', '', 0, 'default', 'default', $order++, '0', false, true, null, true, null, null, null, null, null, null, null, true);
                 $parental->AddCommand(__('Autoriser', __FILE__), 'allowed', 'action', 'other', null, null, null, 1, $StatusParental, 'parentalStatus', 0, $iconparent_allowed, 0, 'default', 'default', $order++, '0', false, false, null, true);
                 $parental->AddCommand(__('Bloquer', __FILE__), 'denied', 'action', 'other', null, null, null, 1, $StatusParental, 'parentalStatus', 0, $iconparent_denied, 0, 'default', 'default', $order++, '0', false, false, null, true);
@@ -692,19 +707,18 @@ class Free_CreateEq
 
         $EqLogic = Freebox_OS::AddEqLogic($logicalinfo['managementName'], $logicalinfo['managementID'], 'default', false, null, null, null, '0 0 1 1 *', null, null, 'system', true, null);
         // Type de phériphérique
-        $host_type_list = "other|" . __('Autre', __FILE__) . ";ip_camera|" . __('Caméra IP', __FILE__) . ";vg_console|" . __('Console de jeux', __FILE__) . ";freebox_crystal|" . __('Freebox Crystal', __FILE__) . ";freebox_delta|" . __('Freebox Delta', __FILE__) . ";freebox_hd|" . __('Freebox HD', __FILE__) . ";freebox_mini|" . __('Freebox Mini', __FILE__) . ";freebox_one|" . __('Freebox One', __FILE__) . ";freebox_player|" . __('Freebox Player', __FILE__) . ";freebox_pop|" . __('Freebox Pop', __FILE__) . ";freebox_wifi|" . __('Freebox Wi-Fi Pop', __FILE__) . ";printer|" . __('Imprimante', __FILE__) . ";nas|" . __('NAS', __FILE__) . ";workstation|" . __('Ordinateur Fixe', __FILE__) . ";laptop|" . __('Ordinateur Portable', __FILE__) . ";multimedia_device|" . __('Périphérique multimédia', __FILE__) . ";networking_device|" . __('Périphérique réseau', __FILE__) . ";smartphone|" . __('Smartphone', __FILE__) . ";tablet|" . __('Tablette', __FILE__) . ";ip_phone|" . __('Téléphone IP', __FILE__) . ";television|" . __('Télévision', __FILE__) . ";car|" . __('Véhicule connecté', __FILE__);
+        $host_type_list = "other|" . __('Autre', __FILE__) . ";ip_camera|" . __('Caméra IP', __FILE__) . ";vg_console|" . __('Console de jeux', __FILE__) . ";freebox_crystal|" . __('Freebox Crystal', __FILE__) . ";freebox_delta|" . __('Freebox Delta', __FILE__) . ";freebox_hd|" . __('Freebox HD', __FILE__) . ";freebox_mini|" . __('Freebox Mini', __FILE__) . ";freebox_one|" . __('Freebox One', __FILE__) . ";freebox_player|" . __('Freebox Player', __FILE__) . ";freebox_pop|" . __('Freebox Pop', __FILE__) . ";freebox_wifi|" . __('Freebox Wi-Fi Pop', __FILE__) . ";printer|" . __('Imprimante', __FILE__) . ";nas|" . __('NAS', __FILE__) . ";workstation|" . __('Ordinateur Fixe', __FILE__) . ";laptop|" . __('Ordinateur Portable', __FILE__) . ";multimedia_device|" . __('Périphérique multimédia', __FILE__) . ";networking_device|" . __('Périphérique réseau', __FILE__) . ";smartphone|" . __('Smartphone', __FILE__) . ";tablet|" . __('Tablette', __FILE__) . ";ip_phone|" . __('Téléphone IP', __FILE__) . ";television|" . __('Télévision', __FILE__) . ";car|" . __('Véhicule connecté', __FILE__) . ";watch|" . __('Montre connectée', __FILE__) . ";light|" . __('Lumières', __FILE__) . ";outlet|" . __('Prise connectée', __FILE__) . ";appliances|" . __('Appareils électroménagers', __FILE__) . ";thermostat|" . __('Thermostat', __FILE__) . ";shutter|" . __('Volet électrique', __FILE__);
         $host_type = $EqLogic->AddCommand(__('Type de périphérique choisi', __FILE__), 'host_type_info', 'info', 'string', 'default', null, null, $_IsVisible, 'default', 'default', 0, $icon_host_type, 0, 'default', 'default', $order, '0', false, true, null, true);
         $EqLogic->AddCommand(__('Sélection Type de périphérique', __FILE__), 'host_type', 'action', 'select', null, null, null, $_IsVisible, $host_type, 'default', 0, $icon_host_type, 0, 'default', 'default', $order++, '0', false, true, null, true, null, null, null, null, null, null, null, null, $host_type_list, null, null);
 
         // Méthode de modification
-        $method_list = "POST|" . __('Ajouter IP fixe', __FILE__) . ";DELETE|" . __('Supprimer IP Fixe', __FILE__) . ";PUT|" . __('Modifier IP Equipement', __FILE__) . ";DEVICE|" . __('Modifier le type de Périphérique', __FILE__) . ";ADD_blacklist|" . __('Ajouter Liste Noire', __FILE__) . ";ADD_whitelist|" . __('Ajouter Liste Blanche', __FILE__) . ";DEL_blacklist|" . __('Supprimer Liste Noire', __FILE__) . ";DEL_whitelist|" . __('Supprimer Liste Blanche', __FILE__) . ";PUT_blacklist|" . __('Modifier Liste Noire', __FILE__) . ";PUT_whitelist|" . __('Modifier Liste Blanche', __FILE__) . ";POST_WOL|" . __('Wake on LAN', __FILE__);
+        $method_list = "POST|" . __('Ajouter IP fixe', __FILE__) . ";DELETE|" . __('Supprimer IP Fixe', __FILE__) . ";PUT|" . __('Modifier IP Equipement', __FILE__) . ";DEVICE|" . __('Modifier le type de Périphérique', __FILE__) . ";IP_DEVICE|" . __('Modifier le type de Périphérique / IP', __FILE__) . ";ADD_blacklist|" . __('Ajouter / Modifier Liste Noire', __FILE__) . ";ADD_whitelist|" . __('Ajouter / Modifier Liste Blanche', __FILE__) . ";DEL_blacklist|" . __('Supprimer Liste Noire / Blanche', __FILE__) . ";POST_WOL|" . __('Wake on LAN', __FILE__);
         $method = $EqLogic->AddCommand(__('Choix modification Appareil', __FILE__), 'method_info', 'info', 'string', 'default', null, null, $_IsVisible, 'default', 'default', 0, $icon_method, 0, 'default', 'default', $order++, '0', false, true, null, true);
         $EqLogic->AddCommand(__('Sélection modification Appareil', __FILE__), 'method', 'action', 'select', null, null, null, $_IsVisible, $method, 'default', 0, $icon_method, 0, 'default', 'default', $order++, '0', false, true, null, true, null, null, null, null, null, null, null, null, $method_list, null, null);
 
         $config_message = array(
             'title_disable' => 1,
             'message_placeholder' => (__('Adresse IP', __FILE__)),
-
         );
 
         $add_del_ip = $EqLogic->AddCommand(__('IP choisi', __FILE__), 'add_del_ip_info', 'info', 'string', 'default', null, null, $_IsVisible, 'default', 'default', 0, $icon_add_del_ip, 0, 'default', 'default', $order++, '0', false, false, null, true, null, null, null, null);
@@ -713,16 +727,13 @@ class Free_CreateEq
         $config_message = array(
             'title_disable' => 1,
             'message_placeholder' => (__('Nom Appareil', __FILE__)),
-
         );
         $primary_name = $EqLogic->AddCommand('Nom choisi', 'primary_name_info', 'info', 'string', 'default', null, null, $_IsVisible, 'default', 'default', 0, $icon_primary_name, 0, 'default', 'default', $order++, '0', false, false, null, true, null, null, null, null);
         $EqLogic->AddCommand('Nom Appareil', 'primary_name', 'action', 'message', 'default', null, null, $_IsVisible, $primary_name, 'default', 0, $icon_primary_name, 0, 'default', 'default', $order++, '0', false, true, null, true, null, null, null, null, null, null, null, null, null, null, null, null, $config_message);
 
         //Commentaires
         $config_message = array(
-            'title_disable' => 1,
-            'message_placeholder' => (__('Commentaire ou Mot de Passe (pour la fonction Wake on Lan)', __FILE__)),
-
+            'title_disable' => 1
         );
         $primary_name = $EqLogic->AddCommand(__('Commentaire choisi', __FILE__), 'comment_info', 'info', 'string', 'default', null, null, $_IsVisible, 'default', 'default', 0, $icon_comment, 0, 'default', 'default', $order++, '0', false, false, null, true, null, null, null, null);
         $EqLogic->AddCommand(__('Commentaire', __FILE__), 'comment', 'action', 'message', 'default', null, null, $_IsVisible, $primary_name, 'default', 0, $icon_comment, 0, 'default', 'default', $order++, '0', false, true, null, true, null, null, null, null, null, null, null, null, null, null, null, null, $config_message);
@@ -730,6 +741,11 @@ class Free_CreateEq
         // Commande Action
         $EqLogic->AddCommand('Modifier Appareil', 'start', 'action', 'other',  'default', null, null, 0, 'default', 'default', 0, $icon_dhcp, 0, 'default', 'default',  $order++, '0', $updateWidget, false, null, true, null, null, null, null, null);
 
+        // liste des baux statiques
+        $add_del_ip = $EqLogic->AddCommand(__('Baux statiques', __FILE__), 'list_DHCP', 'info', 'string', 'default', null, null, $_IsVisible, 'default', 'default', 0, $icon_add_del_ip, 0, 'default', 'default', $order++, '0', false, false, null, true, null, null, null, null);
+        $add_del_ip = $EqLogic->AddCommand(__('Début plage adresse IP', __FILE__), 'ip_range_start', 'info', 'string', 'default', null, null, $_IsVisible, 'default', 'default', 0, $icon_add_del_ip, 0, 'default', 'default', $order++, '0', false, false, null, true, null, null, null, null);
+        $add_del_ip = $EqLogic->AddCommand(__('Fin plage adresse IP', __FILE__), 'ip_range_end', 'info', 'string', 'default', null, null, $_IsVisible, 'default', 'default', 0, $icon_add_del_ip, 0, 'default', 'default', $order++, '0', false, false, null, true, null, null, null, null);
+        $add_del_ip = $EqLogic->AddCommand(__('Gateway IP', __FILE__), 'gateway', 'info', 'string', 'default', null, null, $_IsVisible, 'default', 'default', 0, $icon_add_del_ip, 0, 'default', 'default', $order++, '0', false, false, null, true, null, null, null, null);
         log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('La commande "Appareil connecté choisi" sera créée par l\'équipement', __FILE__)) . ' : ' . $logicalinfo['networkName'] . ' et/ou ' . $logicalinfo['networkwifiguestName']);
         log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('La commande "Sélection appareil connecté" sera créée par l\'équipement', __FILE__)) . ' : ' . $logicalinfo['networkName'] . ' et/ou ' . $logicalinfo['networkwifiguestName']);
         log::add('Freebox_OS', 'debug', '└────────────────────');
@@ -904,57 +920,59 @@ class Free_CreateEq
                                 }
                             }
                         }
-                        if (isset($result['l2ident'])) {
-                            $ident = $result['l2ident'];
-                            if ($ident['type'] == 'mac_address') {
-                                $mac_address = $ident['id'];
-                            }
-                        }
-
-                        if ($result['active'] == true) {
-                            $order = $order_count_active++;
-                            // Liste des actifs
-                            if ($active_list == null) {
-                                $active_list = $mac_address . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
-                            } else {
-                                $active_list .= ';' . $mac_address . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
-                            }
-                            // Liste des équipements 
-                            if ($network_list == null) {
-                                $network_list = $result['id'] . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
-                            } else {
-                                $network_list .= ';' . $result['id'] . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
-                            }
-                            $value = true;
-                        } else {
-                            $order = $order_count_noactive++;
-                            $value = 0;
-                            // Liste des non actifs
-                            if ($noactive_list == null) {
-                                $noactive_list = $mac_address . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
-                            } else {
-                                $noactive_list .= ';' . $mac_address . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
-                            }
-                            // Liste des équipements 
-                            if ($network_list == null) {
-                                $network_list = $result['id'] . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
-                            } else {
-                                $network_list .= ';' . $result['id'] . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
-                            }
-                        }
-
-                        $Parameter = array(
-                            "updatename" =>  $updatename,
-                            "host_type" => $result['host_type'],
-                            "IPV4" => $Ipv4,
-                            "IPV6" => $Ipv6,
-                            "mac_address" => $mac_address,
-                            "order" => $order,
-                            "repeat" => true,
-                        );
-
-                        $EqLogic->AddCommand($result['primary_name'], $result['id'], 'info', 'binary', 'Freebox_OS::Network', null, null, $_IsVisible, 'default', 'default', 0, null, 0, 'default', 'default', null, '0', $updateWidget, true, null, null, null, null, null, null, null, null, null, null, null, $Parameter, $name_connectivity_type);
                     }
+                    if (isset($result['l2ident'])) {
+                        $ident = $result['l2ident'];
+                        if ($ident['type'] == 'mac_address') {
+                            $mac_address = $ident['id'];
+                        }
+                    }
+
+
+                    if ($result['active'] == true) {
+                        $order = $order_count_active++;
+                        // Liste des actifs
+                        if ($active_list == null) {
+                            $active_list = $mac_address . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
+                        } else {
+                            $active_list .= ';' . $mac_address . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
+                        }
+                        // Liste des équipements 
+                        if ($network_list == null) {
+                            $network_list = $result['id'] . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
+                        } else {
+                            $network_list .= ';' . $result['id'] . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
+                        }
+                        $value = true;
+                    } else {
+                        $order = $order_count_noactive++;
+                        $value = 0;
+                        // Liste des non actifs
+                        if ($noactive_list == null) {
+                            $noactive_list = $mac_address . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
+                        } else {
+                            $noactive_list .= ';' . $mac_address . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
+                        }
+                        // Liste des équipements 
+                        if ($network_list == null) {
+                            $network_list = $result['id'] . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
+                        } else {
+                            $network_list .= ';' . $result['id'] . '|' . $result['primary_name'] . ' ( ' . $mac_address . ')';
+                        }
+                    }
+
+                    $Parameter = array(
+                        "updatename" =>  $updatename,
+                        "host_type" => $result['host_type'],
+                        "IPV4" => $Ipv4,
+                        "IPV6" => $Ipv6,
+                        "mac_address" => $mac_address,
+                        "order" => $order,
+                        "repeat" => true,
+                    );
+                    // Log pour test en cas de problème de gestion d'appareil
+                    //log::add('Freebox_OS', 'debug', '| ───▶︎ :fg-success:' . $result['primary_name'] . ':/fg:');
+                    $EqLogic->AddCommand($result['primary_name'], $result['id'], 'info', 'binary', 'Freebox_OS::Network', null, null, $_IsVisible, 'default', 'default', 0, null, 0, 'default', 'default', null, '0', $updateWidget, true, null, null, null, null, null, null, null, null, null, null, null, $Parameter, $name_connectivity_type);
                 }
             }
             log::add('Freebox_OS', 'debug', '| ───▶︎ :fg-success:' . (__('Appareil(s) connecté(s)', __FILE__)) . ' ::/fg: ' . $active_list);
@@ -969,14 +987,6 @@ class Free_CreateEq
         } else {
             log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('PAS D\'APPAREIL TROUVE', __FILE__)));
         }
-        log::add('Freebox_OS', 'debug', '└────────────────────');
-    }
-
-    private static function createEq_notification($logicalinfo, $templatecore_V4, $order = 0)
-    {
-        log::add('Freebox_OS', 'debug', '┌── :fg-success:' . (__('Début de création des commandes pour', __FILE__)) . ' ::/fg: '    . $logicalinfo['notificationName'] . ' ──');
-        $Free_API = new Free_API();
-        $Free_API->universal_get('universalAPI', null, null, '/notif/targets', true, true, false);
         log::add('Freebox_OS', 'debug', '└────────────────────');
     }
     private static function createEq_system_full($logicalinfo, $templatecore_V4, $order = 0)
@@ -1039,7 +1049,7 @@ class Free_CreateEq
     {
         if ($system != null) {
             $Free_API = new Free_API();
-            $result = $Free_API->universal_get('system', null, null, null, true, true, null);
+            $result = $Free_API->universal_get('universalAPI', null, null, 'system', true, true, null);
             log::add('Freebox_OS', 'debug', '|:fg-success:───▶︎ ' . (__('Ajout des commandes spécifiques pour l\'équipement', __FILE__)) . ' ::/fg: ' .  $logicalinfo['systemName'] . ' - Mode Standby Disponible');
             if (isset($result['model_info']['has_standby'])) {
                 $system->AddCommand(__('Mode Standby disponible', __FILE__), 'has_standby', 'info', 'binary',  $templatecore_V4 . 'line', null, null, 0, 'default', 'model_info',  0, null, 0, 'default', 'default',  $order++, '0', null, true, null, null, null, null, null, null, null, null, null, true, null, null, null, null, null, null, null, null, null, null);
@@ -1096,18 +1106,15 @@ class Free_CreateEq
                 } else if ($boucle_num == 3) {
                     $boucle_update = 'expansions';
                 }
-                $result_SP = $Free_API->universal_get('system', null, $boucle_update, null, true, true, false);
-                if ($boucle_num == 3) {
-                    if (isset(($result_SP['has_expansions']))) {
-                        log::add('Freebox_OS', 'info', '|:fg-info:───▶︎ ' . (__('Module expansions disponible', __FILE__)) . ':/fg:');
-                    } else {
-                        log::add('Freebox_OS', 'info', '|:fg-info:───▶︎ ' . (__('Module expansions non disponible', __FILE__)) . ':/fg:');
-                        break;
-                    }
+                $result_SP = $Free_API->universal_get('universalAPI', null, null, 'system', true, true, true);
+                if (isset(($result_SP['result'][$boucle_update]))) {
+                    $result_SP = $result_SP['result'][$boucle_update];
+                    log::add('Freebox_OS', 'debug', '|:fg-warning:───▶︎ ' . (__('Boucle pour la mise à jour du module', __FILE__)) . ' ::/fg: ' . $boucle_update);
+                } else {
+                    log::add('Freebox_OS', 'info', '|:fg-warning:───▶︎ ' . (__('Module', __FILE__)) . ' :/fg::fg-info:' . $boucle_update . ' :/fg:: ' . (__('non disponible', __FILE__)));
+                    break;
                 }
                 if ($result_SP != false) {
-                    log::add('Freebox_OS', 'debug', '|:fg-warning:───▶︎ ' . (__('Boucle pour la mise à jour', __FILE__)) . ' ::/fg: ' . $boucle_update);
-
                     foreach ($result_SP  as $Equipement) {
                         if ($Equipement != null) {
                             $icon = null;
@@ -1197,8 +1204,8 @@ class Free_CreateEq
             }
 
             // Ajout Commande
-            $avalaible = $system->AddCommand(__('langue de la Box', __FILE__), 'lang', 'info', 'string', 'default', null, 'default', 1, 'default', 'LANG', 0, $iconLang, 1, 'default', 'default', $order++, '0', false, false, null, true, null, null, null, null, null, null, null, true, null, null, null, null, null, null, null, null, null, null);
-            //$system->AddCommand('Choix Langue', 'avalaible', 'action', 'select', null, null, null, 1, $avalaible, 'default', 0, null, 0, null, null, $order++, '0', null, false, null, true, null, null, null, null, null, null, null, null, $avalaibleList);
+            $changelang = $system->AddCommand(__('langue de la Box', __FILE__), 'lang', 'info', 'string', 'default', null, 'default', 1, 'default', 'LANG', 0, $iconLang, 1, 'default', 'default', $order++, '0', false, false, null, true, null, null, null, null, null, null, null, true, null, null, null, null, null, null, null, null, null, null);
+            //$system->AddCommand('Choix Langue', 'avalaible', 'action', 'select', null, null, null, 1, $changelang, 'default', 0, null, 0, null, null, $order++, '0', null, false, null, true, null, null, null, null, null, null, null, null, $avalaibleList);
         }
     }
     private static function createEq_VM($logicalinfo, $templatecore_V4, $order = 0)
@@ -1206,7 +1213,7 @@ class Free_CreateEq
         log::add('Freebox_OS', 'debug', '| ──────▶︎ :fg-success:' . (__('Début de création des commandes pour', __FILE__)) . ' ::/fg: '  . $logicalinfo['VMName'] . ' ──');
         $updateicon = true;
         $Free_API = new Free_API();
-        $result = $Free_API->universal_get('universalAPI', null, null, 'vm', false, false, false);
+        $result = $Free_API->universal_get('universalAPI', null, null, 'vm', true, true, false);
         if ($result != null) {
             $VMmemory = 'fas fa-memory';
             $VMCPU = 'fas fa-microchip';
@@ -1313,8 +1320,7 @@ class Free_CreateEq
             $iconWifiOff = 'fas fa-wifi icon_red';
             $TemplateEcoWifi = 'Freebox_OS::Mode Eco Wifi';
             $Free_API = new Free_API();
-            $result = $Free_API->universal_get('system', null, null, null, true, true, null);
-
+            $result = $Free_API->universal_get('universalAPI', null, null, 'system', true, true, null);
             if (isset($result['model_info']['has_eco_wifi'])) {
                 $Wifi->AddCommand(__('Support Mode Éco-WiFi', __FILE__), 'has_eco_wifi', 'info', 'binary',  $templatecore_V4 . 'line', null, null, 0, 'default', 'default',  0, $iconWifi, 0, 'default', 'default',  $order++, '0', false, true, null, null, null, null, null, null, null, null, null, true, null, null, null, null, null, null, null, null, null, null);
                 $power_saving = $Wifi->AddCommand(__('Etat Mode Éco-WiFi', __FILE__), 'power_saving', 'info', 'binary',  $templatecore_V4 . 'line', null, null, 0, 'default', 'default',  0, $iconpower_saving, 1, 'default', 'default',  $order++, true, false, true, null, true, null, null, null, null, null, null, null, true, null, null, null, null, null, null, null, null, null, null);
@@ -1383,11 +1389,13 @@ class Free_CreateEq
         }
     }
 
-    private static function createEq_upload($logicalinfo, $templatecore_V4)
+    private static function createEq_TEST($logicalinfo, $templatecore_V4)
     {
         log::add('Freebox_OS', 'debug', '┌── :fg-success:' . (__('Début de création des commandes pour', __FILE__)) . ' ::/fg: ' . $logicalinfo['notificationName'] . ' ──');
         $Free_API = new Free_API();
-        $Free_API->universal_get('upload', null, null, null, null, null);
+        $result = $Free_API->universal_get('universalAPI', null, null, 'ws', true, true, true);
+        $result = $Free_API->universal_get('universalAPI', null, null, 'ws/', true, true, null);
+        $result = $Free_API->universal_get('universalAPI', null, null, 'notif/targets', true, true, true);
         log::add('Freebox_OS', 'debug', '└────────────────────');
     }
 }

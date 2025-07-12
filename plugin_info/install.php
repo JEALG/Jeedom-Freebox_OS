@@ -219,46 +219,46 @@ function updateConfig()
 	$Config_value = 'mafreebox.freebox.fr';
 	$Config = config::byKey($Config_KEY, 'Freebox_OS');
 	if (empty($Config)) {
-		config::byKey($Config, 'Freebox_OS', $Config_value);
+		config::save($Config_KEY, $Config_value, 'Freebox_OS');
 	}
 	$Config_KEY = 'FREEBOX_SERVER_APP_NAME';
 	$Config_value = 'Plugin Freebox OS';
 	$Config = config::byKey($Config_KEY, 'Freebox_OS');
 	if (empty($Config)) {
-		config::byKey($Config, 'Freebox_OS', $Config_value);
+		config::save($Config_KEY, $Config_value, 'Freebox_OS');
 	}
 	$Config_KEY = 'FREEBOX_SERVER_APP_ID';
 	$Config_value = 'plugin.freebox.jeedom';
 	$Config = config::byKey($Config_KEY, 'Freebox_OS');
 	if (empty($Config)) {
-		config::byKey($Config, 'Freebox_OS', $Config_value);
+		config::save($Config_KEY, $Config_value, 'Freebox_OS');
 	}
 	$Config_KEY = 'FREEBOX_API';
 	$Config_value = $FREEBOX_API;
 	$Config = config::byKey($Config_KEY, 'Freebox_OS');
 	if (empty($Config)) {
-		config::byKey($Config, 'Freebox_OS', $Config_value);
+		config::save($Config_KEY, $Config_value, 'Freebox_OS');
 	}
 	$Config_KEY = 'FREEBOX_API_DEFAUT';
 	$Config_value = $FREEBOX_API;
 	$Config = config::byKey($Config_KEY, 'Freebox_OS');
 	if (empty($Config)) {
-		config::byKey($Config, 'Freebox_OS', $Config_value);
+		config::save($Config_KEY, $Config_value, 'Freebox_OS');
 	}
 	if (config::byKey($Config, 'Freebox_OS', 0) != $$Config_value) {
-		config::byKey($Config, 'Freebox_OS', $Config_value);
+		config::save($Config_KEY, $Config_value, 'Freebox_OS');
 	}
 	$Config_KEY = 'FREEBOX_SERVER_DEVICE_NAME';
 	$Config_value = config::byKey("name");
 	$Config = config::byKey($Config_KEY, 'Freebox_OS');
 	if (empty($Config)) {
-		config::byKey($Config, 'Freebox_OS', $Config_value);
+		config::save($Config_KEY, $Config_value, 'Freebox_OS');
 	}
 	$Config_KEY = 'FREEBOX_REBOOT_DEAMON';
 	$Config_value = FALSE;
 	$Config = config::byKey($Config_KEY, 'Freebox_OS');
 	if (empty($Config)) {
-		config::byKey($Config, 'Freebox_OS', $Config_value);
+		config::save($Config_KEY, $Config_value, 'Freebox_OS');
 	}
 	$version = 1;
 	if (config::byKey('FREEBOX_CONFIG_V', 'Freebox_OS', 0) != $version) {

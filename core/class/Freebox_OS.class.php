@@ -299,24 +299,24 @@ class Freebox_OS extends eqLogic
 				case 'host_type':
 				case 'method':
 				case 'host_type_info':
-					//log::add('Freebox_OS', 'debug', '[testNotArray]' . $action[0]['Options']['select']);
+					//log::add('Freebox_OS', 'debug', '[testNotArray]' . ' ' .  $action[0]['Options']['select']);
 					$value_log = ' : ' . $action[0]['Options']['select'] . ' - ';
 					break;
 				case 'primary_name_info':
-					//log::add('Freebox_OS', 'debug', '[testNotArray] - MESSAGE' . $action[0]['Options']['message']);
+					//log::add('Freebox_OS', 'debug', '[testNotArray] - MESSAGE' . ' ' . $action[0]['Options']['message']);
 					$value_log = ' : ' . $action[0]['Options']['message'] . ' - ';
 					break;
 				case 'start':
 					$value_log = ' ';
 				default:
-					//log::add('Freebox_OS', 'debug', '[testNotArray]' . $action[0]['Options']['message']);
+					//log::add('Freebox_OS', 'debug', '[testNotArray]' . ' ' . $action[0]['Options']['message']);
 					$value_log = ' : ' . $action[0]['Options']['message'] . ' - ';
 					break;
 			}
 		}
 
 
-		log::add('Freebox_OS', 'debug', ':fg-info:Action pour l\'action : ' . $action[0]['Name'] . ' (' . $action[0]['LogicalId'] . ')' . $value_log . 'de l\'équipement : ' . $action[0]['NameEqLogic'] . ':/fg:');
+		log::add('Freebox_OS', 'debug', ':fg-info:Action pour l\'action : ' . ':/fg:' . $action[0]['Name'] . ' (' . $action[0]['LogicalId'] . ')' . $value_log . 'de l\'équipement : ' . $action[0]['NameEqLogic']);
 		Free_Update::UpdateAction($action[0]['LogicalId'], $action[0]['SubType'], $action[0]['Name'], $action[0]['Value'], $action[0]['Config'], $action[0]['EqLogic'], $action[0]['Options'], $action[0]['This']);
 		$action = cache::byKey("Freebox_OS::actionlist")->getValue();
 		array_shift($action);
@@ -459,9 +459,7 @@ class Freebox_OS extends eqLogic
 				if ($Player_CONFIG['player_ID_MAC'] != null) {
 					$EqLogic->setConfiguration('player_MAC', $Player_CONFIG['player_ID_MAC']);
 				}
-				if ($Player_CONFIG['player_API_VERSION'] != null) {
-					$EqLogic->setConfiguration('player_API_VERSION', $Player_CONFIG['player_API_VERSION']);
-				}
+				$EqLogic->setConfiguration('player_API_VERSION', $Player_CONFIG['player_API_VERSION']);
 				if ($Player_CONFIG['player_ID_MAC'] !=  $eq_action) {
 					if ($eq_action != null) {
 						$EqLogic->setConfiguration('action', $eq_action);

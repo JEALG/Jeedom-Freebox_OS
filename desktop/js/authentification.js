@@ -43,6 +43,7 @@ $('.bt_Freebox_Autorisation').on('click', function () {
 $('.bt_FreeboxOS_resetAPI').on('click', function () {
     logs('info', "──────────▶︎ :fg-warning:{{Lancement}}:/fg: {{Reset de la version API}} ◀︎───────────");
     ResetAPI();
+    
 });
 
 $('.bt_FreeboxOS_droitVerif').on('click', function () {
@@ -57,7 +58,8 @@ $('.bt_FreeboxOS_droitVerif_pass').on('click', function () {
 $('.bt_FreeboxOS_ResetConfig').on('click', function () {
     logs('info', "──────────▶︎ :fg-warning:{{Reset de la configuration}}:/fg: ◀︎───────────");
     SetDefaultSetting();
-    GetSetting();
+    //GetSetting();
+    logs('info', "──────────▶︎ :fg-warning:{{Fin Reset de la configuration}}:/fg: ◀︎───────────");
     $('.bt_FreeboxOS_Next').show();
 });
 
@@ -354,6 +356,7 @@ function GetSetting() {
             handleAjaxError(request, status, error);
         },
         success: function (data) {
+            //logs('info', "───▶︎ :fg-success:{{Lecture des données}}:/fg: ");
             $('#input_freeboxIP').val(data.result.ip);
             logs('info', "───▶︎ :fg-info:IP ::/fg: " + data.result.ip);
             $('#input_freeNameAPP').val(data.result.NameAPP);
@@ -364,7 +367,7 @@ function GetSetting() {
             logs('info', "───▶︎ :fg-info:{{Nom de votre Jeedom}} ::/fg: " + data.result.DeviceName);
             $('#sel_object_default').val(data.result.Categorie);
             logs('info', "───▶︎ :fg-info:{{Objet par défaut}} ::/fg: " + data.result.Categorie);
-            logs('info', "───▶︎ :fg-info:{{Version API Freebox}} ::/fg: " + data.result.API);
+            logs('info', "───▶︎ :fg-info:{{Version API Freebox}} ::/fg: " + data.result.API);     
             $('#input_API').val(data.result.API);
 
             console.log('IP : ' + data.result.ip)

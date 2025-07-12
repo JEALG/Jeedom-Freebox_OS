@@ -107,7 +107,7 @@ try {
 			ajax::success($result);
 			break;
 		case 'ResetAPI':
-			config::save('FREEBOX_API', config::byKey('FREEBOX_API', 'Freebox_OS', ''), 'Freebox_OS');
+			config::save('FREEBOX_API', '', 'Freebox_OS');
 			Freebox_OS::FreeboxAPI();
 			break;
 		case 'SetSettingTiles':
