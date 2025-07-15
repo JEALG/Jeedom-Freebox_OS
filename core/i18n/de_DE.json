@@ -33,7 +33,7 @@
         "Mise à jour de : Etat du Wifi": "Aktualisiert von : Wifi-Status",
         "Mise à jour du : Contrôle Parental": "Aktualisierung der : Parental Control",
         "Modification réseau : Impossible de récupérer la liste des baux statiques DHCP : Pas d\\’entrée avec cet identifiant": "Netzwerkänderung: Die Liste der statischen DHCP-Leasingverträge kann nicht abgerufen werden: Kein Eintrag mit dieser Kennung",
-        "Modification réseau : Interface invalide ou IP introuvable": "Netzwerkänderung: Schnittstelle ungültig oder IP nicht gefunden",
+        "Modification réseau : Interface invalide ou adresse MAC introuvable": "Netzwerkänderung: Ungültige Schnittstelle oder MAC-Adresse nicht gefunden",
         "Modification réseau : Paramètre invalide": "Netzwerkänderung: Ungültige Einstellung",
         "Pas d\\'accès à internet": "Kein Internetzugang",
         "Pas d\\'appareil connecté avec cette adresse MAC": "Kein Gerät mit dieser MAC-Adresse verbunden",
