@@ -1129,27 +1129,32 @@ class Free_Refresh
         } else {
             log::add('Freebox_OS', 'debug', ':fg-info:' . (__('Il n\'est pas possible de récupérer le status du Player', __FILE__)) . ':/fg:');
         }
+        if (config::byKey('TYPE_FREEBOX_MODE', 'Freebox_OS') == 'router') {
+            log::add('Freebox_OS', 'debug', '|:fg-success: ───▶︎ ' . (__('BOX EN MODE ROUTER : Création de la commande Adresse IPV4 du player', __FILE__)) . ':/fg:');
+            if ($IP_update == true) {
+                // Récupération IP
 
-        if ($IP_update == true) {
-            // Récupération IP
-            log::add('Freebox_OS', 'debug', ':fg-success:───▶︎ ' . (__('Récupération de l\'adresse IP', __FILE__)) . ':/fg:');
-            $_networkinterface = 'pub' . '/ether-' . $results_player_ID;
-            $result_network_ping = $Free_API->universal_get('universalAPI', null, null, 'lan/browser/' . $_networkinterface, true, true, false);
-            if (isset($result_network_ping['l3connectivities'])) {
-                $result_network_ping = $result_network_ping['l3connectivities'];
-                foreach ($result_network_ping as $result_network_IP) {
-                    if ($result_network_IP['af'] == 'ipv4') {
-                        $list = 'addr';
-                        $para_Value_calcul  = null;
-                        $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
-                        $Value_calcul = null;
-                        //log::add('Freebox_OS', 'debug', ':fg-success:───▶︎ ' . (__('Récupération de l\'adresse IP', __FILE__)) . ' : ' . $result_network_IP['af'] . ':/fg:');
-                        Free_Refresh::refresh_VALUE($EqLogics, $result_network_IP, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul, $Value_calcul, $para_Config_eq);
+                log::add('Freebox_OS', 'debug', ':fg-success:───▶︎ ' . (__('Récupération de l\'adresse IP', __FILE__)) . ':/fg:');
+                $_networkinterface = 'pub' . '/ether-' . $results_player_ID;
+                $result_network_ping = $Free_API->universal_get('universalAPI', null, null, 'lan/browser/' . $_networkinterface, true, true, false);
+                if (isset($result_network_ping['l3connectivities'])) {
+                    $result_network_ping = $result_network_ping['l3connectivities'];
+                    foreach ($result_network_ping as $result_network_IP) {
+                        if ($result_network_IP['af'] == 'ipv4') {
+                            $list = 'addr';
+                            $para_Value_calcul  = null;
+                            $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
+                            $Value_calcul = null;
+                            //log::add('Freebox_OS', 'debug', ':fg-success:───▶︎ ' . (__('Récupération de l\'adresse IP', __FILE__)) . ' : ' . $result_network_IP['af'] . ':/fg:');
+                            Free_Refresh::refresh_VALUE($EqLogics, $result_network_IP, $list, $para_resultTV, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul, $Value_calcul, $para_Config_eq);
+                        }
                     }
+                } else {
+                    log::add('Freebox_OS', 'debug', ':fg-info:' . (__('Il n\'est pas possible de l\'adresse IP du Player', __FILE__)) . ':/fg:');
                 }
-            } else {
-                log::add('Freebox_OS', 'debug', ':fg-info:' . (__('Il n\'est pas possible de l\'adresse IP du Player', __FILE__)) . ':/fg:');
             }
+        } else {
+            log::add('Freebox_OS', 'debug', '|:fg-warning: ───▶︎ ' . (__('BOX EN MODE BRIDGE : Pas de création de la commande Adresse IPV4 du player', __FILE__)) . ':/fg:');
         }
     }
     private static function refresh_freeplug($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null)
