@@ -1133,7 +1133,6 @@ class Free_Refresh
             log::add('Freebox_OS', 'debug', ':fg-success:───▶︎ ' . (__('BOX EN MODE ROUTER : Création de la commande Adresse IPV4 du player', __FILE__)) . ':/fg:');
             if ($IP_update == true) {
                 // Récupération IP
-
                 log::add('Freebox_OS', 'debug', ':fg-success:───▶︎ ' . (__('Récupération de l\'adresse IP', __FILE__)) . ':/fg:');
                 $_networkinterface = 'pub' . '/ether-' . $results_player_ID;
                 $result_network_ping = $Free_API->universal_get('universalAPI', null, null, 'lan/browser/' . $_networkinterface, true, true, false);
