@@ -33,7 +33,7 @@
         "Mise à jour de : Etat du Wifi": "Atualização de : Estado do Wifi",
         "Mise à jour du : Contrôle Parental": "Atualização de : Controlo parental",
         "Modification réseau : Impossible de récupérer la liste des baux statiques DHCP : Pas d\\’entrée avec cet identifiant": "Alteração na rede: Não é possível recuperar a lista de concessões estáticas DHCP: Não há entradas com este ID",
-        "Modification réseau : Interface invalide": "Alteração na rede: Interface inválida",
+        "Modification réseau : Interface invalide ou adresse MAC introuvable": "Alteração na rede: Interface inválida ou endereço MAC não encontrado",
         "Modification réseau : Paramètre invalide": "Alteração na rede: Parâmetro inválido",
         "Pas d\\'accès à internet": "Sem acesso à Internet",
         "Pas d\\'appareil connecté avec cette adresse MAC": "Nenhum dispositivo ligado com este endereço MAC",
