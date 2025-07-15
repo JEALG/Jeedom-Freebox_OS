@@ -361,7 +361,7 @@ class Free_API
                 break;
             case "nodev":
                 if (strpos($api_url, '/lan/browser/') == true) {
-                    $log_level = 'Debug';
+                    //$log_level = 'Debug';
                     $msg_box1 = (__('Interface réseau : Interface invalide ou adresse MAC introuvable', __FILE__));
                 } else {
                     $msg_box1 = (__('Erreur de la modification de l\’hôte', __FILE__));
