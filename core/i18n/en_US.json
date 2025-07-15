@@ -33,7 +33,7 @@
         "Mise à jour de : Etat du Wifi": "Update of : Wifi status",
         "Mise à jour du : Contrôle Parental": "Update of : Parental Control",
         "Modification réseau : Impossible de récupérer la liste des baux statiques DHCP : Pas d\\’entrée avec cet identifiant": "Network modification: Unable to retrieve the list of static leases DHCP: No entry with this ID",
-        "Modification réseau : Interface invalide ou IP introuvable": "Network modification: Invalid interface or IP not found",
+        "Modification réseau : Interface invalide ou adresse MAC introuvable": "Network change: Invalid interface or MAC address not found",
         "Modification réseau : Paramètre invalide": "Network modification: Invalid parameter",
         "Pas d\\'accès à internet": "No internet access",
         "Pas d\\'appareil connecté avec cette adresse MAC": "No device connected with this MAC address",
