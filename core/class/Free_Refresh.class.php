@@ -1130,7 +1130,7 @@ class Free_Refresh
             log::add('Freebox_OS', 'debug', ':fg-info:' . (__('Il n\'est pas possible de récupérer le status du Player', __FILE__)) . ':/fg:');
         }
         if (config::byKey('TYPE_FREEBOX_MODE', 'Freebox_OS') == 'router') {
-            log::add('Freebox_OS', 'debug', '|:fg-success: ───▶︎ ' . (__('BOX EN MODE ROUTER : Création de la commande Adresse IPV4 du player', __FILE__)) . ':/fg:');
+            log::add('Freebox_OS', 'debug', ':fg-success: ───▶︎ ' . (__('BOX EN MODE ROUTER : Création de la commande Adresse IPV4 du player', __FILE__)) . ':/fg:');
             if ($IP_update == true) {
                 // Récupération IP
 
@@ -1154,7 +1154,7 @@ class Free_Refresh
                 }
             }
         } else {
-            log::add('Freebox_OS', 'debug', '|:fg-warning: ───▶︎ ' . (__('BOX EN MODE BRIDGE : Pas de création de la commande Adresse IPV4 du player', __FILE__)) . ':/fg:');
+            log::add('Freebox_OS', 'debug', ':fg-warning: ───▶︎ ' . (__('BOX EN MODE BRIDGE : Pas de Récupération de l\'adresse IP', __FILE__)) . ':/fg:');
         }
     }
     private static function refresh_freeplug($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null)
