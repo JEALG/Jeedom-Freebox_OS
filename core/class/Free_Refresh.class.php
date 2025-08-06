@@ -1104,7 +1104,7 @@ class Free_Refresh
                     $resultTV = $results_playerID['player']['state'];
                 } else {
                     $resultTV = array('playback_state' => (__('Arrêter ou non disponible', __FILE__)));
-                    log::add('Freebox_OS', 'debug', ':fg-warning:' . (__('Il n\'est pas possible de l\'état du player, forçage de la valeur', __FILE__)) . ' ::/fg: ' . $resultTV['playback_state']);
+                    log::add('Freebox_OS', 'debug', ':fg-warning:' . (__('Il n\'est pas possible de récupérer l\'état du player, forçage de la valeur', __FILE__)) . ' ::/fg: ' . $resultTV['playback_state']);
                 }
                 $list = 'playback_state';
                 $para_resultTV = array('nb' => 0, 1 => null, 2 => null, 3 => null);
@@ -1149,7 +1149,7 @@ class Free_Refresh
                         }
                     }
                 } else {
-                    log::add('Freebox_OS', 'debug', ':fg-info:' . (__('Il n\'est pas possible de l\'adresse IP du Player', __FILE__)) . ':/fg:');
+                    log::add('Freebox_OS', 'debug', ':fg-info:' . (__('Il n\'est pas possible de récupérer l\'adresse IP du Player', __FILE__)) . ':/fg:');
                 }
             }
         } else {
