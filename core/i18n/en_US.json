@@ -513,7 +513,8 @@
         "l\\'accès est autorisé - Période vacances scolaires": "l\\ access is allowed - School vacations",
         "l\\'accès est refusé": "l\\ access is denied",
         "langue": "language",
-        "stop": "stop"
+        "stop": "stop",
+        "type": "type"
     },
     "plugins\/Freebox_OS\/core\/class\/Free_Update.class.php": {
         "Adresse IP vide": "IP address empty",

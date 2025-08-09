@@ -513,7 +513,8 @@
         "l\\'accès est autorisé - Période vacances scolaires": "o acesso é permitido - Período de férias escolares",
         "l\\'accès est refusé": "o acesso é recusado",
         "langue": "língua",
-        "stop": "parar"
+        "stop": "parar",
+        "type": "tipo"
     },
     "plugins\/Freebox_OS\/core\/class\/Free_Update.class.php": {
         "Adresse IP vide": "Endereço IP vazio",
