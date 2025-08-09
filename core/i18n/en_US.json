@@ -516,10 +516,14 @@
         "stop": "stop"
     },
     "plugins\/Freebox_OS\/core\/class\/Free_Update.class.php": {
+        "Action": "Action",
+        "Action à faire": "Action to be taken",
         "Adresse IP vide": "IP address empty",
         "Appareil(s) avec adresse IP fixe": "Device(s) with fixed IP address",
+        "Appareil\/Nom": "Device\/Name",
         "Choix de la Chaîne": "Channel selection",
         "Choix du contrôle": "Control selection",
+        "Commentaire": "Comment",
         "Equipement avec déjà un paramètrage IP": "Equipment with existing IP settings",
         "Gestion réseau : Adresse mac vide": "Network management: Empty MAC address",
         "Gestion réseau : IP ou adresse mac vide": "Network management: IP or MAC address empty",
@@ -532,10 +536,12 @@
         "L\\'équipement a déjà une adresse IP affecté": "The device already has an assigned IP address",
         "L\\'équipement n\\'a pas d\\'adresse IP affecté": "The device does not have an assigned IP address",
         "METHODE OBSOLETE => MERCI DE REGARDER LA DOCUMENTATION": "OBSOLETE METHOD => PLEASE LOOK AT THE DOCUMENTATION",
+        "Mise à jour": "Update",
         "Mot de Passe": "Password",
         "Mute": "Mute",
         "Média": "Media",
         "Média type": "Media type",
+        "Méthode": "Method",
         "Player": "Player",
         "Redémarrer": "Restart",
         "Récupération ID": "ID recovery",
@@ -543,7 +549,10 @@
         "Récupération du nom de la commande": "Command name retrieval",
         "Récupération du type de l\\'équipement => Pour éviter de bloquer": "Retrieving equipment type => To avoid blocking",
         "Récupération le commentaire de l\\'équipement => Pour éviter de bloquer": "Retrieving equipment comments => To avoid blocking",
-        "Volume": "Volume"
+        "Type": "Type",
+        "Volume": "Volume",
+        "du Nom ou du type d\\'équipement": "by name or type of equipment",
+        "l\\'IP et du commentaires": "iP and comments"
     },
     "plugins\/Freebox_OS\/core\/class\/Freebox_OS.class.php": {
         "Afficheur LCD": "LCD display",

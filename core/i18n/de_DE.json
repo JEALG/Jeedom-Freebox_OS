@@ -516,10 +516,14 @@
         "stop": "stop"
     },
     "plugins\/Freebox_OS\/core\/class\/Free_Update.class.php": {
+        "Action": "Aktion",
+        "Action à faire": "Zu erledigende Aufgabe",
         "Adresse IP vide": "Leere IP-Adresse",
         "Appareil(s) avec adresse IP fixe": "Gerät(e) mit fester IP-Adresse",
+        "Appareil\/Nom": "Gerät\/Name",
         "Choix de la Chaîne": "Auswahl des Kanals",
         "Choix du contrôle": "Wahl der Steuerung",
+        "Commentaire": "Kommentar",
         "Equipement avec déjà un paramètrage IP": "Geräte, die bereits über IP-Parameter verfügen",
         "Gestion réseau : Adresse mac vide": "Netzwerkverwaltung: Leere MAC-Adresse",
         "Gestion réseau : IP ou adresse mac vide": "Netzwerkverwaltung: IP- oder MAC-Adresse leer",
@@ -532,10 +536,12 @@
         "L\\'équipement a déjà une adresse IP affecté": "Das Gerät hat bereits eine IP-Adresse zugewiesen",
         "L\\'équipement n\\'a pas d\\'adresse IP affecté": "Dem Gerät ist keine IP-Adresse zugewiesen",
         "METHODE OBSOLETE => MERCI DE REGARDER LA DOCUMENTATION": "VERALTETE METHODE => BITTE SCHAUEN SIE SICH DIE DOKUMENTATION AN",
+        "Mise à jour": "Update",
         "Mot de Passe": "Passwort",
         "Mute": "Stummschaltung",
         "Média": "Medien",
         "Média type": "Medientyp",
+        "Méthode": "Methode",
         "Player": "Player",
         "Redémarrer": "Neu starten",
         "Récupération ID": "ID abrufen",
@@ -543,7 +549,10 @@
         "Récupération du nom de la commande": "Abrufen des Befehlsnamens",
         "Récupération du type de l\\'équipement => Pour éviter de bloquer": "Wiederherstellung des Gerätetyps => Um Blockierungen zu vermeiden",
         "Récupération le commentaire de l\\'équipement => Pour éviter de bloquer": "Wiederherstellung des Kommentars zur Ausrüstung => Um eine Blockierung zu vermeiden",
-        "Volume": "Lautstärke"
+        "Type": "Typ",
+        "Volume": "Lautstärke",
+        "du Nom ou du type d\\'équipement": "nach Name oder Gerätetyp",
+        "l\\'IP et du commentaires": "iP und Kommentare"
     },
     "plugins\/Freebox_OS\/core\/class\/Freebox_OS.class.php": {
         "Afficheur LCD": "LCD-Display",
