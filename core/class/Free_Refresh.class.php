@@ -30,14 +30,15 @@ class Free_Refresh
             $result_API = Freebox_OS::FreeboxAPI();
             log::add('Freebox_OS', 'debug', ':fg-info: ' . (__('Version API Compatible avec la Freebox', __FILE__)) . ' : ' . $result_API . ':/fg:');
         }
-        if ($_freeboxID == 'Tiles_global') {
+        if ($_freeboxID === 'Tiles_global') {
             Free_Refresh::refresh_titles_global($EqLogics, $Free_API);
         }
         if (is_object($EqLogics) && $EqLogics->getIsEnable()) {
             if ($_freeboxID != 'Tiles_global') {
                 log::add('Freebox_OS', 'debug', '──────────▶︎ :fg-success:' . (__('Mise à jour', __FILE__)) . ' : ' . $EqLogics->getName() . ' :/fg: ◀︎───────────');
+                log::add('Freebox_OS', 'debug', '──────────▶︎ :fg-success:' . (__('type', __FILE__)) . ' : ' . $EqLogics->getConfiguration('type') . ' :/fg: ◀︎───────────');
             }
-            if ($EqLogics->getConfiguration('type') == 'player' || $EqLogics->getConfiguration('type') == 'parental' || $EqLogics->getConfiguration('type') == 'freeplug' || $EqLogics->getConfiguration('type') == 'VM') {
+            if ($EqLogics->getConfiguration('type') === 'player' || $EqLogics->getConfiguration('type') === 'parental' || $EqLogics->getConfiguration('type') === 'freeplug' || $EqLogics->getConfiguration('type') === 'VM') {
                 $refresh = $EqLogics->getConfiguration('type');
             } else {
                 $refresh = $EqLogics->getLogicalId();

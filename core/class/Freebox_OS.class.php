@@ -404,7 +404,7 @@ class Freebox_OS extends eqLogic
 			} else {
 				$EqLogic->setConfiguration('autorefresh', '*/5 * * * *');
 			}
-			if ($tiles == true) {
+			if ($tiles === true) {
 				$EqLogic->setConfiguration('type', $eq_type);
 				$EqLogic->setConfiguration('action', $eq_action);
 				if ($EqLogic->getConfiguration('type', $eq_type) == 'parental' || $EqLogic->getConfiguration('type', $eq_type) == 'player') {
@@ -415,7 +415,7 @@ class Freebox_OS extends eqLogic
 				$EqLogic->setConfiguration('eq_group', $eq_group);
 			}
 
-			if ($_logicalId == 'network' || $_logicalId == 'networkwifiguest' || $_logicalId == 'disk' || $_logicalId == 'homeadapters') {
+			if ($_logicalId === 'network' || $_logicalId === 'networkwifiguest' || $_logicalId == 'disk' || $_logicalId === 'homeadapters') {
 				$EqLogic->setConfiguration('autorefresh_eqLogic', '2 1 * * *');
 			}
 			try {
@@ -451,7 +451,7 @@ class Freebox_OS extends eqLogic
 			if ($eq_action != null) {
 				$EqLogic->setConfiguration('action', $eq_action);
 			}
-			if ($EqLogic->getConfiguration('type', $eq_type) == 'parental' || $EqLogic->getConfiguration('type', $eq_type) == 'player' || $EqLogic->getConfiguration('type', $eq_type) == 'VM') {
+			if ($EqLogic->getConfiguration('type', $eq_type) === 'parental' || $EqLogic->getConfiguration('type', $eq_type) === 'player' || $EqLogic->getConfiguration('type', $eq_type) === 'VM') {
 				$EqLogic->setConfiguration('action', $logicalID_equip);
 			}
 		}
