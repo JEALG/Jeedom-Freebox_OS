@@ -36,7 +36,6 @@ class Free_Refresh
         if (is_object($EqLogics) && $EqLogics->getIsEnable()) {
             if ($_freeboxID != 'Tiles_global') {
                 log::add('Freebox_OS', 'debug', '──────────▶︎ :fg-success:' . (__('Mise à jour', __FILE__)) . ' : ' . $EqLogics->getName() . ' :/fg: ◀︎───────────');
-                log::add('Freebox_OS', 'debug', '──────────▶︎ :fg-success:' . (__('type', __FILE__)) . ' : ' . $EqLogics->getConfiguration('type') . ' :/fg: ◀︎───────────');
             }
             if ($EqLogics->getConfiguration('type') === 'player' || $EqLogics->getConfiguration('type') === 'parental' || $EqLogics->getConfiguration('type') === 'freeplug' || $EqLogics->getConfiguration('type') === 'VM') {
                 $refresh = $EqLogics->getConfiguration('type');
