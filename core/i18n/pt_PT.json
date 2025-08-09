@@ -516,10 +516,14 @@
         "stop": "parar"
     },
     "plugins\/Freebox_OS\/core\/class\/Free_Update.class.php": {
+        "Action": "Ação",
+        "Action à faire": "Ação a realizar",
         "Adresse IP vide": "Endereço IP vazio",
         "Appareil(s) avec adresse IP fixe": "Dispositivo(s) com endereço IP fixo",
+        "Appareil\/Nom": "Aparelho\/Nome",
         "Choix de la Chaîne": "Escolha do canal",
         "Choix du contrôle": "Escolha do controlo",
+        "Commentaire": "Comentário",
         "Equipement avec déjà un paramètrage IP": "Equipamento com definições de IP existentes",
         "Gestion réseau : Adresse mac vide": "Gestão de rede: Endereço MAC vazio",
         "Gestion réseau : IP ou adresse mac vide": "Gestão de rede: IP ou endereço MAC vazio",
@@ -532,10 +536,12 @@
         "L\\'équipement a déjà une adresse IP affecté": "O equipamento já tem um endereço IP atribuído",
         "L\\'équipement n\\'a pas d\\'adresse IP affecté": "O equipamento não tem um endereço IP atribuído",
         "METHODE OBSOLETE => MERCI DE REGARDER LA DOCUMENTATION": "MÉTODO OBSOLETO => CONSULTE A DOCUMENTAÇÃO",
+        "Mise à jour": "Actualização",
         "Mot de Passe": "Palavra-passe",
         "Mute": "Silenciar",
         "Média": "Media",
         "Média type": "Tipo de suporte",
+        "Méthode": "Método",
         "Player": "Jogador",
         "Redémarrer": "Reiniciar",
         "Récupération ID": "Recuperação de ID",
@@ -543,7 +549,10 @@
         "Récupération du nom de la commande": "Recuperar o nome do comando",
         "Récupération du type de l\\'équipement => Pour éviter de bloquer": "Recuperação do tipo de equipamento => Para evitar bloqueios",
         "Récupération le commentaire de l\\'équipement => Pour éviter de bloquer": "Recuperação do comentário do equipamento => Para evitar bloqueios",
-        "Volume": "Volume"
+        "Type": "Tipo",
+        "Volume": "Volume",
+        "du Nom ou du type d\\'équipement": "do nome ou tipo do equipamento",
+        "l\\'IP et du commentaires": "o IP e os comentários"
     },
     "plugins\/Freebox_OS\/core\/class\/Freebox_OS.class.php": {
         "Afficheur LCD": "Ecrã LCD",
