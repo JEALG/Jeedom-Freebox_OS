@@ -115,7 +115,6 @@ class Free_CreateTil
             $defaultRoom = intval(config::byKey('defaultParentObject', "Freebox_OS", '', true));
             $url = explode('@', explode('://', init('url'))[1]);
             $room = init('room');
-            //. (__('Création de la caméra ', __FILE__)) 
             log::add('Freebox_OS', 'debug', '┌───────── ' . (__('Création de la caméra ', __FILE__)) . ' : ' . init('name'));
             $username = explode(':', $url[0])[0];
             $password = explode(':', $url[0])[1];
