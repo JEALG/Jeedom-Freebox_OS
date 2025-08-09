@@ -426,7 +426,9 @@ class Freebox_OS extends eqLogic
 			}
 		}
 		$EqLogic->setConfiguration('logicalID', $_logicalId);
-		if ($_autorefresh == null) {
+		$_autorefresh_actuel = $EqLogic->getConfiguration('autorefresh');
+		log::add('Freebox_OS', 'debug', ':fg-info:| ───▶︎ ' . (__('Configuration spécifique du Cron configuré', __FILE__)) . ' ::/fg: '  . $_autorefresh_actuel . ' ──');
+		if ($_autorefresh_actuel === null) {
 			if ($tiles == true && ($EqLogic->getConfiguration('type', $eq_type) != 'parental' && $EqLogic->getConfiguration('type', $eq_type) != 'player' && $EqLogic->getConfiguration('type', $eq_type) != 'alarm_remote')) {
 				$EqLogic->setConfiguration('autorefresh', '* * * * *');
 			} elseif ($tiles == true && ($EqLogic->getConfiguration('type', $eq_type) == 'alarm_remote')) {

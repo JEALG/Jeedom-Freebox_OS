@@ -1171,7 +1171,7 @@ class Free_Refresh
     {
         $list = 'enable_screen,disk_type,mac,memory,name,status,vcpus,bind_usb_ports';
         $log_Erreur =  (__('VM : Impossible de récupérer l’état de cette VM : La VM n’existe pas', __FILE__));
-        $result = $Free_API->universal_get('universalAPI', $EqLogics->getConfiguration('action'), null, 'vm/', true, true, false);
+        $result = $Free_API->universal_get('universalAPI', $EqLogics->getConfiguration('action'), null, 'vm', true, true, false);
         $para_resultVM = array('nb' => 0, 1 => null, 2 => null, 3 => null);
         $bind_usb_ports = null;
         if (isset($result['id'])) {

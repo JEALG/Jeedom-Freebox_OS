@@ -696,7 +696,7 @@ class Free_API
                 log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . (__('Type de requête', __FILE__)) . ' ::/fg: ' . $fonction);
                 break;
             case 'VM':
-                $config = 'api/' . $API_version . '/vm/' . $id  . '/' . $_options_2;
+                $config = 'api/' . $API_version . '/vm/' . $id  . $_options_2;
                 $fonction = "POST";
                 break;
             case 'wifi':
