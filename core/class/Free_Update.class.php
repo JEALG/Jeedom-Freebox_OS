@@ -388,7 +388,7 @@ class Free_Update
                     }
                 }
                 if ($logicalId == 'start') {
-                    log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ Méthode :/fg:: ' . $method_value);
+                    log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . (__('Méthode', __FILE__)) . ' :/fg:: ' . $method_value);
                     $list = null;
                     $update_TYPE = null;
                     //Option par défaut
@@ -545,8 +545,8 @@ class Free_Update
                             switch ($update_TYPE) {
                                 case 'DEVICE':
                                 case 'IP_DEVICE':
-                                    log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ Mise à jour:/fg: du Nom ou du type d\'équipement');
-                                    log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ Appareil/Nom : :/fg:' . $primary_name_value . ' -- Type : ' . $host_type_value . ' -- Action à faire : ' . $method_value . ' -- Commentaire : ' . $comment_value . ' -- ACTION : ' . $logicalId);
+                                    log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . (__('Mise à jour', __FILE__)) . ' ::/fg: ' . (__('du Nom ou du type d\'équipement', __FILE__)));
+                                    log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . (__('Appareil/Nom', __FILE__)) . ' :/fg:' . $primary_name_value . ' -- ' . (__('Type', __FILE__)) . ' : ' . $host_type_value . ' -- ' . (__('Action à faire', __FILE__)) . ' : ' . $method_value . ' -- ' . (__('Commentaire', __FILE__)) . ' : ' . $comment_value  . ' -- ' . (__('Action', __FILE__)) . '  :  ' . $logicalId);
                                     if ($primary_name_value === null || $host_value === null || $host_type_value === null || $primary_name_value === '' || $host_value === '') {
                                         log::add('Freebox_OS', 'error', (__('Gestion réseau : Les données sont incomplètes', __FILE__)) . ' ───▶︎ ' . (__('Impossible de continuer', __FILE__)));
                                         break;
@@ -565,8 +565,8 @@ class Free_Update
                                     }
                                 case 'IP':
                                 case 'IP_DEVICE':
-                                    log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ Mise à jour:/fg: l\'IP et du commentaires');
-                                    log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ Appareil/Nom : :/fg:' . $host_value . '/' . $primary_name_value . ' -- IP : ' . $add_del_ip_value . ' -- Action à faire : ' . $method_value . ' -- Commentaire : ' . $comment_value . ' -- ACTION : ' . $logicalId);
+                                    log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . (__('Mise à jour', __FILE__)) . ' ::/fg: ' . (__('l\'IP et du commentaires', __FILE__)));
+                                    log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . (__('Appareil/Nom', __FILE__)) . ' :/fg:' . $host_value . '/' . $primary_name_value . ' -- IP : ' . $add_del_ip_value . ' -- ' . (__('Action à faire', __FILE__)) . ' : ' . $method_value . ' -- ' . (__('Commentaire', __FILE__)) . ' : ' . $comment_value . ' -- ' . (__('Action', __FILE__)) . '  :  ' . $logicalId);
                                     if ($host_value === '0' || $host_value === null || $add_del_ip_value === null || $add_del_ip_value === '') {
                                         log::add('Freebox_OS', 'error', (__('Gestion réseau : IP ou adresse mac vide', __FILE__)) . ' ───▶︎ ' . (__('Impossible de continuer', __FILE__)));
                                         break;
@@ -592,7 +592,7 @@ class Free_Update
                             break;
                         case 'POST_WOL':
                             $list = 'method_info,host_info,comment_info';
-                            log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ Appareil/Nom : :/fg:' . $host_value . '/' . $primary_name_value . ' -- Action à faire : ' . $method_value . ' -- Commentaire : ' . $comment_value . ' -- ACTION : ' . $logicalId);
+                            log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . (__('Appareil/Nom', __FILE__)) . ' :/fg:' . $host_value . '/' . $primary_name_value . ' -- ' . (__('Action à faire', __FILE__)) . ' : '  . $method_value . ' -- ' . (__('Commentaire', __FILE__)) . ' : ' . $comment_value . ' -- ' . (__('Action', __FILE__)) . '  :  ' .  $logicalId);
                             if ($host_value === '0' || $host_value === null) {
                                 log::add('Freebox_OS', 'error', (__('Gestion réseau : Adresse mac vide', __FILE__)) . ' ───▶︎ ' . (__('Impossible de continuer', __FILE__)));
                                 break;
@@ -605,7 +605,7 @@ class Free_Update
                             break;
                         case 'WIFI':
                             $list = 'method_info,host_info,comment_info';
-                            log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ Appareil/Nom : :/fg:' . $host_value . '/' . $primary_name_value . '/' . $mac_filter_value  . ' -- Action à faire : ' . $method_value . ' -- Commentaire : ' . $comment_value . ' -- ACTION : ' . $logicalId);
+                            log::add('Freebox_OS', 'debug', ':fg-info:───▶︎  ' . (__('Appareil/Nom', __FILE__)) . ' :/fg:' . $host_value . '/' . $primary_name_value . '/' . $mac_filter_value  . ' -- ' . (__('Action à faire', __FILE__)) . ' : ' . $method_value . ' -- ' . (__('Commentaire', __FILE__)) . ' : ' . $comment_value . ' -- ' . (__('Action', __FILE__)) . '  :  ' .  $logicalId);
                             if ($host_value === null || $add_del_ip_value === null || $mac_filter_value === null) {
                                 log::add('Freebox_OS', 'error', (__('Gestion réseau : IP ou adresse mac vide', __FILE__)) . ' ───▶︎ ' . (__('Impossible de continuer', __FILE__)));
                                 break;

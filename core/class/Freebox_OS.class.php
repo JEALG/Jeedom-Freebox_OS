@@ -96,7 +96,7 @@ class Freebox_OS extends eqLogic
 						if ($eqLogic->getIsEnable()) {
 							if (($eqLogic->getConfiguration('eq_group') == 'nodes' || $eqLogic->getConfiguration('eq_group') == 'tiles') && (config::byKey('TYPE_FREEBOX_TILES', 'Freebox_OS') == 'OK' && config::byKey('FREEBOX_TILES_CRON', 'Freebox_OS') == 1)) {
 							} else {
-								log::add('Freebox_OS', 'debug', '──────────▶︎ :fg-info: CRON ' . (__('pour l\'actualisation de', __FILE__)) . ' : ' .  $eqLogic->getName() . ':/fg: ◀︎───────────');
+								log::add('Freebox_OS', 'debug', '──────────▶︎ :fg-info:CRON ' . (__('pour l\'actualisation de', __FILE__)) . ' : ' .  $eqLogic->getName() . ':/fg: ◀︎───────────');
 								Free_Refresh::RefreshInformation($eqLogic->getId());
 								log::add('Freebox_OS', 'debug', '───────────────────────────────────────────');
 							}
@@ -122,7 +122,7 @@ class Freebox_OS extends eqLogic
 	public static function cronDaily()
 	{
 		$API_version_OLD = config::byKey('FREEBOX_API', 'Freebox_OS');
-		log::add('Freebox_OS', 'debug', '──────────▶︎ :fg-info: CRON DAILY' . (__('pour l\'actualisation de l\'API', __FILE__)) . ' : ' . ':/fg: ◀︎───────────');
+		log::add('Freebox_OS', 'debug', '──────────▶︎ :fg-info:CRON DAILY' . (__('pour l\'actualisation de l\'API', __FILE__)) . ' : ' . ':/fg: ◀︎───────────');
 		$API_version = Freebox_OS::FreeboxAPI($type_Log = 'Debug');
 		if ($API_version_OLD != $API_version) {
 			message::add('Freebox_OS', '{{L\'API de la Freebox a été mis à jour de la version }}' . $API_version_OLD . ' à la version ' . $API_version);
@@ -156,7 +156,7 @@ class Freebox_OS extends eqLogic
 					try {
 						$cron = new Cron\CronExpression($autorefresh_eqLogic, new Cron\FieldFactory);
 						if ($cron->isDue()) {
-							log::add('Freebox_OS', 'debug', ':fg-info: CRON ' . (__('Cron Actualisation pour l\'Ajout nouvelle commande pour l\'équipement', __FILE__)) . ' : ' . $eqLogic->getName() . ':/fg:');
+							log::add('Freebox_OS', 'debug', ':fg-info:CRON ' . (__('Cron Actualisation pour l\'Ajout nouvelle commande pour l\'équipement', __FILE__)) . ' : ' . $eqLogic->getName() . ':/fg:');
 							if ($_crondailyEq != null) {
 								Free_CreateEq::createEq($_crondailyEq, false);
 							}
@@ -848,9 +848,9 @@ class Freebox_OS extends eqLogic
 			} else {
 
 				Free_Refresh::RefreshInformation($this->getId());
+				log::add('Freebox_OS', 'debug', '───────────────────────────────────────────');
 			}
 		}
-		//log::add('Freebox_OS', 'debug', '───────────────────────────────────────────');
 
 		$createRefreshCmd = true;
 		$refresh = $this->getCmd(null, 'refresh');
@@ -925,7 +925,7 @@ class Freebox_OS extends eqLogic
 
 	public static function RefreshToken()
 	{
-		log::add('Freebox_OS', 'debug', '──────────▶︎ :fg-warning: Refresh Token :/fg: ◀︎───────────');
+		log::add('Freebox_OS', 'debug', '──────────▶︎:fg-warning: Refresh Token :/fg: ◀︎───────────');
 		$cron = cron::byClassAndFunction('Freebox_OS', 'FreeboxPUT');
 		if (is_object($cron)) {
 			$cron->stop();
