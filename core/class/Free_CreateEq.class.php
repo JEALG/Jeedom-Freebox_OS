@@ -125,7 +125,7 @@ class Free_CreateEq
                     Free_CreateEq::createEq_disk($logicalinfo, $templatecore_V4, $order);
                     //}
                 } else {
-                    log::add('Freebox_OS', 'debug', ':fg-warning: ───▶︎ ' . (__('AUCUN DISQUE => PAS DE CREATION DE L\'EQUIPEMENT', __FILE__)) . ':/fg: (' . $Setting['disk_status'] . ' / ' . $Setting['disk_status_description'] . ')');
+                    log::add('Freebox_OS', 'debug', ':fg-warning: ───▶︎ ' . (__('AUCUN DISQUE', __FILE__)) . ' ───▶︎ ' . (__('PAS DE CREATION DE L\'EQUIPEMENT', __FILE__)) . ':/fg: (' . $Setting['disk_status'] . ' / ' . $Setting['disk_status_description'] . ')');
                 }
 
                 Free_CreateEq::createEq_phone($logicalinfo, $templatecore_V4, $order);
@@ -139,7 +139,7 @@ class Free_CreateEq
                     if ($Setting['disk_status'] == 'active') {
                         Free_CreateEq::createEq_download($logicalinfo, $templatecore_V4, $order);
                     } else {
-                        log::add('Freebox_OS', 'debug', '|:fg-warning: ───▶︎ ' . (__('AUCUN DISQUE => PAS DE CREATION DE L\'EQUIPEMENT', __FILE__)) . ':/fg: (' . $Setting['disk_status'] . ' / ' . $Setting['disk_status_description'] . ')');
+                        log::add('Freebox_OS', 'debug', '|:fg-warning: ───▶︎ ' . (__('AUCUN DISQUE', __FILE__)) . ' ───▶︎ ' . (__('PAS DE CREATION DE L\'EQUIPEMENT', __FILE__)) . ':/fg: (' . $Setting['disk_status'] . ' / ' . $Setting['disk_status_description'] . ')');
                     }
                     log::add('Freebox_OS', 'debug', '└────────────────────');
 
@@ -148,7 +148,7 @@ class Free_CreateEq
                     Free_CreateEq::createEq_network($logicalinfo, $templatecore_V4, $order, 'WIFIGUEST');
                     Free_CreateEq::createEq_wifi($logicalinfo, $templatecore_V4, $order);
                 } else {
-                    log::add('Freebox_OS', 'debug', '|:fg-warning: ───▶︎ ' . (__('BOX EN MODE BRIDGE : LES ÉQUIPEMENTS SUIVANTS NE SONT PAS CRÉER', __FILE__)) . ':/fg:');
+                    log::add('Freebox_OS', 'debug', '|:fg-warning: ───▶︎ ' . (__('BOX EN MODE BRIDGE : LES ÉQUIPEMENTS SUIVANTS NE SONT PAS CRÉES', __FILE__)) . ':/fg:');
                     log::add('Freebox_OS', 'debug', '| ───▶︎ ' . $logicalinfo['airmediaName']);
                     log::add('Freebox_OS', 'debug', '| ───▶︎ ' . $logicalinfo['downloadsName']);
                     log::add('Freebox_OS', 'debug', '| ───▶︎ ' . $logicalinfo['networkName'] . ' / ' . $logicalinfo['networkwifiguestName']);
@@ -299,7 +299,7 @@ class Free_CreateEq
                         $receivers_list .= ';' . $airmedia['name'] . '|' . $airmedia['name'];
                     }
                 }
-                log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('Equipements détectées', __FILE__)) . ' : ' . $receivers_list);
+                log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('Equipements détectés', __FILE__)) . ' : ' . $receivers_list);
             }
         }
 

@@ -58,7 +58,7 @@ class Free_API
             }
             return $result;
         } catch (Exception $e) {
-            log::add('Freebox_OS', 'error', '[Freebox TrackId] : ' . $e->getCode());
+            log::add('Freebox_OS', 'error', '[Freebox TrackId] :  ' . $e->getCode());
         }
     }
 
@@ -466,7 +466,7 @@ class Free_API
         $PortForwarding = $this->fetch($PortForwardingUrl, null, "GET", $Type_log);
         $id = str_replace("ether-", "", $id);
         $id = strtoupper($id);
-        log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('Lecture des Ports l\'adresse Mac', __FILE__)) . ' : '  . $Mac . ' - ' . (__('FONCTION', __FILE__)) . ' ' . $fonction . ' - ' . (__('action', __FILE__)) . ' ' . $active);
+        log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('Lecture des ports', __FILE__)) . ' : ' . (__('Adresse Mac', __FILE__)) . ' : '  . $Mac . ' - ' . (__('FONCTION', __FILE__)) . ' ' . $fonction . ' - ' . (__('action', __FILE__)) . ' ' . $active);
         if ($PortForwarding === false) {
             log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('Aucune donnée', __FILE__)));
             return false;
