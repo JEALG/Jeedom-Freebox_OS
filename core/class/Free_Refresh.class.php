@@ -1170,30 +1170,42 @@ class Free_Refresh
     private static function refresh_VM($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null)
     {
         $list = 'enable_screen,disk_type,mac,memory,name,status,vcpus,bind_usb_ports';
-        $log_Erreur =  (__('VM : Impossible de récupérer l’état de cette VM : La VM n’existe pas', __FILE__));
-        $result = $Free_API->universal_get('universalAPI', $EqLogics->getConfiguration('action'), null, 'vm', true, true, false);
+        $log_Erreur =  (__('VM : Impossible de récupérer l\’état de cette VM : La VM n\’existe pas', __FILE__));
+        $result = $Free_API->universal_get('universalAPI', $EqLogics->getConfiguration('action'), null, 'vm', true, true, true);
         $para_resultVM = array('nb' => 0, 1 => null, 2 => null, 3 => null);
         $bind_usb_ports = null;
-        if (isset($result['id'])) {
-            if ($result['bind_usb_ports'] != null) {
-                if (isset($result['bind_usb_ports'])) {
-                    foreach ($result['cdayranges'] as $USB) {
-                        if ($bind_usb_ports == null) {
-                            $bind_usb_ports = $USB;
-                        } else {
-                            $bind_usb_ports .= '<br>' . $USB;
-                        }
-                    }
-                }
-            } else {
-                $bind_usb_ports = (__('Aucun port USB de connecté', __FILE__));
-            }
-            $Value_calcul = array('bind_usb_ports' => $bind_usb_ports);
-            Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultVM, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul, $Value_calcul);
-        } else {
-            log::add('Freebox_OS', 'debug', ':fg-warning: ───▶︎ ' . $log_Erreur .  ':/fg:');
+        if ($result === 'no_such_vm') {
+            log::add('Freebox_OS', 'debug', ':fg-warning:───▶︎ ' . $log_Erreur .  ':/fg:');
             Freebox_OS::DisableEqLogic($EqLogics, false);
+        } else if ($result === 'invalid_api_version') {
+            log::add('Freebox_OS', 'debug', ':fg-warning:───▶︎ ' . $log_Erreur .  ':/fg: ' . (__('La version de l\’API n\'est pas compatible ou la box n\’a pas encore fini de redéamarrer', __FILE__) . ' ───▶︎ ' . (__('VM : PAS DE MISE A JOUR', __FILE__))));
+        } else {
+            if (isset($result['success'])) {
+                if ($result['success'] == true) {
+                    $result = $result['result'];
+                    if (isset($result['id'])) {
+                        if ($result['bind_usb_ports'] != null) {
+                            if (isset($result['bind_usb_ports'])) {
+                                foreach ($result['cdayranges'] as $USB) {
+                                    if ($bind_usb_ports == null) {
+                                        $bind_usb_ports = $USB;
+                                    } else {
+                                        $bind_usb_ports .= '<br>' . $USB;
+                                    }
+                                }
+                            }
+                        } else {
+                            $bind_usb_ports = (__('Aucun port USB de connecté', __FILE__));
+                        }
+                        $Value_calcul = array('bind_usb_ports' => $bind_usb_ports);
+                        Free_Refresh::refresh_VALUE($EqLogics, $result, $list, $para_resultVM, $para_LogicalId, $para_Value, $para_Config, $log_Erreur, $para_Value_calcul, $Value_calcul);
+                    }
+                } else {
+                    log::add('Freebox_OS', 'debug', ':fg-warning:───▶︎ ' . $log_Erreur .  ':/fg: ' .  (__('VM : Impossible de faire la mise à jour', __FILE__)));
+                }
+            }
         }
+
         $log_Erreur = null;
     }
     private static function refresh_wifi($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null)
