@@ -5,6 +5,7 @@
     },
     "plugins\/Freebox_OS\/core\/class\/Free_API.class.php": {
         "AUCUN APPEL": "NO CALL",
+        "Adresse Mac": "Mac address",
         "Annulation du message d\\'erreur pour le Player avec la version de l\\'API": "Cancel error message for Player with API version",
         "Aucun appareil trouvé avec ce nom": "No devices found with this name",
         "Aucun module 4G détecté": "No 4G module detected",
@@ -29,7 +30,7 @@
         "Interface réseau : Interface invalide ou adresse MAC introuvable": "Network interface: Invalid interface or MAC address not found",
         "La version API est nulle mise en place version provisoire": "The API version is null and void, provisional version in place",
         "La version de l\\'API n\\'est pas compatible": "API version is not compatible",
-        "Lecture des Ports l\\'adresse Mac": "Reading Mac Address Ports",
+        "Lecture des ports": "Reading ports",
         "Mise à jour de": "Update of",
         "Mise à jour de : Etat du Wifi": "Update of : Wifi status",
         "Mise à jour du : Contrôle Parental": "Update of : Parental Control",
@@ -66,7 +67,6 @@
         "90 degrés": "90 degrees",
         "AUCUN CONTROLE PARENTAL": "NO PARENTAL CONTROLS",
         "AUCUN DISQUE": "NO DISC",
-        "AUCUN DISQUE => PAS DE CREATION DE L\\'EQUIPEMENT": "NO DISK => NO CREATION OF EQUIPMENT",
         "Activer": "Enable",
         "Activer SMB2 - SMB3": "Enable SMB2 - SMB3",
         "Adresse IP": "IP address",
@@ -93,7 +93,7 @@
         "Autre": "Other",
         "BOX COMPATIBLE AVEC LES DISQUES RAID": "BOX COMPATIBLE WITH RAID DISKS",
         "BOX COMPATIBLE AVEC LES VM": "VM-COMPATIBLE BOX",
-        "BOX EN MODE BRIDGE : LES ÉQUIPEMENTS SUIVANTS NE SONT PAS CRÉER": "BOX IN BRIDGE MODE: THE FOLLOWING DEVICES CANNOT BE CREATED",
+        "BOX EN MODE BRIDGE : LES ÉQUIPEMENTS SUIVANTS NE SONT PAS CRÉES": "BOX IN BRIDGE MODE: THE FOLLOWING EQUIPMENT IS NOT CREATED",
         "BOX NON COMPATIBLE AVEC LES DISQUES RAID": "BOX NOT COMPATIBLE WITH RAID DISKS",
         "BOX NON COMPATIBLE AVEC LES VM": "BOX NOT COMPATIBLE WITH VM",
         "Bandeau LED Eteint": "LED banner Off",
@@ -148,7 +148,7 @@
         "Ecran virtuel": "Virtual screen",
         "Envoyer Mot de passe": "Send password",
         "Envoyer URL": "Send URL",
-        "Equipements détectées": "Equipment detected",
+        "Equipements détectés": "Detected devices",
         "Etat": "State",
         "Etat 4G": "4G status",
         "Etat Alimentation": "Power supply status",
@@ -274,6 +274,7 @@
         "Organique": "Organic",
         "Orientation": "Orientation",
         "PAS DE": "NO",
+        "PAS DE CREATION DE L\\'EQUIPEMENT": "NO EQUIPMENT CREATION",
         "PAS D\\'APPAREIL TROUVE": "NO DEVICE FOUND",
         "Partage FTP": "FTP sharing",
         "Partage Imprimante": "Printer sharing",
@@ -416,6 +417,12 @@
         "Type": "Type",
         "Version": "Version",
         "Volume": "Volume"
+    },
+    "plugins\/Freebox_OS\/core\/class\/Free_CreateTil.class.php": {
+        "Création de la caméra ": "Camera creation",
+        "Votre Box ne prend pas en charge cette fonctionnalité de ": "Your Box does not support this feature",
+        "Votre Box prend en charge cette fonctionnalité de": "Your Box supports this feature from",
+        "merci de relancer le scan": "please restart the scan"
     },
     "plugins\/Freebox_OS\/core\/class\/Free_Refresh.class.php": {
         " Connexion 4G - xDSL \/ lte": " 4G connection - xDSL \/ lte",

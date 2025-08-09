@@ -5,6 +5,7 @@
     },
     "plugins\/Freebox_OS\/core\/class\/Free_API.class.php": {
         "AUCUN APPEL": "NESSUNA CHIAMATA",
+        "Adresse Mac": "Indirizzo Mac",
         "Annulation du message d\\'erreur pour le Player avec la version de l\\'API": "Annullamento del messaggio di errore per il lettore con la versione API",
         "Aucun appareil trouvé avec ce nom": "Non sono stati trovati dispositivi con questo nome",
         "Aucun module 4G détecté": "Nessun modulo 4G rilevato",
@@ -29,7 +30,7 @@
         "Interface réseau : Interface invalide ou adresse MAC introuvable": "Interfaccia di rete: interfaccia non valida o indirizzo MAC non trovato",
         "La version API est nulle mise en place version provisoire": "La versione API non è stata implementata - versione provvisoria",
         "La version de l\\'API n\\'est pas compatible": "La versione dell'API non è compatibile",
-        "Lecture des Ports l\\'adresse Mac": "Lettura delle porte con indirizzo Mac",
+        "Lecture des ports": "Lettura delle porte",
         "Mise à jour de": "Aggiornare",
         "Mise à jour de : Etat du Wifi": "Aggiornamento di : Stato del Wifi",
         "Mise à jour du : Contrôle Parental": "Aggiornamento di : Controllo parentale",
@@ -66,7 +67,6 @@
         "90 degrés": "90 gradi",
         "AUCUN CONTROLE PARENTAL": "NESSUN CONTROLLO PARENTALE",
         "AUCUN DISQUE": "NESSUN DISCO",
-        "AUCUN DISQUE => PAS DE CREATION DE L\\'EQUIPEMENT": "NESSUN DISCO => NESSUNA CREAZIONE DI APPARECCHIATURE",
         "Activer": "Attivare",
         "Activer SMB2 - SMB3": "Abilitare SMB2 - SMB3",
         "Adresse IP": "Indirizzo IP",
@@ -93,7 +93,7 @@
         "Autre": "Altri",
         "BOX COMPATIBLE AVEC LES DISQUES RAID": "BOX COMPATIBILE CON I DISCHI RAID",
         "BOX COMPATIBLE AVEC LES VM": "BOX COMPATIBILE VM",
-        "BOX EN MODE BRIDGE : LES ÉQUIPEMENTS SUIVANTS NE SONT PAS CRÉER": "BOX IN MODALITÀ BRIDGE: NON È POSSIBILE CREARE LE SEGUENTI APPARECCHIATURE",
+        "BOX EN MODE BRIDGE : LES ÉQUIPEMENTS SUIVANTS NE SONT PAS CRÉES": "BOX IN MODALITÀ BRIDGE: LE SEGUENTI APPARECCHIATURE NON VENGONO CREATE",
         "BOX NON COMPATIBLE AVEC LES DISQUES RAID": "BOX NON COMPATIBILE CON I DISCHI RAID",
         "BOX NON COMPATIBLE AVEC LES VM": "BOX NON COMPATIBILE CON VM",
         "Bandeau LED Eteint": "Pannello LED spento",
@@ -148,7 +148,7 @@
         "Ecran virtuel": "Schermo virtuale",
         "Envoyer Mot de passe": "Invia password",
         "Envoyer URL": "Invia URL",
-        "Equipements détectées": "Apparecchiatura rilevata",
+        "Equipements détectés": "Dispositivi rilevati",
         "Etat": "Stato",
         "Etat 4G": "Stato 4G",
         "Etat Alimentation": "Stato dell'alimentazione",
@@ -274,6 +274,7 @@
         "Organique": "Organico",
         "Orientation": "Orientation",
         "PAS DE": "NO",
+        "PAS DE CREATION DE L\\'EQUIPEMENT": "NESSUNA CREAZIONE DELL'ATTREZZATURA",
         "PAS D\\'APPAREIL TROUVE": "NESSUN DISPOSITIVO TROVATO",
         "Partage FTP": "Condivisione FTP",
         "Partage Imprimante": "Condivisione di stampanti",
@@ -416,6 +417,12 @@
         "Type": "Tipo",
         "Version": "Versione",
         "Volume": "Volume"
+    },
+    "plugins\/Freebox_OS\/core\/class\/Free_CreateTil.class.php": {
+        "Création de la caméra ": "Creazione della telecamera",
+        "Votre Box ne prend pas en charge cette fonctionnalité de ": "Il tuo Box non supporta questa funzionalità",
+        "Votre Box prend en charge cette fonctionnalité de": "Il tuo Box supporta questa funzionalità di",
+        "merci de relancer le scan": "grazie di ripetere la scansione"
     },
     "plugins\/Freebox_OS\/core\/class\/Free_Refresh.class.php": {
         " Connexion 4G - xDSL \/ lte": " Connessione 4G - xDSL \/ lte",
