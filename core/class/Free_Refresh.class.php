@@ -1169,7 +1169,7 @@ class Free_Refresh
     }
     private static function refresh_VM($EqLogics, $Free_API, $para_LogicalId = null, $para_Value = null, $para_Config = null, $log_Erreur = null, $para_Value_calcul = null, $para_Config_eq = null)
     {
-        $list = 'enable_screen,disk_type,mac,memory,name,status,vcpus,bind_usb_ports';
+        $list = 'enable_screen,disk_type,mac,memory,name,status,vcpus,bind_usb_ports,cloudinit_hostname,cloudinit_userdata';
         $log_Erreur =  (__('VM : Impossible de récupérer l\’état de cette VM : La VM n\’existe pas', __FILE__));
         $result = $Free_API->universal_get('universalAPI', $EqLogics->getConfiguration('action'), null, 'vm', true, true, true);
         $para_resultVM = array('nb' => 0, 1 => null, 2 => null, 3 => null);

@@ -1248,6 +1248,9 @@ class Free_CreateEq
                 $_VM->AddCommand(__('Ecran virtuel', __FILE__), 'enable_screen', 'info', 'binary',  $templatecore_V4 . 'line', null, 'default', 0, 'default', 'default', 0, $VMscreen, '0', 'default', 'default', $order++, '0', $updateicon, false, false, true);
                 $_VM->AddCommand(__('Nom', __FILE__), 'name', 'info', 'string',  null, null, 'default', 0, 'default', 'default', 0, 'default', 1, 'default', 'default', $order++, '0', $updateicon, false, false, true);
                 $_VM->AddCommand(__('Type de disque', __FILE__), 'disk_type', 'info', 'string',  null, null, 'default', 0, 'default', 'default', 0, $VMdisk, 1, 'default', 'default', $order++, '0', $updateicon, false, false, true);
+                $_VM->AddCommand('OS', 'os', 'info', 'string',  null, null, 'default', 0, 'default', 'default', 0, 'default', 1, 'default', 'default', $order++, '0', $updateicon, false, false, true);
+                $_VM->AddCommand('cloudinit_hostname', 'cloudinit_hostname', 'info', 'string',  null, null, 'default', 0, 'default', 'default', 0, 'default', 1, 'default', 'default', $order++, '0', $updateicon, false, false, true);
+                $_VM->AddCommand('cloud-init_user-data', 'cloudinit_userdata', 'info', 'string',  null, null, 'default', 0, 'default', 'default', 0, 'default', 1, 'default', 'default', $order++, '0', $updateicon, false, false, true);
             }
         } else {
             log::add('Freebox_OS', 'debug', '|:fg-warning: ──────▶︎ ' . (__('PAS DE', __FILE__)) . ' ' . $logicalinfo['VMName'] . ' ' . (__('SUR VOTRE BOX', __FILE__)) . ':/fg:');
