@@ -1203,6 +1203,8 @@ class Free_Refresh
                 } else {
                     log::add('Freebox_OS', 'debug', ':fg-warning:───▶︎ ' . $log_Erreur .  ':/fg: ' .  (__('VM : Impossible de faire la mise à jour', __FILE__)));
                 }
+            } else {
+                log::add('Freebox_OS', 'debug', ':fg-warning:───▶︎ ' . $log_Erreur .  ':/fg: ' .  (__('VM : Impossible de faire la mise à jour', __FILE__)));
             }
         }
 
