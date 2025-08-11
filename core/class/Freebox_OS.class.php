@@ -451,8 +451,12 @@ class Freebox_OS extends eqLogic
 			if ($eq_action != null) {
 				$EqLogic->setConfiguration('action', $eq_action);
 			}
-			if ($EqLogic->getConfiguration('type', $eq_type) === 'parental' || $EqLogic->getConfiguration('type', $eq_type) === 'player' || $EqLogic->getConfiguration('type', $eq_type) === 'VM') {
+			if ($EqLogic->getConfiguration('type', $eq_type) === 'parental' || $EqLogic->getConfiguration('type', $eq_type) === 'player') {
 				$EqLogic->setConfiguration('action', $logicalID_equip);
+			}
+			if ($EqLogic->getConfiguration('type', $eq_type) === 'VM') {
+				$id_vm =strval($logicalID_equip);
+				$EqLogic->setConfiguration('action', $id_vm );
 			}
 		}
 		if ($Player != null) {
