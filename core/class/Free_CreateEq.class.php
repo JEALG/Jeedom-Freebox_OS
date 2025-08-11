@@ -1235,11 +1235,7 @@ class Free_CreateEq
                 } else {
                     $VM_name = 'VM_' . $Equipement['id'];
                 }
-                if  ($Equipement['id'] ===0){
-                 $id_vm ='0';
-              } ELSE {
-                 $id_vm =$Equipement['id'];
-              }
+                 $id_vm =strval($Equipement['id']);
                 $_VM = Freebox_OS::AddEqLogic($VM_name, 'VM_' . $Equipement['id'], 'multimedia', true, 'VM', null, $Equipement['id'], '*/5 * * * *', null, null, 'system', true);
                 $_VM->AddCommand(__('Status', __FILE__), 'status', 'info', 'string', $TemplateVM, null, 'default', 1, 'default', 'default', 0, $VMstatus, 0, 'default', 'default', $order++, '0', $updateicon, false, false, true, null, null, null, null, null, null, null, true);
                 $_VM->AddCommand(__('Start', __FILE__), 'start', 'action', 'other', 'default', null, 'default', 1, 'default', 'default', 0, $VMOn, 0, 'default', 'default', $order++, '0', $updateicon, false);
