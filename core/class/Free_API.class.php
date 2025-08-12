@@ -58,7 +58,7 @@ class Free_API
             }
             return $result;
         } catch (Exception $e) {
-            log::add('Freebox_OS', 'error', '[Freebox TrackId] :  ' . $e->getCode());
+            log::add('Freebox_OS', 'error', '[Freebox TrackId] : ' . $e->getCode());
         }
     }
 
