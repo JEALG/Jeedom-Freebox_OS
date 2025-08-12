@@ -125,7 +125,7 @@ class Free_CreateEq
                     Free_CreateEq::createEq_disk($logicalinfo, $templatecore_V4, $order);
                     //}
                 } else {
-                    log::add('Freebox_OS', 'debug', ':fg-warning: ───▶︎ ' . (__('AUCUN DISQUE => PAS DE CREATION DE L\'EQUIPEMENT', __FILE__)) . ':/fg: (' . $Setting['disk_status'] . ' / ' . $Setting['disk_status_description'] . ')');
+                    log::add('Freebox_OS', 'debug', ':fg-warning: ───▶︎ ' . (__('AUCUN DISQUE', __FILE__)) . ' ───▶︎ ' . (__('PAS DE CREATION DE L\'EQUIPEMENT', __FILE__)) . ':/fg: (' . $Setting['disk_status'] . ' / ' . $Setting['disk_status_description'] . ')');
                 }
 
                 Free_CreateEq::createEq_phone($logicalinfo, $templatecore_V4, $order);
@@ -139,7 +139,7 @@ class Free_CreateEq
                     if ($Setting['disk_status'] == 'active') {
                         Free_CreateEq::createEq_download($logicalinfo, $templatecore_V4, $order);
                     } else {
-                        log::add('Freebox_OS', 'debug', '|:fg-warning: ───▶︎ ' . (__('AUCUN DISQUE => PAS DE CREATION DE L\'EQUIPEMENT', __FILE__)) . ':/fg: (' . $Setting['disk_status'] . ' / ' . $Setting['disk_status_description'] . ')');
+                        log::add('Freebox_OS', 'debug', '|:fg-warning: ───▶︎ ' . (__('AUCUN DISQUE', __FILE__)) . ' ───▶︎ ' . (__('PAS DE CREATION DE L\'EQUIPEMENT', __FILE__)) . ':/fg: (' . $Setting['disk_status'] . ' / ' . $Setting['disk_status_description'] . ')');
                     }
                     log::add('Freebox_OS', 'debug', '└────────────────────');
 
@@ -148,7 +148,7 @@ class Free_CreateEq
                     Free_CreateEq::createEq_network($logicalinfo, $templatecore_V4, $order, 'WIFIGUEST');
                     Free_CreateEq::createEq_wifi($logicalinfo, $templatecore_V4, $order);
                 } else {
-                    log::add('Freebox_OS', 'debug', '|:fg-warning: ───▶︎ ' . (__('BOX EN MODE BRIDGE : LES ÉQUIPEMENTS SUIVANTS NE SONT PAS CRÉER', __FILE__)) . ':/fg:');
+                    log::add('Freebox_OS', 'debug', '|:fg-warning: ───▶︎ ' . (__('BOX EN MODE BRIDGE : LES ÉQUIPEMENTS SUIVANTS NE SONT PAS CRÉES', __FILE__)) . ':/fg:');
                     log::add('Freebox_OS', 'debug', '| ───▶︎ ' . $logicalinfo['airmediaName']);
                     log::add('Freebox_OS', 'debug', '| ───▶︎ ' . $logicalinfo['downloadsName']);
                     log::add('Freebox_OS', 'debug', '| ───▶︎ ' . $logicalinfo['networkName'] . ' / ' . $logicalinfo['networkwifiguestName']);
@@ -299,7 +299,7 @@ class Free_CreateEq
                         $receivers_list .= ';' . $airmedia['name'] . '|' . $airmedia['name'];
                     }
                 }
-                log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('Equipements détectées', __FILE__)) . ' : ' . $receivers_list);
+                log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('Equipements détectés', __FILE__)) . ' : ' . $receivers_list);
             }
         }
 
@@ -1235,7 +1235,8 @@ class Free_CreateEq
                 } else {
                     $VM_name = 'VM_' . $Equipement['id'];
                 }
-                $_VM = Freebox_OS::AddEqLogic($VM_name, 'VM_' . $Equipement['id'], 'multimedia', true, 'VM', null, $Equipement['id'], '*/5 * * * *', null, null, 'system', true);
+                $id_vm = strval($Equipement['id']);
+                $_VM = Freebox_OS::AddEqLogic($VM_name, 'VM_' . $Equipement['id'], 'multimedia', true, 'VM', null, $id_vm, '*/5 * * * *', null, null, 'system', true);
                 $_VM->AddCommand(__('Status', __FILE__), 'status', 'info', 'string', $TemplateVM, null, 'default', 1, 'default', 'default', 0, $VMstatus, 0, 'default', 'default', $order++, '0', $updateicon, false, false, true, null, null, null, null, null, null, null, true);
                 $_VM->AddCommand(__('Start', __FILE__), 'start', 'action', 'other', 'default', null, 'default', 1, 'default', 'default', 0, $VMOn, 0, 'default', 'default', $order++, '0', $updateicon, false);
                 $_VM->AddCommand(__('Stop', __FILE__), 'stop', 'action', 'other', 'default', null, 'default', 1, 'default', 'default', 0, $VMOff, 0, 'default', 'default', $order++, '0', $updateicon, false);
@@ -1248,6 +1249,9 @@ class Free_CreateEq
                 $_VM->AddCommand(__('Ecran virtuel', __FILE__), 'enable_screen', 'info', 'binary',  $templatecore_V4 . 'line', null, 'default', 0, 'default', 'default', 0, $VMscreen, '0', 'default', 'default', $order++, '0', $updateicon, false, false, true);
                 $_VM->AddCommand(__('Nom', __FILE__), 'name', 'info', 'string',  null, null, 'default', 0, 'default', 'default', 0, 'default', 1, 'default', 'default', $order++, '0', $updateicon, false, false, true);
                 $_VM->AddCommand(__('Type de disque', __FILE__), 'disk_type', 'info', 'string',  null, null, 'default', 0, 'default', 'default', 0, $VMdisk, 1, 'default', 'default', $order++, '0', $updateicon, false, false, true);
+                $_VM->AddCommand('OS', 'os', 'info', 'string',  null, null, 'default', 0, 'default', 'default', 0, 'default', 1, 'default', 'default', $order++, '0', $updateicon, false, false, true);
+                $_VM->AddCommand('cloudinit_hostname', 'cloudinit_hostname', 'info', 'string',  null, null, 'default', 0, 'default', 'default', 0, 'default', 1, 'default', 'default', $order++, '0', $updateicon, false, false, true);
+                $_VM->AddCommand('cloud-init_user-data', 'cloudinit_userdata', 'info', 'string',  null, null, 'default', 0, 'default', 'default', 0, 'default', 1, 'default', 'default', $order++, '0', $updateicon, false, false, true);
             }
         } else {
             log::add('Freebox_OS', 'debug', '|:fg-warning: ──────▶︎ ' . (__('PAS DE', __FILE__)) . ' ' . $logicalinfo['VMName'] . ' ' . (__('SUR VOTRE BOX', __FILE__)) . ':/fg:');

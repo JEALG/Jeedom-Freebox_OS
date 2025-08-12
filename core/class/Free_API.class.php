@@ -275,6 +275,9 @@ class Free_API
                             log::add('Freebox_OS', $msg['log_level'], $msg['msg_box2'] . ' : ' . $result['error_code']);
                             $result = 'auth_required';
                         } else if ($msg['return_result'] == 'result') {
+                            if ($msg['error_code'] != null) {
+                                $result = $msg['error_code'];
+                            }
                             return $result;
                         }
                     }
@@ -342,6 +345,7 @@ class Free_API
                 break;
             case "no_such_vm":
                 $msg_box1 = (__('Erreur VM : La VM n\'existe pas ou l\'application n\'ai pas comptatible avec la BOX', __FILE__));
+                $return_result = 'result';
                 break;
             case "nohost":
                 $log_level = 'Debug';
@@ -417,6 +421,7 @@ class Free_API
             'msg_box1' => $msg_box1,
             'msg_box2' => $msg_box2,
             'return_result' => $return_result,
+            'error_code' => $error_code,
             'log_level' => $log_level
         );
         return $msgbox;
@@ -466,7 +471,7 @@ class Free_API
         $PortForwarding = $this->fetch($PortForwardingUrl, null, "GET", $Type_log);
         $id = str_replace("ether-", "", $id);
         $id = strtoupper($id);
-        log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('Lecture des Ports l\'adresse Mac', __FILE__)) . ' : '  . $Mac . ' - ' . (__('FONCTION', __FILE__)) . ' ' . $fonction . ' - ' . (__('action', __FILE__)) . ' ' . $active);
+        log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('Lecture des ports', __FILE__)) . ' : ' . (__('Adresse Mac', __FILE__)) . ' : '  . $Mac . ' - ' . (__('FONCTION', __FILE__)) . ' ' . $fonction . ' - ' . (__('action', __FILE__)) . ' ' . $active);
         if ($PortForwarding === false) {
             log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('Aucune donnée', __FILE__)));
             return false;
@@ -558,13 +563,20 @@ class Free_API
             "log_result" => $log_result
         );
         $result = $this->fetch('/' . $config, $Parameter, $fonction, $Type_log);
-        if ($result == 'auth_required') {
+        if ($result === 'auth_required') {
             $result = $this->fetch('/' . $config, $Parameter, $fonction, $Type_log);
         }
-        if ($result === 'invalid_api_version') {
+        if ($result === 'service_down') {
+            $result = 'service_down';
+            return $result;
+        } else if ($result === 'no_such_vm') {
+            $result = 'no_such_vm';
+            return $result;
+        } else if ($result === 'invalid_api_version') {
             $result = 'invalid_api_version';
             return $result;
         }
+
         if ($result === false) {
             return false;
         }
@@ -696,7 +708,7 @@ class Free_API
                 log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . (__('Type de requête', __FILE__)) . ' ::/fg: ' . $fonction);
                 break;
             case 'VM':
-                $config = 'api/' . $API_version . '/vm/' . $id  . '/' . $_options_2;
+                $config = 'api/' . $API_version . '/vm/' . $id  . $_options_2;
                 $fonction = "POST";
                 break;
             case 'wifi':

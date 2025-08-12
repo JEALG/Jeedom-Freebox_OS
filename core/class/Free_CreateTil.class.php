@@ -73,10 +73,10 @@ class Free_CreateTil
                 $Type_box = config::byKey('TYPE_FREEBOX_TILES', 'Freebox_OS');
             }
             if ($Type_box === 'OK') {
-                log::add('Freebox_OS', 'debug', '───▶︎ Votre Box prend en charge cette fonctionnalité de Tiles, merci de relancer le scan');
+                log::add('Freebox_OS', 'debug', '───▶︎ ' . (__('Votre Box prend en charge cette fonctionnalité de', __FILE__)) . ' Tiles,' . (__('merci de relancer le scan', __FILE__)));
             } else {
                 Freebox_OS::DisableEqLogic(null, true);
-                log::add('Freebox_OS', 'error', ' KO  - Votre Box ne prend pas en charge cette fonctionnalité de Tiles');
+                log::add('Freebox_OS', 'error', 'KO - ' . (__('Votre Box ne prend pas en charge cette fonctionnalité de ', __FILE__)) . ' Tiles');
             }
             return;
         }
@@ -115,7 +115,7 @@ class Free_CreateTil
             $defaultRoom = intval(config::byKey('defaultParentObject', "Freebox_OS", '', true));
             $url = explode('@', explode('://', init('url'))[1]);
             $room = init('room');
-            log::add('Freebox_OS', 'debug', '┌───────── Création de la caméra : ' . init('name'));
+            log::add('Freebox_OS', 'debug', '┌───────── ' . (__('Création de la caméra ', __FILE__)) . ' : ' . init('name'));
             $username = explode(':', $url[0])[0];
             $password = explode(':', $url[0])[1];
 
@@ -973,7 +973,7 @@ class Free_CreateTil
                 $_Max = 100;
                 $Unit = "%";
                 break;
-                // Début caméra
+            // Début caméra
             case 'camera_threshold_rw_nodes':
                 $Label_I = 'Etat ' . $Label;
                 $Templatecore = 'button';
