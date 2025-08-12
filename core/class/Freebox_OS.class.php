@@ -455,8 +455,8 @@ class Freebox_OS extends eqLogic
 				$EqLogic->setConfiguration('action', $logicalID_equip);
 			}
 			if ($EqLogic->getConfiguration('type', $eq_type) === 'VM') {
-				$id_vm =strval($logicalID_equip);
-				$EqLogic->setConfiguration('action', $id_vm );
+				$id_vm = strval($logicalID_equip);
+				$EqLogic->setConfiguration('action', $id_vm);
 			}
 		}
 		if ($Player != null) {
