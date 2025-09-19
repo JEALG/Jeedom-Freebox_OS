@@ -1273,7 +1273,7 @@ class Free_Refresh
                     if ($Cmd->getLogicalId('data') == $Card_id) {
                         if ($Cmd->getConfiguration('WIFI_CARD') == 'CARD') {
                             $EqLogics->checkAndUpdateCmd($Card_id, $Card_value);
-                            log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . $Cmd->getName() . ' ::/fg: ' . $Card_value . ' ' . $Cmd->getUnite());
+                            log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . $Cmd->getName() . ' ::/fg: ' . $Card_value);
                         }
                     }
                 }
