@@ -531,6 +531,7 @@ class Free_Refresh
                 if (is_object($Command)) {
                     $Ipv6 = null;
                     $Ipv4 = null;
+                    $wifiband = null;
                     foreach ($result_network as $result) {
 
                         $Cmd = $EqLogics->getCmd('info', $result['id']);
@@ -572,6 +573,9 @@ class Free_Refresh
                                 }
                             }
                         }
+                        if (isset($result['access_point']['wifi_information'])) {
+                            $wifiband = $result['access_point']['wifi_information']['band'];
+                        }
 
                         if (isset($result['active'])) {
                             if ($result['active'] == true) {
@@ -609,6 +613,7 @@ class Free_Refresh
                             "repeatevent" => true,
                             "repeat" => true,
                             "UpdateVisible" => $_UpdateVisible,
+                            "wifiband" =>  $wifiband,
                             "IsVisible_option" => $IsVisible_option
                         );
                         $EqLogics->AddCommand($result['primary_name'], $result['id'], 'info', 'binary', 'Freebox_OS::Network', null, null, $_IsVisible, 'default', 'default', 0, null, 0, 'default', 'default', null, '0', $updateWidget, true, null, null, null, null, null, null, null, null, null, null, null, $Parameter, $name_connectivity_type);
