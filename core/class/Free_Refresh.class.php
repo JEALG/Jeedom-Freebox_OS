@@ -1291,7 +1291,6 @@ class Free_Refresh
                     if ($Cmd->getLogicalId() == $Card_id_band) {
                         $EqLogics->checkAndUpdateCmd($Card_id_band, $list_connect);
                         log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . $Cmd->getName() . ' ::/fg: ' . $list_connect);
-                        break;
                     }
                 }
             }
