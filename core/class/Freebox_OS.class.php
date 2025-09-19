@@ -667,7 +667,7 @@ class Freebox_OS extends eqLogic
 					$VerifName  = $Name;
 					log::add('Freebox_OS', 'debug', '|  :fg-success:└───▶︎  ' . __('Aucune commande ne porte ce nom, changement du nom  OK', __FILE__) . ' ::/fg: ' . $VerifName);
 				}
-				if ($VerifName  != $Cmd->getName()) {
+				if ($VerifName != $Cmd->getName()) {
 					$Cmd->setName($VerifName);
 					$Cmd->save();
 				}
