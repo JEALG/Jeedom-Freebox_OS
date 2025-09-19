@@ -1309,7 +1309,7 @@ class Free_CreateEq
                 for ($k = 0; $k < $nb_card; $k++) {
                     log::add('Freebox_OS', 'debug', '| ──────▶︎ ' . (__('Nom de la commande', __FILE__)) . ' : ' .  (__('Etat Wifi', __FILE__)) . ' ' . $result['result'][$k]['name'] . ' - Id : ' . $result['result'][$k]['id'] . ' - ' . (__('Status', __FILE__)) . ' : ' . $result['result'][$k]['status']['state']);
                     $Wifi->AddCommand(__('Etat Wifi', __FILE__) . ' ' . $result['result'][$k]['name'], $result['result'][$k]['id'], 'info', 'string', $TemplateWifi, null, null, 1, 'CARD', 0, $iconWifi, false, 'default', 'default', $order++, false, $updateicon, false, false, true);
-                    $Wifi->AddCommand(__('liste appareils connectés sur le Wifi', __FILE__) . ' ' . $result['result'][$k]['name'], 'list_' . $result['result'][$k]['id'], 'info', 'string', 'default', null, null, 0, null, 0, 'default', false, 'default', 'default', $order++, false, $updateicon, false, false, true);
+                    $Wifi->AddCommand(__('Liste appareils connectés sur le Wifi', __FILE__) . ' ' . $result['result'][$k]['name'], 'list_' . $result['result'][$k]['id'], 'info', 'string', 'default', null, null, 0, null, 0, 'default', false, 'default', 'default', $order++, false, $updateicon, false, false, true);
                 }
             }
         }

@@ -1268,7 +1268,7 @@ class Free_Refresh
             for ($k = 0; $k < $nb_card; $k++) {
                 $Card_value = $result_ap['result'][$k]['status']['state'];
                 $Card_id = $result_ap['result'][$k]['id'];
-                $list_connect = null;
+                $list_connect = '';
                 foreach ($EqLogics->getCmd('info') as $Cmd) {
                     if ($Cmd->getLogicalId('data') == $Card_id) {
                         if ($Cmd->getConfiguration('WIFI_CARD') == 'CARD') {
@@ -1288,9 +1288,10 @@ class Free_Refresh
                 }
                 $Card_id_band = 'list_' . $Card_id;
                 foreach ($EqLogics->getCmd('info') as $Cmd) {
-                    if ($Cmd->getConfiguration('WIFI_CARD') == 'CARD') {
+                    if ($Cmd->getLogicalId() == $Card_id_band) {
                         $EqLogics->checkAndUpdateCmd($Card_id_band, $list_connect);
                         log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . $Cmd->getName() . ' ::/fg: ' . $list_connect);
+                        break;
                     }
                 }
             }
