@@ -545,7 +545,9 @@ class Freebox_OS extends eqLogic
 			}
 			$Cmd->setIsVisible($IsVisible);
 			if ($SubType != 'string') {
-				$Cmd->setIsHistorized($IsHistorized);
+				if ($IsHistorized != null) {
+					$Cmd->setIsHistorized($IsHistorized);
+				}
 			}
 			if ($invertBinary_display != null && $SubType == 'binary') {
 				$Cmd->setDisplay('invertBinary', 1);
