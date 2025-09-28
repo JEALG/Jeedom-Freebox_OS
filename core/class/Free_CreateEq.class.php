@@ -1299,8 +1299,8 @@ class Free_CreateEq
         log::add('Freebox_OS', 'debug', '| ──────▶︎ :fg-success:' . (__('Début de création des commandes pour', __FILE__)) . ' ::/fg: '  . $logicalinfo['wifiName'] . ' / ' . $logicalinfo['wifiAPName'] . ' ──');
         if ($Wifi != null) {
             $iconWifi = 'fas fa-wifi icon_blue';
+            $iconWifilist = 'fas fa-list-ul icon_blue';
             $TemplateWifi = 'Freebox_OS::Wifi Statut carte';
-            $updateicon = false;;
             $Free_API = new Free_API();
             $result = $Free_API->universal_get('universalAPI', null, null, 'wifi/ap', true, true, true);
 
@@ -1308,7 +1308,8 @@ class Free_CreateEq
             if ($result != false) {
                 for ($k = 0; $k < $nb_card; $k++) {
                     log::add('Freebox_OS', 'debug', '| ──────▶︎ ' . (__('Nom de la commande', __FILE__)) . ' : ' .  (__('Etat Wifi', __FILE__)) . ' ' . $result['result'][$k]['name'] . ' - Id : ' . $result['result'][$k]['id'] . ' - ' . (__('Status', __FILE__)) . ' : ' . $result['result'][$k]['status']['state']);
-                    $Wifi->AddCommand(__('Etat Wifi', __FILE__) . ' ' . $result['result'][$k]['name'], $result['result'][$k]['id'], 'info', 'string', $TemplateWifi, null, null, 1, 'CARD', 0, $iconWifi, false, 'default', 'default', $order++, '0', $updateicon, false, false, true);
+                    $Wifi->AddCommand(__('Etat Wifi', __FILE__) . ' ' . $result['result'][$k]['name'], $result['result'][$k]['id'], 'info', 'string',  $TemplateWifi, null, null, 0, 'CARD', 'default',  0, $iconWifi, 1, 'default', 'default',  $order++, false, false, 'never', null, true, null, null, null, null, null, null, null, true, null, null, null, null, null, null, null, null, null, null);
+                    $Wifi->AddCommand(__('Liste appareils connectés sur le Wifi', __FILE__) . ' ' . $result['result'][$k]['name'], 'list_' . $result['result'][$k]['id'], 'info', 'string',  null, null, null, 0, 'default', 'default',  0,  $iconWifilist, 1, 'default', 'default',  $order++, false, false, 'never', null, true, null, null, null, null, null, null, null, true, null, null, null, null, null, null, null, null, null, null);
                 }
             }
         }

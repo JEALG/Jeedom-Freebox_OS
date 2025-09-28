@@ -531,6 +531,7 @@ class Free_Refresh
                 if (is_object($Command)) {
                     $Ipv6 = null;
                     $Ipv4 = null;
+                    $wifiband = null;
                     foreach ($result_network as $result) {
 
                         $Cmd = $EqLogics->getCmd('info', $result['id']);
@@ -572,6 +573,9 @@ class Free_Refresh
                                 }
                             }
                         }
+                        if (isset($result['access_point']['wifi_information'])) {
+                            $wifiband = $result['access_point']['wifi_information']['band'];
+                        }
 
                         if (isset($result['active'])) {
                             if ($result['active'] == true) {
@@ -609,6 +613,7 @@ class Free_Refresh
                             "repeatevent" => true,
                             "repeat" => true,
                             "UpdateVisible" => $_UpdateVisible,
+                            "wifiband" =>  $wifiband,
                             "IsVisible_option" => $IsVisible_option
                         );
                         $EqLogics->AddCommand($result['primary_name'], $result['id'], 'info', 'binary', 'Freebox_OS::Network', null, null, $_IsVisible, 'default', 'default', 0, null, 0, 'default', 'default', null, '0', $updateWidget, true, null, null, null, null, null, null, null, null, null, null, null, $Parameter, $name_connectivity_type);
@@ -1263,12 +1268,31 @@ class Free_Refresh
             for ($k = 0; $k < $nb_card; $k++) {
                 $Card_value = $result_ap['result'][$k]['status']['state'];
                 $Card_id = $result_ap['result'][$k]['id'];
+                $list_connect = '';
                 foreach ($EqLogics->getCmd('info') as $Cmd) {
                     if ($Cmd->getLogicalId('data') == $Card_id) {
                         if ($Cmd->getConfiguration('WIFI_CARD') == 'CARD') {
                             $EqLogics->checkAndUpdateCmd($Card_id, $Card_value);
-                            log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . $Cmd->getName() . ' ::/fg: ' . $Card_value . ' ' . $Cmd->getUnite());
+                            log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . $Cmd->getName() . ' ::/fg: ' . $Card_value);
                         }
+                    }
+                }
+                $result_network = $Free_API->universal_get('universalAPI', null, null, 'wifi/ap/' . $Card_id . '/stations/', true, true, true);
+                if (isset($result_network['result'])) {
+                    $result_network = $result_network['result'];
+                    foreach ($result_network as $resultband) {
+                        if ($list_connect == '') {
+                            $list_connect = $resultband['hostname'];
+                        } else {
+                            $list_connect .= '<br> ' . $resultband['hostname'];
+                        }
+                    }
+                }
+                $Card_id_band = 'list_' . $Card_id;
+                foreach ($EqLogics->getCmd('info') as $Cmd) {
+                    if ($Cmd->getLogicalId() == $Card_id_band) {
+                        $EqLogics->checkAndUpdateCmd($Card_id_band, $list_connect);
+                        log::add('Freebox_OS', 'debug', ':fg-info:───▶︎ ' . $Cmd->getName() . ' ::/fg: ' . $list_connect);
                     }
                 }
             }

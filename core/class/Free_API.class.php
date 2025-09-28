@@ -936,8 +936,8 @@ class Free_API
     public function mac_filter_list()
     {
         $API_version = $this->API_version;
-        $whitelist = null;
-        $blacklist = null;
+        $whitelist = '';
+        $blacklist = '';
         $Type_log = array(
             "log_request" =>  true,
             "log_result" => true
@@ -951,18 +951,23 @@ class Free_API
 
                 for ($k = 0; $k < $nb_mac; $k++) {
                     $name = $result['result'][$k]['hostname'];
+                    $comment = '';
+                    if ($result['result'][$k]['comment'] != null) {
+                        $comment =  " - " . $result['result'][$k]['comment'];
+                    }
                     if ($result['result'][$k]['type'] == 'whitelist') {
+
                         if ($whitelist == null) {
-                            $whitelist  = $name . " - " . $result['result'][$k]['mac'] . " - " . $result['result'][$k]['comment'];
+                            $whitelist  = $name . $comment;
                         } else {
-                            $whitelist  .= '<br>' . $name . " - " . $result['result'][$k]['mac'] . " - " . $result['result'][$k]['comment'];
+                            $whitelist  .= '<br>' . $name . $comment;
                         }
                     }
                     if ($result['result'][$k]['type'] == 'blacklist') {
                         if ($blacklist == null) {
-                            $blacklist .= $name . " - " . $result['result'][$k]['mac'] . " - " . $result['result'][$k]['comment'];
+                            $blacklist .= $name . $comment;
                         } else {
-                            $blacklist .= '<br>' . $name . " - " . $result['result'][$k]['mac'] . " - " . $result['result'][$k]['comment'];
+                            $blacklist .= '<br>' . $name . $comment;
                         }
                     }
                 }

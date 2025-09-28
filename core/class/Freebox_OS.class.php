@@ -544,7 +544,11 @@ class Freebox_OS extends eqLogic
 				}
 			}
 			$Cmd->setIsVisible($IsVisible);
-			$Cmd->setIsHistorized($IsHistorized);
+			if ($SubType != 'string') {
+				if ($IsHistorized != null) {
+					$Cmd->setIsHistorized($IsHistorized);
+				}
+			}
 			if ($invertBinary_display != null && $SubType == 'binary') {
 				$Cmd->setDisplay('invertBinary', 1);
 			}
@@ -638,12 +642,13 @@ class Freebox_OS extends eqLogic
 				$Cmd->setConfiguration('repeatEventManagement', 'always');
 			}
 		}
-
-		if ($valuemin != 'default') {
-			$Cmd->setConfiguration('minValue', $valuemin);
-		}
-		if ($valuemax != 'default') {
-			$Cmd->setConfiguration('maxValue', $valuemax);
+		if ($SubType == 'numeric') {
+			if ($valuemin != 'default') {
+				$Cmd->setConfiguration('minValue', $valuemin);
+			}
+			if ($valuemax != 'default') {
+				$Cmd->setConfiguration('maxValue', $valuemax);
+			}
 		}
 		if (is_object($link_I) && $Type == 'action') {
 			$Cmd->setValue($link_I->getId());
@@ -666,7 +671,7 @@ class Freebox_OS extends eqLogic
 					$VerifName  = $Name;
 					log::add('Freebox_OS', 'debug', '|  :fg-success:└───▶︎  ' . __('Aucune commande ne porte ce nom, changement du nom  OK', __FILE__) . ' ::/fg: ' . $VerifName);
 				}
-				if ($VerifName  != $Cmd->getName()) {
+				if ($VerifName != $Cmd->getName()) {
 					$Cmd->setName($VerifName);
 					$Cmd->save();
 				}
@@ -735,6 +740,9 @@ class Freebox_OS extends eqLogic
 			}
 			$Cmd->setConfiguration('IPV4', $updatenetwork['IPV4']);
 			$Cmd->setConfiguration('IPV6', $updatenetwork['IPV6']);
+			if ($updatenetwork['wifiband'] !=  null) {
+				$Cmd->setConfiguration('wifiband', $updatenetwork['wifiband']);
+			}
 			$Cmd->setConfiguration('mac_address', $updatenetwork['mac_address']);
 			$Cmd->setConfiguration('invertBinary', 0); //│===============================> Correction Bug du 14.01.2024
 			if ($updatenetwork['order'] != null) {
