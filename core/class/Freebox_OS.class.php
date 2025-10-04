@@ -740,8 +740,10 @@ class Freebox_OS extends eqLogic
 			}
 			$Cmd->setConfiguration('IPV4', $updatenetwork['IPV4']);
 			$Cmd->setConfiguration('IPV6', $updatenetwork['IPV6']);
-			if ($updatenetwork['wifiband'] !=  null) {
-				$Cmd->setConfiguration('wifiband', $updatenetwork['wifiband']);
+			if (isset($updatenetwork['UpdateVisible'])) {
+				if ($updatenetwork['wifiband'] !=  null) {
+					$Cmd->setConfiguration('wifiband', $updatenetwork['wifiband']);
+				}
 			}
 			$Cmd->setConfiguration('mac_address', $updatenetwork['mac_address']);
 			$Cmd->setConfiguration('invertBinary', 0); //│===============================> Correction Bug du 14.01.2024
