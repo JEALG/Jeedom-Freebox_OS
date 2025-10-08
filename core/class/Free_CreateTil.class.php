@@ -324,10 +324,10 @@ class Free_CreateTil
                     $Equipement['label'] = str_replace(array_keys($replace_device_type), $replace_device_type, $Equipement['label']);
                     if ($_eq_type != 'camera' && $boucle_num != 2) {
                         log::add('Freebox_OS', 'debug', '┌── :fg-success:Début de création des commandes pour ::/fg: '  .  $Equipement['label'] . ' ──');
-                        $Tile = Freebox_OS::AddEqLogic(($Equipement['label'] != '' ? $Equipement['label'] : $_eq_type), $_eq_node, $category, true, $_eq_type,  $_eq_action, null, $_autorefresh, 'default', null, $_eq_type2, $eq_group);
+                        $Tile = Freebox_OS::AddEqLogic(($Equipement['label'] != '' ? $Equipement['label'] : $_eq_type), $_eq_node, $category, true, $_eq_type,  $_eq_action, null, $_autorefresh, 'default', null, $eq_group);
                     } else {
                         //log::add('Freebox_OS', 'debug', '[WARNING] - DEBUT CREATION : ' . $Equipement['label']);
-                        $Tile = Freebox_OS::AddEqLogic(($Equipement['label'] != '' ? $Equipement['label'] : $_eq_type), $_eq_node, $category, true, $_eq_type,  $_eq_action, null, $_autorefresh, 'default', null, $_eq_type2, $eq_group);
+                        $Tile = Freebox_OS::AddEqLogic(($Equipement['label'] != '' ? $Equipement['label'] : $_eq_type), $_eq_node, $category, true, $_eq_type,  $_eq_action, null, $_autorefresh, 'default', null, $eq_group);
                     }
 
                     $_eqLogic = null;
