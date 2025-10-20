@@ -464,11 +464,11 @@ class Free_CreateEq
             }
             if ($Type_box != 'fbxgw1r' && $Type_box != 'fbxgw2r') {
                 $disk_raid = 'OK';
-                log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('BOX COMPATIBLE AVEC LES DISQUES RAID', __FILE__)) . ' : ' . $Type_box . ' -' . $disk_raid);
+                log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('BOX COMPATIBLE AVEC LES DISQUES RAID', __FILE__)) . ' : ' . $Type_box . ' - ' . $disk_raid);
                 Free_CreateEq::createEq_disk_RAID($logicalinfo, $templatecore_V4, $order);
             } else {
                 $disk_raid = 'KO';
-                log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('BOX NON COMPATIBLE AVEC LES DISQUES RAID', __FILE__)) . ' : ' . $Type_box . ' -' . $disk_raid);
+                log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('BOX NON COMPATIBLE AVEC LES DISQUES RAID', __FILE__)) . ' : ' . $Type_box . ' - ' . $disk_raid);
             }
         } else {
             log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('AUCUN DISQUE', __FILE__)) . ' - KO');
