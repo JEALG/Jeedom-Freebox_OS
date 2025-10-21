@@ -463,7 +463,7 @@ class Free_CreateEq
                     $disk->AddCommand($name, $partition['id'], 'info', 'numeric', 'core::horizontal', '%', null, 1, 'default', 'default', 0, 'fas fa-hdd fa-2x', 0, '0', 100, $order2++, '0', false, 'never', null, true, null, '#value#*100', 2, null, null, null, null, true, null, false, null);
                 }
             }
-            log::add('Freebox_OS', 'debug', '──────────▶︎:fg-warning: ' . (__('Fin  Ajout des commandes spécifiques pour', __FILE__)) . ' : ' . $logicalinfo['diskName'] . ':/fg: ◀︎─────────── ' . '[  OK  ]');
+            log::add('Freebox_OS', 'debug', '──────────▶︎:fg-warning: ' . (__('Fin Ajout des commandes spécifiques pour', __FILE__)) . ' : ' . $logicalinfo['diskName'] . ':/fg: ◀︎─────────── ' . '[  OK  ]');
             if ($Type_box != 'fbxgw1r' && $Type_box != 'fbxgw2r') {
                 $disk_raid = '[  OK  ]';
                 log::add('Freebox_OS', 'debug', '| :fg-success:───▶︎ ' . (__('BOX COMPATIBLE AVEC LES DISQUES RAID', __FILE__)) . ' ::/fg: ' . $Type_box . ' - ' . $disk_raid);
