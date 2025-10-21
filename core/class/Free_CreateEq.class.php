@@ -486,7 +486,7 @@ class Free_CreateEq
 
         if ($result != false) {
             foreach ($result as $raid) {
-                log::add('Freebox_OS', 'debug', '| ───▶︎ RAID : ' . $raid['name']);
+                log::add('Freebox_OS', 'debug', '| :fg-success:───▶︎ RAID ::/fg: ' . $raid['name']);
                 $disk->AddCommand('Raid ' . $raid['name'] . ' state', $raid['id'] . '_state', 'info', 'string', 'default', null, null, 1, 'default', 'default', 0, null, 0, null, null, $order++, '0', false, false, 'never', null, null, null, null, null, null, null, null, true);
                 $disk->AddCommand('Raid ' . $raid['name'] . ' sync_action', $raid['id'] . '_sync_action', 'info', 'string', 'default', null, null, 1, 'default', 'default', 0, null, 0, null, null, $order++, '0', false, false, 'never', null, null, null, null, null, null, null, null, true);
                 $disk->AddCommand('Raid ' . $raid['name'] . ' degraded',     $raid['id'] . '_degraded', 'info', 'binary', 'default', null, null, 1, 'default', 'default', 0, null, 0, null, null, $order++, '0', false, false, 'never', null, null, null, null, null, null, null, null, true);
