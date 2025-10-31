@@ -427,18 +427,7 @@ class Freebox_OS extends eqLogic
 		}
 		$EqLogic->setConfiguration('logicalID', $_logicalId);
 		$_autorefresh_actuel = $EqLogic->getConfiguration('autorefresh');
-		log::add('Freebox_OS', 'debug', ':fg-info:| ───▶︎ ' . (__('Configuration spécifique du Cron configuré', __FILE__)) . ' ::/fg: '  . $_autorefresh_actuel . ' ──');
-		if ($_autorefresh_actuel === null) {
-			if ($tiles == true && ($EqLogic->getConfiguration('type', $eq_type) != 'parental' && $EqLogic->getConfiguration('type', $eq_type) != 'player' && $EqLogic->getConfiguration('type', $eq_type) != 'alarm_remote')) {
-				$EqLogic->setConfiguration('autorefresh', '* * * * *');
-			} elseif ($tiles == true && ($EqLogic->getConfiguration('type', $eq_type) == 'alarm_remote')) {
-				$EqLogic->setConfiguration('autorefresh', '*/5 * * * *');
-			} elseif ($EqLogic->getLogicalId() == 'disk') {
-				$EqLogic->setConfiguration('autorefresh', '1 * * * *');
-			} else {
-				$EqLogic->setConfiguration('autorefresh', '*/5 * * * *');
-			}
-		}
+
 		if ($tiles === true) {
 			if ($eq_type != 'pir' && $eq_type != 'kfb' && $eq_type != 'dws' && $eq_type != 'alarm' && $eq_type != 'basic_shutter' && $eq_type != 'shutter'  && $eq_type != 'opener' && $eq_type != 'plug') {
 				$EqLogic->setConfiguration('type', $eq_type);

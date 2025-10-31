@@ -135,13 +135,13 @@ class Free_CreateEq
 
                 if (config::byKey('TYPE_FREEBOX_MODE', 'Freebox_OS') == 'router') {
                     Free_CreateEq::createEq_airmedia($logicalinfo, $templatecore_V4, $order);
-                    log::add('Freebox_OS', 'debug', '┌── :fg-success:' . (__('Début de création des commandes pour', __FILE__)) . ' ::/fg: '  . $logicalinfo['downloadsName'] . ' ──');
+                    // log::add('Freebox_OS', 'debug', '┌── :fg-success:' . (__('Début de création des commandes pour', __FILE__)) . ' ::/fg: '  . $logicalinfo['downloadsName'] . ' ──');
                     if ($Setting['disk_status'] == 'active') {
                         Free_CreateEq::createEq_download($logicalinfo, $templatecore_V4, $order);
                     } else {
                         log::add('Freebox_OS', 'debug', '|:fg-warning: ───▶︎ ' . (__('AUCUN DISQUE', __FILE__)) . ' ───▶︎ ' . (__('PAS DE CREATION DE L\'EQUIPEMENT', __FILE__)) . ':/fg: (' . $Setting['disk_status'] . ' / ' . $Setting['disk_status_description'] . ')');
                     }
-                    log::add('Freebox_OS', 'debug', '└────────────────────');
+                    // log::add('Freebox_OS', 'debug', '└────────────────────');
 
                     Free_CreateEq::createEq_management($logicalinfo, $templatecore_V4, $order);
                     Free_CreateEq::createEq_network($logicalinfo, $templatecore_V4, $order, 'LAN');
@@ -445,6 +445,7 @@ class Free_CreateEq
             $result = $Free_API->universal_get('universalAPI', null, null, 'storage/disk', true, true, true);
         }
         if ($result != false) {
+            log::add('Freebox_OS', 'debug', '| ──────────▶︎:fg-warning: ' . (__('Ajout des commandes spécifiques pour', __FILE__)) . ' : ' . $logicalinfo['diskName'] . ' - STANDARD' . ':/fg: ◀︎───────────');
             $disk = Freebox_OS::AddEqLogic($logicalinfo['diskName'], $logicalinfo['diskID'], 'default', false, null, null, null, '5 */12 * * *', null, null, 'system', true);
             foreach ($result['result'] as $disks) {
                 if ($disks['temp'] != 0) {
@@ -457,36 +458,36 @@ class Free_CreateEq
                 }
                 foreach ($disks['partitions'] as $partition) {
                     $order2 = 200;
-                    log::add('Freebox_OS', 'debug', '| ───▶︎ ID :' . $partition['id'] . ' : Disque [' . $disks['type'] . '] - ' . $disks['id'] . ' - Partitions : ' . $partition['label']);
+                    log::add('Freebox_OS', 'debug', '| ───▶︎ ID : ' . $partition['id'] . ' : Disque [' . $disks['type'] . '] - ' . $disks['id'] . ' - Partitions : ' . $partition['label']);
                     $name = $partition['label'] . ' - ' . $disks['type'] . ' - ' . $partition['fstype'];
                     $disk->AddCommand($name, $partition['id'], 'info', 'numeric', 'core::horizontal', '%', null, 1, 'default', 'default', 0, 'fas fa-hdd fa-2x', 0, '0', 100, $order2++, '0', false, 'never', null, true, null, '#value#*100', 2, null, null, null, null, true, null, false, null);
                 }
             }
+            log::add('Freebox_OS', 'debug', '| ──────────▶︎:fg-warning: ' . (__('Fin Ajout des commandes spécifiques pour', __FILE__)) . ' : ' . $logicalinfo['diskName'] . ':/fg: ◀︎─────────── ' . '[  OK  ]');
             if ($Type_box != 'fbxgw1r' && $Type_box != 'fbxgw2r') {
-                $disk_raid = 'OK';
-                log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('BOX COMPATIBLE AVEC LES DISQUES RAID', __FILE__)) . ' : ' . $Type_box . ' -' . $disk_raid);
-                Free_CreateEq::createEq_disk_RAID($logicalinfo, $templatecore_V4, $order);
+                $disk_raid = '[  OK  ]';
+                log::add('Freebox_OS', 'debug', '| :fg-success:───▶︎ ' . (__('BOX COMPATIBLE AVEC LES DISQUES RAID', __FILE__)) . ' ::/fg: ' . $Type_box . ' - ' . $disk_raid);
+                Free_CreateEq::createEq_disk_RAID($logicalinfo, $templatecore_V4, $order = 100, $disk);
             } else {
-                $disk_raid = 'KO';
-                log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('BOX NON COMPATIBLE AVEC LES DISQUES RAID', __FILE__)) . ' : ' . $Type_box . ' -' . $disk_raid);
+                $disk_raid = '[  KO  ]';
+                log::add('Freebox_OS', 'debug', '| :fg-warning:───▶︎ ' . (__('BOX NON COMPATIBLE AVEC LES DISQUES RAID', __FILE__)) . ' ::/fg:  ' . $Type_box . ' - ' . $disk_raid);
             }
         } else {
-            log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('AUCUN DISQUE', __FILE__)) . ' - KO');
+            log::add('Freebox_OS', 'debug', '| :fg-warning:───▶︎ ' . (__('AUCUN DISQUE', __FILE__)) . ':/fg: [  KO  ]');
         }
         log::add('Freebox_OS', 'debug', '└────────────────────');
     }
-    private static function createEq_disk_RAID($logicalinfo, $templatecore_V4)
+    private static function createEq_disk_RAID($logicalinfo, $templatecore_V4, $order, $disk)
     {
         log::add('Freebox_OS', 'debug', '| :fg-success:───▶︎ ' . (__('Ajout des commandes spécifiques pour', __FILE__)) . ' ::/fg: ' . $logicalinfo['diskName'] . ' - RAID');
 
         $Free_API = new Free_API();
-        $disk = Freebox_OS::AddEqLogic($logicalinfo['diskName'], $logicalinfo['diskID'], 'default', false, null, null, null, '5 */12 * * *');
         $result = $Free_API->universal_get('universalAPI', null, null, 'storage/raid', true, true, false);
 
         if ($result != false) {
-            $order = 100;
             foreach ($result as $raid) {
-                log::add('Freebox_OS', 'debug', '| ───▶︎ RAID : ' . $raid['name']);
+                log::add('Freebox_OS', 'debug', '| ──────────▶︎:fg-warning: '  . (__('Ajout des commandes spécifiques pour', __FILE__)) . ' RAID : ' . $raid['name'] . ':/fg: ◀︎───────────');
+                log::add('Freebox_OS', 'debug', '| :fg-success:───▶︎ RAID ::/fg: ' . $raid['name']);
                 $disk->AddCommand('Raid ' . $raid['name'] . ' state', $raid['id'] . '_state', 'info', 'string', 'default', null, null, 1, 'default', 'default', 0, null, 0, null, null, $order++, '0', false, false, 'never', null, null, null, null, null, null, null, null, true);
                 $disk->AddCommand('Raid ' . $raid['name'] . ' sync_action', $raid['id'] . '_sync_action', 'info', 'string', 'default', null, null, 1, 'default', 'default', 0, null, 0, null, null, $order++, '0', false, false, 'never', null, null, null, null, null, null, null, null, true);
                 $disk->AddCommand('Raid ' . $raid['name'] . ' degraded',     $raid['id'] . '_degraded', 'info', 'binary', 'default', null, null, 1, 'default', 'default', 0, null, 0, null, null, $order++, '0', false, false, 'never', null, null, null, null, null, null, null, null, true);
@@ -496,9 +497,10 @@ class Free_CreateEq
                         $disk->AddCommand('Etat Role Disque ' . $members_raid['disk']['serial'], $members_raid['id'] . '_role', 'info', 'string', 'default', null, null, 1, 'default', 'default', 0, null, 0, null, null, $order++, '0', false, false, 'never', null, null, null, null, null, null, null, null, true);
                     }
                 }
+                log::add('Freebox_OS', 'debug', '| ──────────▶︎:fg-warning: '  . (__('Fin Ajout des commandes spécifiques pour', __FILE__)) . ' RAID : ' . $raid['name'] . ':/fg: ◀︎───────────');
             }
         } else {
-            log::add('Freebox_OS', 'debug', '| ───▶︎ ' . (__('AUCUN DISQUE', __FILE__)) . ' - KO');
+            log::add('Freebox_OS', 'debug', '| :fg-warning:───▶︎ ' . (__('AUCUN DISQUE RAID', __FILE__)) . ':/fg: [  KO  ]');
         }
     }
 
